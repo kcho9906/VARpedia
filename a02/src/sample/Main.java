@@ -1,36 +1,51 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    public static Stage window;
+    public static Scene menuScene;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        Menu menu = new Menu(primaryStage);
+        window = primaryStage;
+        Menu menu = new Menu(window);
         VBox menuLayout = menu.getMenuLayout();
-
-        ViewCreations viewCreations = new ViewCreations(primaryStage);
-        VBox viewCreationsLayout = viewCreations.getViewCreationsLayout();
-
-        CreateCreations createCreations = new CreateCreations(primaryStage);
-        VBox createCreationsLayout = createCreations.getCreateCreationsLayout();
+        menuScene = new Scene(menuLayout, 600, 600);
 
 
-        Scene root = new Scene(menuLayout, 600, 600);
-        Scene viewCreationsScene = new Scene(viewCreationsLayout, 600, 600);
-        Scene createCreationsScene = new Scene(createCreationsLayout, 600,600);
-        //videoScene = new Scene(mediaLayout, 600, 600);
-
-        primaryStage.setTitle("VARpedia");
-        primaryStage.setScene(createCreationsScene);
-        primaryStage.show();
+        //alert box to confirm quitting of application
+        window.setOnCloseRequest(e -> {
+            e.consume();
+            closeProgram();
+        });
+        
+        window.setTitle("VARpedia");
+        window.setScene(menuScene);
+        window.show();
     }
 
+    public static void returnToMenu() {
+        Boolean answer = ConfirmBox.display("Confirm action", "Are you sure you want to return to menu?", "Yes", "No");
+        if(answer) {
+            window.setScene(menuScene);
+            }
+    }
+
+    private static void closeProgram(){
+        Boolean answer = ConfirmBox.display("Quit", "Are you sure you want to quit?", "Yes", "No");
+        if(answer){
+            window.close();
+            Platform.exit();
+            System.exit(0);
+        }
+    }
 
     public static void main(String[] args) {
         launch(args);
