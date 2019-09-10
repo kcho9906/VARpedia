@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -30,6 +31,14 @@ public class Main extends Application {
             }
     }
 
+    private static void closeProgram(){
+        Boolean answer = ConfirmBox.display("Quit", "Are you sure you want to quit?", "Yes", "No");
+        if(answer){
+            window.close();
+            Platform.exit();
+            System.exit(0);
+        }
+    }
 
     public static void main(String[] args) {
         launch(args);
