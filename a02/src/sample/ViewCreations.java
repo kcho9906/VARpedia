@@ -25,6 +25,7 @@ public class ViewCreations {
         window = stage;
         setUpList();
         setUpLayout();
+        setActions();
     }
 
     public void setUpList() {
@@ -58,12 +59,15 @@ public class ViewCreations {
         //disable play and delete buttons until selection is made
         playCreationButton.disableProperty().bind(Bindings.isEmpty(creationsList.getSelectionModel().getSelectedItems()));
         deleteCreationButton.disableProperty().bind(Bindings.isEmpty(creationsList.getSelectionModel().getSelectedItems()));
-/*
+    }
+
+    public void setActions() {
+
         returnToMenuButton1.setPrefWidth(200);
         returnToMenuButton1.setOnAction(e -> {
             e.consume();
-            returnToMenu();
-        });*/
+            Main.returnToMenu();
+        });
     }
 
     public VBox getViewCreationsLayout() {

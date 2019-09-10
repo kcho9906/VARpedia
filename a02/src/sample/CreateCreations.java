@@ -34,6 +34,7 @@ public class CreateCreations {
     public CreateCreations(Stage stage) {
         window = stage;
         setUpLayout();
+        setActions();
     }
 
     public void setUpLayout() {
@@ -54,12 +55,15 @@ public class CreateCreations {
         createCreationsLayout = new VBox(20);
         createCreationsLayout.getChildren().addAll(searchLayout, progressBarLabel, progressBar, searchResult, configureCreationsLayout, createButton, returnToMenuButton2);
         createCreationsLayout.setAlignment(Pos.CENTER);
+    }
 
-/*        returnToMenuButton2.setPrefWidth(200);
+    public void setActions() {
+
+        returnToMenuButton2.setPrefWidth(200);
         returnToMenuButton2.setOnAction(e -> {
             e.consume();
-            returnToMenu();
-        });*/
+            Main.returnToMenu();
+        });
     }
 
     public VBox getCreateCreationsLayout() {
