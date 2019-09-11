@@ -2,8 +2,12 @@ package sample;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.Optional;
 
 public class Main extends Application {
 
@@ -24,10 +28,28 @@ public class Main extends Application {
     }
 
     public static void returnToMenu() {
-        Boolean answer = ConfirmBox.display("Confirm action", "Are you sure you want to return to menu?", "Yes", "No");
-        if(answer) {
+//        Boolean answer = ConfirmBox.display("Confirm action", "Are you sure you want to return to menu?", "Yes", "No");
+//        if(answer) {
+//            window.setScene(menuScene);
+//        }
+
+        addConfirmationAlert("Are you sure you want to return to menu?");
+    }
+
+    /**
+     * An alert class which will alert the user with the input message
+     * @param confirmationMessage
+     */
+    public static void addConfirmationAlert(String confirmationMessage) {
+
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setContentText(confirmationMessage);
+
+        // if they want to overwrite, then they will be prompted
+        Optional<ButtonType> result = a.showAndWait();
+        if (result.get() == ButtonType.OK) {
             window.setScene(menuScene);
-            }
+        }
     }
 
 
