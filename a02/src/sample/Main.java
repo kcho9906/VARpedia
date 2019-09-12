@@ -27,7 +27,7 @@ public class Main extends Application {
         Boolean answer = ConfirmBox.display("Confirm action", "Are you sure you want to return to menu?", "Yes", "No");
         if(answer) {
             window.setScene(menuScene);
-            }
+        }
     }
 
 

@@ -2,6 +2,8 @@ package sample;
 
 import com.sun.javaws.progress.Progress;
 import javafx.beans.binding.Bindings;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -40,12 +42,13 @@ public class CreateCreations {
     public void setUpLayout() {
         //-----------------------------------SEARCH LAYOUT---------------------------------//
         progressBar.prefWidthProperty().bind(searchResult.widthProperty());
+        searchResult.setWrapText(true);
         searchLayout.setPadding(new Insets(10, 10, 10, 10));
         searchLayout.getChildren().addAll(searchInput, searchButton);
         searchLayout.setAlignment(Pos.CENTER);
         searchLayout.setSpacing(10);
 
-        //--------------------------CREATING CREATION INPUT LAYOUT-------------------------//
+        //--------------------------CREATING CREATION INPUT LAYOUT--------------------------//
         configureCreationsLayout.setPadding(new Insets(10, 10, 10, 10));
         configureCreationsLayout.getChildren().addAll(lineInput, creationNameInput);
         configureCreationsLayout.setAlignment(Pos.CENTER);
@@ -63,6 +66,30 @@ public class CreateCreations {
         returnToMenuButton2.setOnAction(e -> {
             e.consume();
             Main.returnToMenu();
+        });
+
+        searchButton.setOnAction(event -> {
+            // use the terminal to wikit the term with a worker / task
+            WikitWorker wikitWorker = new WikitWorker(searchInput.getText());
+
+            // start the progress bar
+            progressBar.progressProperty().bind(wikitWorker.progressProperty());
+
+            wikitWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+                @Override
+                public void handle(WorkerStateEvent event) {
+                    // Display the sentences in the display area
+                    searchResult.setText(wikitWorker.getValue().trim());
+
+                    progressBar.progressProperty().unbind();
+                    progressBar.setProgress(0);
+                }
+
+            });
+
+            Thread th = new Thread(wikitWorker);
+            th.start();
+
         });
     }
 
