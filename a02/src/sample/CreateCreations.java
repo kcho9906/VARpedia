@@ -14,24 +14,28 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.nio.file.attribute.FileTime;
+import java.util.Optional;
 
 public class CreateCreations {
     private Stage window;
     private Button returnToMenuButton2 = new Button("Return to menu");
     private HBox searchLayout = new HBox();
     private HBox configureCreationsLayout = new HBox();
+    private HBox highlightedAudioTextLayout = new HBox();
     private TextField searchInput = new TextField();
     private TextField lineInput = new TextField();
     private TextField creationNameInput = new TextField();
     private TextArea searchResult = new TextArea();
     private Button createButton = new Button("Create new creation");
     private Button searchButton = new Button("Search");
+    private Button highlightedTextButton = new Button("Preview Selected Text");
+    private Button saveHighlightedTextButton = new Button("Save Selected Text");
+    private ListView<String> audioFileList = new ListView<String>();
     private File file, creationDir;
     private ProgressBar progressBar = new ProgressBar(0);
     private int _totalLines;
     private Label progressBarLabel = new Label("");
     private VBox createCreationsLayout;
-
 
     public CreateCreations(Stage stage) {
         window = stage;
@@ -48,6 +52,19 @@ public class CreateCreations {
         searchLayout.setAlignment(Pos.CENTER);
         searchLayout.setSpacing(10);
 
+        //-----------------------------LIST VIEW AUDIO CLIPS-------------------------------//
+        audioFileList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        audioFileList.setPrefHeight(80); // temporary height, can change later
+        audioFileList.setPlaceholder(new Label("No audio files created"));
+//        audioFileList.getItems().addAll("Hello", "There", "This", "Is", "A", "Test");
+
+        //--------------------------HIGHLIGHTED AUDIO TEXT LAYOUT--------------------------//
+        highlightedAudioTextLayout.prefWidthProperty().bind(progressBar.widthProperty());
+        highlightedAudioTextLayout.setPadding(new Insets(10, 10, 10, 10));
+        highlightedAudioTextLayout.getChildren().addAll(highlightedTextButton, saveHighlightedTextButton, audioFileList);
+        highlightedAudioTextLayout.setAlignment(Pos.CENTER);
+        highlightedAudioTextLayout.setSpacing(10);
+
         //--------------------------CREATING CREATION INPUT LAYOUT--------------------------//
         configureCreationsLayout.setPadding(new Insets(10, 10, 10, 10));
         configureCreationsLayout.getChildren().addAll(lineInput, creationNameInput);
@@ -56,7 +73,7 @@ public class CreateCreations {
 
         //------------------------------CREATE CREATIONS LAYOUT------------------------------//
         createCreationsLayout = new VBox(20);
-        createCreationsLayout.getChildren().addAll(searchLayout, progressBarLabel, progressBar, searchResult, configureCreationsLayout, createButton, returnToMenuButton2);
+        createCreationsLayout.getChildren().addAll(searchLayout, progressBarLabel, progressBar, searchResult, highlightedAudioTextLayout, configureCreationsLayout, createButton, returnToMenuButton2);
         createCreationsLayout.setAlignment(Pos.CENTER);
     }
 
@@ -89,11 +106,55 @@ public class CreateCreations {
 
             Thread th = new Thread(wikitWorker);
             th.start();
+        });
 
+        // preview audio button
+        highlightedTextButton.setOnAction(event -> {
+            String selectedText = searchResult.getSelectedText();
+
+            // run the selected text through espeak
+            String command = "espeak \"" + selectedText + "\"";
+            Terminal.command(command);
+        });
+
+        saveHighlightedTextButton.setOnAction(event -> {
+            // if there is no temporary directory for audio files
+            // create one
+            createAudioFileDirectory("audioFiles");
+//            createAudioFileDirectory("tempFiles");
+//            Terminal.command("touch ./src/tempFiles/tempText.txt"); // may not need this
+
+            // get the selected text and save it to an audio file
+            String selectedText = searchResult.getSelectedText();
+
+            // have a pop up ask for a name for the audio file?
+            TextInputDialog tempAudioFileName = new TextInputDialog();
+            tempAudioFileName.setHeaderText("Enter a name for your audio file");
+            tempAudioFileName.setContentText("Name:");
+            Optional<String> result = tempAudioFileName.showAndWait();
+
+            result.ifPresent(name -> {
+                // use the espeak command to save the audio file
+//                String commandEspeak = "espeak -f ./src/tempFiles/tempText.txt -w ./src/audioFiles/" + name + " -s 130";
+                String commandEspeak = "espeak \"" + selectedText + "\" -w ./src/audioFiles/" + name + " -s 130";
+                Terminal.command(commandEspeak);
+                audioFileList.getItems().add(name);
+            });
         });
     }
 
     public VBox getCreateCreationsLayout() {
         return createCreationsLayout;
+    }
+
+    public void createAudioFileDirectory(String directory) {
+        // create the temporary audio file
+        try {
+            boolean success = new File("./src/" + directory).mkdir();
+
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+        }
+
     }
 }
