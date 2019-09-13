@@ -56,7 +56,6 @@ public class CreateCreations {
         audioFileList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         audioFileList.setPrefHeight(80); // temporary height, can change later
         audioFileList.setPlaceholder(new Label("No audio files created"));
-//        audioFileList.getItems().addAll("Hello", "There", "This", "Is", "A", "Test");
 
         //--------------------------HIGHLIGHTED AUDIO TEXT LAYOUT--------------------------//
         highlightedAudioTextLayout.prefWidthProperty().bind(progressBar.widthProperty());
@@ -79,12 +78,14 @@ public class CreateCreations {
 
     public void setActions() {
 
+        // button to return to main menu
         returnToMenuButton2.setPrefWidth(200);
         returnToMenuButton2.setOnAction(e -> {
             e.consume();
             Main.returnToMenu();
         });
 
+        // search for the term on Wikipedia
         searchButton.setOnAction(event -> {
             // use the terminal to wikit the term with a worker / task
             WikitWorker wikitWorker = new WikitWorker(searchInput.getText());
@@ -112,11 +113,14 @@ public class CreateCreations {
         highlightedTextButton.setOnAction(event -> {
             String selectedText = searchResult.getSelectedText();
 
-            // run the selected text through espeak
-            String command = "espeak \"" + selectedText + "\"";
-            Terminal.command(command);
+            // run the espeak command through a worker so the GUI doesn't freeze
+            eSpeakWorker espeakWorker = new eSpeakWorker(selectedText);
+
+            Thread th = new Thread(espeakWorker);
+            th.start();
         });
 
+        // button which saves the highlighted text
         saveHighlightedTextButton.setOnAction(event -> {
             // if there is no temporary directory for audio files
             // create one
