@@ -112,12 +112,15 @@ public class CreateCreations {
         // preview audio button
         highlightedTextButton.setOnAction(event -> {
             String selectedText = searchResult.getSelectedText();
+            boolean speak = countMaxWords(selectedText);
 
-            // run the espeak command through a worker so the GUI doesn't freeze
-            eSpeakWorker espeakWorker = new eSpeakWorker(selectedText);
+            if (speak) {
+                // run the espeak command through a worker so the GUI doesn't freeze
+                eSpeakWorker espeakWorker = new eSpeakWorker(selectedText);
 
-            Thread th = new Thread(espeakWorker);
-            th.start();
+                Thread th = new Thread(espeakWorker);
+                th.start();
+            }
         });
 
         // button which saves the highlighted text
@@ -125,25 +128,26 @@ public class CreateCreations {
             // if there is no temporary directory for audio files
             // create one
             createAudioFileDirectory("audioFiles");
-//            createAudioFileDirectory("tempFiles");
-//            Terminal.command("touch ./src/tempFiles/tempText.txt"); // may not need this
 
             // get the selected text and save it to an audio file
             String selectedText = searchResult.getSelectedText();
 
-            // have a pop up ask for a name for the audio file?
-            TextInputDialog tempAudioFileName = new TextInputDialog();
-            tempAudioFileName.setHeaderText("Enter a name for your audio file");
-            tempAudioFileName.setContentText("Name:");
-            Optional<String> result = tempAudioFileName.showAndWait();
+            boolean create = countMaxWords(selectedText);
 
-            result.ifPresent(name -> {
-                // use the espeak command to save the audio file
-//                String commandEspeak = "espeak -f ./src/tempFiles/tempText.txt -w ./src/audioFiles/" + name + " -s 130";
-                String commandEspeak = "espeak \"" + selectedText + "\" -w ./src/audioFiles/" + name + " -s 130";
-                Terminal.command(commandEspeak);
-                audioFileList.getItems().add(name);
-            });
+            if (create) {
+                // have a pop up ask for a name for the audio file?
+                TextInputDialog tempAudioFileName = new TextInputDialog();
+                tempAudioFileName.setHeaderText("Enter a name for your audio file");
+                tempAudioFileName.setContentText("Name:");
+                Optional<String> result = tempAudioFileName.showAndWait();
+
+                result.ifPresent(name -> {
+                    // use the espeak command to save the audio file
+                    String commandEspeak = "espeak \"" + selectedText + "\" -w ./src/audioFiles/" + name + " -s 130";
+                    Terminal.command(commandEspeak);
+                    audioFileList.getItems().add(name);
+                });
+            }
         });
     }
 
@@ -159,6 +163,17 @@ public class CreateCreations {
         } catch (Exception e) {
             System.out.println("Error " + e.getMessage());
         }
+    }
 
+    public boolean countMaxWords(String selectedText) {
+        String[] words = selectedText.split("\\s+");
+        if (words.length > 30) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Chunk cannot be more than 30 words, try a smaller chunk");
+            alert.show();
+            return false;
+        }
+
+        return true;
     }
 }
