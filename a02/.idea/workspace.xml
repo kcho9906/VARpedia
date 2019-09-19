@@ -1,25 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="afe9a53e-d5a9-4823-b6d3-9edf2df7b871" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/VARpedia.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/ConfirmBox.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sample/ConfirmBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Menu.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Menu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/ViewCreations.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/ViewCreations.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/CreateCreations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/CreateCreations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/ViewCreations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/ViewCreations.java" afterDir="false" />
-    </list>
+    <list default="true" id="afe9a53e-d5a9-4823-b6d3-9edf2df7b871" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +71,7 @@
       <workItem from="1568080246556" duration="2407000" />
       <workItem from="1568096580804" duration="3879000" />
       <workItem from="1568105380199" duration="55000" />
+      <workItem from="1568717722769" duration="6000" />
     </task>
     <servers />
   </component>
