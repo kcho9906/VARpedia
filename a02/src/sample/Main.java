@@ -19,6 +19,10 @@ public class Main extends Application {
         VBox menuLayout = menu.getMenuLayout();
         menuScene = new Scene(menuLayout, 600, 600);
 
+        window.setOnCloseRequest( event -> {
+            event.consume();
+            closeProgram();
+        });
         window.setTitle("VARpedia");
         window.setScene(menuScene);
         window.show();
@@ -28,10 +32,10 @@ public class Main extends Application {
         Boolean answer = ConfirmBox.display("Confirm action", "Are you sure you want to return to menu?", "Yes", "No");
         if(answer) {
             window.setScene(menuScene);
-            }
+        }
     }
 
-    private static void closeProgram(){
+    private void closeProgram(){
         Boolean answer = ConfirmBox.display("Quit", "Are you sure you want to quit?", "Yes", "No");
         if(answer){
             window.close();
