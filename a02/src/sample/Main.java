@@ -31,11 +31,12 @@ public class Main extends Application {
         window.show();
     }
 
-    public static void returnToMenu() {
+    public static boolean returnToMenu() {
         Boolean answer = ConfirmBox.display("Confirm action", "Are you sure you want to return to menu?", "Yes", "No");
         if(answer) {
             window.setScene(menuScene);
-            }
+        }
+        return answer;
     }
 
     private static void closeProgram(){
