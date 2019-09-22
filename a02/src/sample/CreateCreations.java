@@ -1,20 +1,16 @@
 package sample;
 
-import com.sun.javaws.progress.Progress;
-import javafx.beans.binding.Bindings;
 import javafx.concurrent.Worker;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.nio.file.attribute.FileTime;
 import java.util.Optional;
 
 public class CreateCreations {
@@ -22,7 +18,10 @@ public class CreateCreations {
     private Button returnToMenuButton2 = new Button("Return to menu");
     private HBox searchLayout = new HBox();
     private HBox configureCreationsLayout = new HBox();
+    private HBox chooseSynthLayout = new HBox();
+    private VBox createAudioButtonsLayout = new VBox();
     private HBox highlightedAudioTextLayout = new HBox();
+    private Label chooseInfo = new Label("Synthesiser");
     private TextField searchInput = new TextField();
     private TextField lineInput = new TextField();
     private TextField creationNameInput = new TextField();
@@ -31,6 +30,7 @@ public class CreateCreations {
     private Button searchButton = new Button("Search");
     private Button highlightedTextButton = new Button("Preview Selected Text");
     private Button saveHighlightedTextButton = new Button("Save Selected Text");
+    private ComboBox<String> chooseSynthesiser = new ComboBox<>();
     private ListView<String> audioFileList = new ListView<String>();
     private File file, creationDir;
     private ProgressBar progressBar = new ProgressBar(0);
@@ -56,15 +56,27 @@ public class CreateCreations {
 
         //-----------------------------LIST VIEW AUDIO CLIPS-------------------------------//
         audioFileList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        audioFileList.setPrefHeight(80); // temporary height, can change later
+        //audioFileList.setPrefHeight(80); // temporary height, can change later
         audioFileList.setPlaceholder(new Label("No audio files created"));
+
+        //---------------------------------COMBO BOX SETUP---------------------------------//
+        chooseSynthLayout = new HBox();
+        chooseSynthesiser.getItems().setAll("Festival", "ESpeak");
+        chooseSynthLayout.getChildren().setAll(chooseInfo, chooseSynthesiser);
 
         //--------------------------HIGHLIGHTED AUDIO TEXT LAYOUT--------------------------//
         highlightedAudioTextLayout.prefWidthProperty().bind(progressBar.widthProperty());
+        createAudioButtonsLayout.getChildren().setAll(chooseSynthLayout, highlightedTextButton, saveHighlightedTextButton);
+        createAudioButtonsLayout.setAlignment(Pos.CENTER_LEFT);
+        createAudioButtonsLayout.setPadding(new Insets(10, 10, 10, 10));
         highlightedAudioTextLayout.setPadding(new Insets(10, 10, 10, 10));
-        highlightedAudioTextLayout.getChildren().addAll(highlightedTextButton, saveHighlightedTextButton, audioFileList);
+        highlightedAudioTextLayout.getChildren().addAll(createAudioButtonsLayout, audioFileList);
         highlightedAudioTextLayout.setAlignment(Pos.CENTER);
         highlightedAudioTextLayout.setSpacing(10);
+        //default buttons to be disabled
+        chooseSynthesiser.disableProperty().bind(searchResult.textProperty().isEmpty());
+        highlightedTextButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
+        saveHighlightedTextButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
 
         //--------------------------CREATING CREATION INPUT LAYOUT--------------------------//
         configureCreationsLayout.setPadding(new Insets(10, 10, 10, 10));
@@ -74,7 +86,7 @@ public class CreateCreations {
 
         //------------------------------CREATE CREATIONS LAYOUT------------------------------//
         createCreationsLayout = new VBox(20);
-        createCreationsLayout.getChildren().addAll(searchLayout, progressBarLabel, progressBar, searchResult, highlightedAudioTextLayout, configureCreationsLayout, returnToMenuButton2);
+        createCreationsLayout.getChildren().addAll(searchLayout, progressBarLabel, progressBar, searchResult, chooseSynthLayout, highlightedAudioTextLayout, configureCreationsLayout, returnToMenuButton2);
         createCreationsLayout.setAlignment(Pos.CENTER);
     }
 
@@ -135,6 +147,7 @@ public class CreateCreations {
             boolean create = countMaxWords(selectedText);
 
             if (create) {
+
                 // have a pop up ask for a name for the audio file?
                 TextInputDialog tempAudioFileName = new TextInputDialog();
                 tempAudioFileName.setHeaderText("Enter a name for your audio file");
@@ -142,9 +155,24 @@ public class CreateCreations {
                 Optional<String> result = tempAudioFileName.showAndWait();
 
                 result.ifPresent(name -> {
-                    // use the espeak command to save the audio file
-                    String commandEspeak = "espeak \"" + selectedText + "\" -w ./src/audioFiles/" + name + " -s 130";
-                    Terminal.command(commandEspeak);
+                    String command = "";
+                    String synthChoice = "";
+                    try {
+                        synthChoice = chooseSynthesiser.getValue();
+                        if (synthChoice.equals("Festival")) { //if user selected festival - need to put in background GUI
+                            command = "echo " + selectedText + " | text2wave -o " + name + "; lame " + name + " " + "./src/audioFiles/" + name + ".mp3";
+                        } else if (synthChoice.equals("ESpeak")){
+                            command = "espeak \"" + selectedText + "\" -w ./src/audioFiles/" + name + " -s 130";
+                        } else {
+                            System.out.println("nothing selected");
+                        }
+                    } catch (NullPointerException e) {
+                        System.out.println("error");
+                    }
+
+
+                    // save the audio file based on choice of user's speech synthesis
+                    Terminal.command(command);
                     audioFileList.getItems().add(name);
                 });
             }
