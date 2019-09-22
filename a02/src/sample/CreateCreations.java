@@ -127,7 +127,7 @@ public class CreateCreations {
         saveHighlightedTextButton.setOnAction(event -> {
             // if there is no temporary directory for audio files
             // create one
-            createAudioFileDirectory("audioFiles");
+            createAudioFileDirectory("textFiles");
 
             // get the selected text and save it to an audio file
             String selectedText = searchResult.getSelectedText();
@@ -142,10 +142,11 @@ public class CreateCreations {
                 Optional<String> result = tempAudioFileName.showAndWait();
 
                 result.ifPresent(name -> {
-                    // use the espeak command to save the audio file
-                    String commandEspeak = "espeak \"" + selectedText + "\" -w ./src/audioFiles/" + name + " -s 130";
-                    Terminal.command(commandEspeak);
+                    // add a text file with the temporary text
+                    String command = "echo " + selectedText + " > ./src/textFiles/" + name + ".txt";
+                    Terminal.command(command);
                     audioFileList.getItems().add(name);
+
                 });
             }
         });
