@@ -28,11 +28,6 @@ public class Main extends Application {
     }
 
     public static void returnToMenu() {
-//        Boolean answer = ConfirmBox.display("Confirm action", "Are you sure you want to return to menu?", "Yes", "No");
-//        if(answer) {
-//            window.setScene(menuScene);
-//        }
-
         addConfirmationAlert("Are you sure you want to return to menu?");
     }
 
