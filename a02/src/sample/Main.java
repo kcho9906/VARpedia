@@ -4,8 +4,11 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.Optional;
 
 public class Main extends Application {
 
@@ -30,14 +33,14 @@ public class Main extends Application {
     }
 
     public static void returnToMenu() {
-        Boolean answer = ConfirmBox.display("Confirm action", "Are you sure you want to return to menu?", "Yes", "No");
+        Boolean answer = addConfirmationAlert("Returning to Menu", "Are you sure you want to return to menu?", "Yes", "No");
         if(answer) {
             window.setScene(menuScene);
         }
     }
 
     private void closeProgram(){
-        Boolean answer = ConfirmBox.display("Quit", "Are you sure you want to quit?", "Yes", "No");
+        Boolean answer = addConfirmationAlert("Exiting Program", "Are you sure you want to quit?", "Quit", "Cancel");
         if(answer){
             window.close();
             Platform.exit();
@@ -45,6 +48,28 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * An alert class which will alert the user with the input message
+     * @param confirmationMessage
+     */
+    public static boolean addConfirmationAlert(String title, String confirmationMessage, String yes, String no) {
+        ButtonType confirm = new ButtonType(yes);
+        ButtonType cancel = new ButtonType(no);
+
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.getButtonTypes().clear();
+        a.getButtonTypes().addAll(confirm, cancel);
+
+        a.setTitle(title);
+        a.setContentText(confirmationMessage);
+
+        Optional<ButtonType> result = a.showAndWait();
+        if (result.get() == confirm) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public static void createAlertBox(String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);

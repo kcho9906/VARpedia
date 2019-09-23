@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.Optional;
@@ -19,7 +20,7 @@ public class CreateCreations {
     private HBox chooseSynthLayout = new HBox();
     private VBox createAudioButtonsLayout = new VBox();
     private HBox highlightedAudioTextLayout = new HBox();
-    private Label chooseInfo = new Label("Synthesiser");
+    private Label chooseInfo = new Label("Synthesiser ");
     private TextField searchInput = new TextField();
     private TextField creationNameInput = new TextField();
     private TextArea searchResult = new TextArea();
@@ -32,17 +33,20 @@ public class CreateCreations {
     private ProgressBar progressBar = new ProgressBar(0);
     private Label progressBarLabel = new Label("");
     private VBox createCreationsLayout;
+    private String synthChoice = "";
+    private Stage window;
 
-    public CreateCreations() {
+    public CreateCreations(Stage primaryStage) {
+        window = primaryStage;
         setUpLayout();
         setActions();
     }
 
     public void setUpLayout() {
-        //-----------------------------------SEARCH LAYOUT---------------------------------//
+        //-----------------------------SEARCH INPUT LAYOUT---------------------------------//
         progressBar.prefWidthProperty().bind(searchResult.widthProperty());
-        searchLayout.setPadding(new Insets(10, 10, 10, 10));
-        searchLayout.getChildren().addAll(searchInput, searchButton);
+        searchLayout.setPadding(new Insets(10, 50, 10, 50));
+        searchLayout.getChildren().addAll(searchInput, searchButton, returnToMenuButton2);
         searchLayout.setAlignment(Pos.CENTER);
         searchLayout.setSpacing(10);
 
@@ -59,13 +63,16 @@ public class CreateCreations {
         chooseSynthesiser.getItems().setAll("Festival", "ESpeak");
         chooseSynthLayout.getChildren().setAll(chooseInfo, chooseSynthesiser);
 
+
         //--------------------------HIGHLIGHTED AUDIO TEXT LAYOUT--------------------------//
-        highlightedAudioTextLayout.prefWidthProperty().bind(progressBar.widthProperty());
         createAudioButtonsLayout.getChildren().setAll(chooseSynthLayout, highlightedTextButton, saveHighlightedTextButton);
-        createAudioButtonsLayout.setAlignment(Pos.CENTER_LEFT);
-        createAudioButtonsLayout.setPadding(new Insets(10, 10, 10, 10));
-        highlightedAudioTextLayout.setPadding(new Insets(10, 10, 10, 10));
-        highlightedAudioTextLayout.getChildren().addAll(createAudioButtonsLayout, audioFileList);
+        highlightedTextButton.prefWidthProperty().bind(chooseSynthLayout.widthProperty());
+        saveHighlightedTextButton.prefWidthProperty().bind(chooseSynthLayout.widthProperty());
+        createAudioButtonsLayout.setSpacing(10);
+        audioFileList.prefWidthProperty().bind(searchInput.widthProperty());
+
+        highlightedAudioTextLayout.prefWidthProperty().bind(progressBar.widthProperty());
+        highlightedAudioTextLayout.getChildren().addAll(audioFileList, createAudioButtonsLayout);
         highlightedAudioTextLayout.setAlignment(Pos.CENTER);
         highlightedAudioTextLayout.setSpacing(10);
         //default buttons to be disabled
@@ -74,6 +81,7 @@ public class CreateCreations {
         saveHighlightedTextButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
 
         //--------------------------CREATING CREATION INPUT LAYOUT--------------------------//
+        creationNameInput.prefWidthProperty().bind(audioFileList.widthProperty());
         configureCreationsLayout.setPadding(new Insets(10, 10, 10, 10));
         configureCreationsLayout.getChildren().addAll(creationNameInput, createButton);
         configureCreationsLayout.setAlignment(Pos.CENTER);
@@ -81,8 +89,9 @@ public class CreateCreations {
 
         //------------------------------CREATE CREATIONS LAYOUT------------------------------//
         createCreationsLayout = new VBox(20);
-        createCreationsLayout.getChildren().addAll(searchLayout, progressBarLabel, progressBar, searchResult, chooseSynthLayout, highlightedAudioTextLayout, configureCreationsLayout, returnToMenuButton2);
+        createCreationsLayout.getChildren().addAll(searchLayout, progressBarLabel, progressBar, searchResult, highlightedAudioTextLayout, configureCreationsLayout);
         createCreationsLayout.setAlignment(Pos.CENTER);
+        createCreationsLayout.setSpacing(10);
     }
 
     public void setActions() {
@@ -120,12 +129,14 @@ public class CreateCreations {
         highlightedTextButton.setOnAction(event -> {
             String selectedText = searchResult.getSelectedText();
             boolean speak = countMaxWords(selectedText);
+            speechWorker previewSpeechWorker = new speechWorker(selectedText, "ESpeak"); //default preview speech to ESpeak
 
             if (speak) {
-                // run the espeak command through a worker so the GUI doesn't freeze
-                eSpeakWorker espeakWorker = new eSpeakWorker(selectedText);
-
-                Thread th = new Thread(espeakWorker);
+                synthChoice = chooseSynthesiser.getValue();
+                if (synthChoice.equals("Festival")) {
+                    previewSpeechWorker = new speechWorker(selectedText, "Festival");
+                }
+                Thread th = new Thread(previewSpeechWorker);
                 th.start();
             }
         });
@@ -148,14 +159,14 @@ public class CreateCreations {
                 tempAudioFileName.setHeaderText("Enter a name for your audio file");
                 tempAudioFileName.setContentText("Name:");
                 Optional<String> result = tempAudioFileName.showAndWait();
+                synthChoice = chooseSynthesiser.getValue();
 
                 result.ifPresent(name -> {
                     String command = "";
-                    String synthChoice = "";
                     try {
-                        synthChoice = chooseSynthesiser.getValue();
+
                         if (synthChoice.equals("Festival")) { //if user selected festival - need to put in background GUI
-                            command = "echo " + selectedText + " | text2wave -o " + name + "; lame " + name + " " + "./src/audioFiles/" + name + ".mp3";
+                            command = "echo \"" + selectedText + "\" | text2wave -o ./src/audioFiles/" + name + "-" + synthChoice;
                         } else if (synthChoice.equals("ESpeak")){
                             command = "espeak \"" + selectedText + "\" -w ./src/audioFiles/" + name + " -s 130";
                         } else {
@@ -169,6 +180,7 @@ public class CreateCreations {
                     // save the audio file based on choice of user's speech synthesis
                     Terminal.command(command);
                     audioFileList.getItems().add(name);
+                    System.out.println("finished making audio file " + name);
                 });
             }
         });
@@ -190,7 +202,11 @@ public class CreateCreations {
                     // Display the sentences in the display area
                     String result = creationWorker.getValue().trim();
                     if (result.equals("Success")) {
-                        Main.createAlertBox("Creation made successfully! Play creation?");
+                        boolean play = Main.addConfirmationAlert("Creation made successfully!",  "Play creation?", "Yes", "No");
+                        if (play) {
+
+                            //window.setscene();
+                        }
                     }
 
                    finishProgressBar(result);
@@ -201,10 +217,6 @@ public class CreateCreations {
             Thread th = new Thread(creationWorker);
             th.start();
         });
-    }
-
-    public void makeCreationDir(File dir) {
-        dir.mkdir();
     }
 
     public VBox getCreateCreationsLayout() {
