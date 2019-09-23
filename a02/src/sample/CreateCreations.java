@@ -22,6 +22,7 @@ public class CreateCreations {
     private HBox searchLayout = new HBox();
     private HBox configureCreationsLayout = new HBox();
     private HBox highlightedAudioTextLayout = new HBox();
+    private HBox flickrImagesLayout = new HBox();
     private TextField searchInput = new TextField();
     private TextField lineInput = new TextField();
     private TextField creationNameInput = new TextField();
@@ -30,11 +31,15 @@ public class CreateCreations {
     private Button searchButton = new Button("Search");
     private Button highlightedTextButton = new Button("Preview Selected Text");
     private Button saveHighlightedTextButton = new Button("Save Selected Text");
+    private Slider flickrImageSlider = new Slider(0,10,5);
     private ListView<String> audioFileList = new ListView<String>();
     private File file, creationDir;
     private ProgressBar progressBar = new ProgressBar(0);
     private int _totalLines;
     private Label progressBarLabel = new Label("");
+    private Label selectTextFilesLabel = new Label("Please select the text files above that you want to merge");
+    private Label nameCreationLabel = new Label("What would you like to name your creation?");
+    private Label flickrInfoLabel = new Label("Please choose how many images for the selected word you would like.");
     private VBox createCreationsLayout;
 
     public CreateCreations(Stage stage) {
@@ -57,22 +62,37 @@ public class CreateCreations {
         audioFileList.setPrefHeight(80); // temporary height, can change later
         audioFileList.setPlaceholder(new Label("No audio files created"));
 
-        //--------------------------HIGHLIGHTED AUDIO TEXT LAYOUT--------------------------//
+        //--------------------------HIGHLIGHTED AUDIO TEXT LAYOUT---------------------------//
         highlightedAudioTextLayout.prefWidthProperty().bind(progressBar.widthProperty());
         highlightedAudioTextLayout.setPadding(new Insets(10, 10, 10, 10));
         highlightedAudioTextLayout.getChildren().addAll(highlightedTextButton, saveHighlightedTextButton, audioFileList);
         highlightedAudioTextLayout.setAlignment(Pos.CENTER);
         highlightedAudioTextLayout.setSpacing(10);
 
-        //--------------------------CREATING CREATION INPUT LAYOUT--------------------------//
+        //--------------------------GATHERING FLICKR IMAGES LAYOUT---------------------------//
+        flickrImageSlider.prefWidthProperty().bind(progressBar.widthProperty());
+        flickrImageSlider.setMajorTickUnit(1.0);
+        flickrImageSlider.setMinorTickCount(0);
+        flickrImageSlider.setShowTickLabels(true);
+        flickrImageSlider.setShowTickMarks(true);
+        flickrImageSlider.setSnapToTicks(true);
+
+        flickrImagesLayout.prefWidthProperty().bind(progressBar.widthProperty());
+        flickrImagesLayout.setPadding(new Insets(10,10,10,10));
+        flickrImagesLayout.getChildren().addAll(flickrImageSlider);
+        flickrImagesLayout.setAlignment(Pos.CENTER);
+        flickrImagesLayout.setSpacing(10);
+
+
+        //--------------------------CREATING CREATION INPUT LAYOUT---------------------------//
         configureCreationsLayout.setPadding(new Insets(10, 10, 10, 10));
-        configureCreationsLayout.getChildren().addAll(lineInput, creationNameInput);
+        configureCreationsLayout.getChildren().addAll(creationNameInput);
         configureCreationsLayout.setAlignment(Pos.CENTER);
         configureCreationsLayout.setSpacing(10);
 
         //------------------------------CREATE CREATIONS LAYOUT------------------------------//
         createCreationsLayout = new VBox(20);
-        createCreationsLayout.getChildren().addAll(searchLayout, progressBarLabel, progressBar, searchResult, highlightedAudioTextLayout, configureCreationsLayout, createButton, returnToMenuButton2);
+        createCreationsLayout.getChildren().addAll(searchLayout, progressBarLabel, progressBar, searchResult, highlightedAudioTextLayout, flickrInfoLabel, flickrImagesLayout, selectTextFilesLabel, nameCreationLabel, configureCreationsLayout, createButton, returnToMenuButton2);
         createCreationsLayout.setAlignment(Pos.CENTER);
     }
 

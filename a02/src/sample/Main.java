@@ -16,9 +16,10 @@ public class Main extends Application {
         window = primaryStage;
         Menu menu = new Menu(window);
         VBox menuLayout = menu.getMenuLayout();
-        menuScene = new Scene(menuLayout, 600, 600);
+        menuScene = new Scene(menuLayout, 600, 1000);
 
         window.setTitle("VARpedia");
+        window.setResizable(true);
         window.setScene(menuScene);
         window.show();
 
