@@ -80,9 +80,23 @@ public class ViewCreations {
         playCreationButton.setOnAction(playButtonClicked -> {
             Object creationSelected = creationsList.getSelectionModel().getSelectedItem();
             String creationName = ((Creation) creationSelected).toString();
-            CreationPlayer creationPlayer = new CreationPlayer(creationName);
-            Scene videoScene = new Scene(creationPlayer.getCreationPlayerLayout(), 600, 600);
-            window.setScene(videoScene);
+            Main.playVideo(creationName);
+        });
+
+        //set up an confirmation box to confirm with user the selected creation is to be deleted
+        deleteCreationButton.setOnAction(deleteButtonClicked -> {
+            ObservableList<Creation> allCreations = creationsList.getItems();
+            Object creationSelected = creationsList.getSelectionModel().getSelectedItem();
+            String creationName = ((Creation) creationSelected).toString();
+            System.out.println("deleting " + creationSelected);
+            Boolean answer = ConfirmBox.display("Deleting Creation", "Are you sure you want to delete \"" + creationName + "\"?", "Yes", "No");
+            if (answer) {
+                allCreations.remove(creationSelected);
+                String command = "rm -rf ./src/creations/" + creationName;
+                System.out.println(command);
+
+                Terminal.command(command);
+            }
         });
     }
 
@@ -91,18 +105,7 @@ public class ViewCreations {
     }
 
     //------------------------------------VIEW CREATIONS METHODS-----------------------------//
-    //set up an confirmation box to confirm with user the selected creation is to be deleted
-    private void deleteButtonClicked() throws IOException {
-        ObservableList<Creation> allCreations = creationsList.getItems();
-        Object creationSelected = creationsList.getSelectionModel().getSelectedItem();
-        String creationName = ((Creation) creationSelected).toString();
-        Boolean answer = ConfirmBox.display("Deleting Creation", "Are you sure you want to delete \"" + creationName + "\"?", "Yes", "No");
-        if (answer) {
-            allCreations.remove(creationSelected);
-            ProcessBuilder deleteCreationBuilder = new ProcessBuilder("bash", "-c", "rm -rf ./" + creationName);
-            deleteCreationBuilder.start();
-        }
-    }
+
 
     private ObservableList<Creation> getCreations() {
         ObservableList<Creation> creations = FXCollections.observableArrayList();

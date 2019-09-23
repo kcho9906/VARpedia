@@ -48,6 +48,12 @@ public class Main extends Application {
         }
     }
 
+    public static void playVideo(String creationName) {
+        CreationPlayer creationPlayer = new CreationPlayer(creationName);
+        Scene videoScene = new Scene(creationPlayer.getCreationPlayerLayout(), 600, 600);
+        window.setScene(videoScene);
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
