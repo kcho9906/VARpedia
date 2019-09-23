@@ -8,13 +8,11 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.Optional;
 
 public class CreateCreations {
-    private Stage window;
     private Button returnToMenuButton2 = new Button("Return to menu");
     private HBox searchLayout = new HBox();
     private HBox configureCreationsLayout = new HBox();
@@ -23,7 +21,6 @@ public class CreateCreations {
     private HBox highlightedAudioTextLayout = new HBox();
     private Label chooseInfo = new Label("Synthesiser");
     private TextField searchInput = new TextField();
-    private TextField lineInput = new TextField();
     private TextField creationNameInput = new TextField();
     private TextArea searchResult = new TextArea();
     private Button createButton = new Button("Create new creation");
@@ -32,14 +29,11 @@ public class CreateCreations {
     private Button saveHighlightedTextButton = new Button("Save Selected Text");
     private ComboBox<String> chooseSynthesiser = new ComboBox<>();
     private ListView<String> audioFileList = new ListView<String>();
-    private File file, creationDir;
     private ProgressBar progressBar = new ProgressBar(0);
-    private int _totalLines;
     private Label progressBarLabel = new Label("");
     private VBox createCreationsLayout;
 
-    public CreateCreations(Stage stage) {
-        window = stage;
+    public CreateCreations() {
         setUpLayout();
         setActions();
     }
@@ -47,12 +41,13 @@ public class CreateCreations {
     public void setUpLayout() {
         //-----------------------------------SEARCH LAYOUT---------------------------------//
         progressBar.prefWidthProperty().bind(searchResult.widthProperty());
-        searchResult.setWrapText(true);
-        searchResult.setMinHeight(300);
         searchLayout.setPadding(new Insets(10, 10, 10, 10));
         searchLayout.getChildren().addAll(searchInput, searchButton);
         searchLayout.setAlignment(Pos.CENTER);
         searchLayout.setSpacing(10);
+
+        searchResult.setWrapText(true);
+        searchResult.setMinHeight(300);
 
         //-----------------------------LIST VIEW AUDIO CLIPS-------------------------------//
         audioFileList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -195,7 +190,7 @@ public class CreateCreations {
                     // Display the sentences in the display area
                     String result = creationWorker.getValue().trim();
                     if (result.equals("Success")) {
-                        createAlertBox("Creation made successfully! Play creation?");
+                        Main.createAlertBox("Creation made successfully! Play creation?");
                     }
 
                    finishProgressBar(result);
@@ -229,17 +224,10 @@ public class CreateCreations {
     public boolean countMaxWords(String selectedText) {
         String[] words = selectedText.split("\\s+");
         if (words.length > 30) {
-            createAlertBox("Chunk cannot be more than 30 words, try a smaller chunk");
+            Main.createAlertBox("Chunk cannot be more than 30 words, try a smaller chunk");
             return false;
         }
         return true;
-    }
-
-    public void createAlertBox(String message) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText(message);
-        alert.show();
     }
 
     public void startProgressBar(String text, Worker worker) {

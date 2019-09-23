@@ -3,6 +3,7 @@ package sample;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -42,6 +43,13 @@ public class Main extends Application {
             Platform.exit();
             System.exit(0);
         }
+    }
+
+
+    public static void createAlertBox(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setContentText(message);
+        alert.show();
     }
 
     public static void main(String[] args) {
