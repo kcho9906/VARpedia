@@ -89,7 +89,7 @@ public class ViewCreations {
             Object creationSelected = creationsList.getSelectionModel().getSelectedItem();
             String creationName = ((Creation) creationSelected).toString();
             System.out.println("deleting " + creationSelected);
-            Boolean answer = ConfirmBox.display("Deleting Creation", "Are you sure you want to delete \"" + creationName + "\"?", "Yes", "No");
+            Boolean answer = Main.addConfirmationAlert("Deleting Creation", "Are you sure you want to delete \"" + creationName + "\"?", "Yes", "No");
             if (answer) {
                 allCreations.remove(creationSelected);
                 String command = "rm -rf ./src/creations/" + creationName;
