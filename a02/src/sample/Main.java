@@ -2,6 +2,8 @@ package sample;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -22,30 +24,43 @@ public class Main extends Application {
         Menu menu = new Menu(window);
         VBox menuLayout = menu.getMenuLayout();
         menuScene = new Scene(menuLayout, 600, 600);
+        menuScene.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                window.setWidth((double)newValue);
+            }
+        });
+
+        /*menuScene.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newHeight) {
+                window.setHeight((double)newHeight);
+            }
+        });*/
 
         window.setOnCloseRequest( event -> {
             event.consume();
-            closeProgram();
+            Boolean answer = addConfirmationAlert("Exiting Program", "Are you sure you want to quit?", "Quit", "Cancel");
+            if(answer){
+                window.close();
+                Platform.exit();
+                System.exit(0);
+            }
         });
+
         window.setTitle("VARpedia");
         window.setScene(menuScene);
         window.show();
     }
 
-    public static void returnToMenu() {
-        Boolean answer = addConfirmationAlert("Returning to Menu", "Are you sure you want to return to menu?", "Yes", "No");
-        if(answer) {
-            window.setScene(menuScene);
-        }
-    }
 
-    private void closeProgram(){
-        Boolean answer = addConfirmationAlert("Exiting Program", "Are you sure you want to quit?", "Quit", "Cancel");
-        if(answer){
-            window.close();
-            Platform.exit();
-            System.exit(0);
+    public static boolean returnToMenu() {
+        Boolean answer = addConfirmationAlert("Returning to Menu", "Are you sure you want to return to menu?", "Yes", "No");
+        if (answer) {
+            window.setScene(menuScene);
+            return true;
         }
+        return false;
     }
 
     /**
@@ -75,6 +90,13 @@ public class Main extends Application {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setContentText(message);
         alert.show();
+    }
+
+    public static void playVideo(String creationName) {
+        CreationPlayer creationPlayer = new CreationPlayer(creationName);
+        Scene videoScene = new Scene(creationPlayer.getCreationPlayerLayout(), 600, 600);
+        window.setScene(videoScene);
+
     }
 
     public static void main(String[] args) {

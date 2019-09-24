@@ -4,34 +4,33 @@ import javafx.concurrent.Task;
 
 import java.io.File;
 
-public class CreationWorker extends Task<String> {
+public class CreationWorker extends Task<Boolean> {
     private String _input;
+    private String command, result;
+    private File _creationDir;
 
-    public CreationWorker(String input) {
+    public CreationWorker(String input, File creationDir) {
 
         _input = input;
+        _creationDir = creationDir;
     }
 
     @Override
-    protected String call() throws Exception {
-
-        if (!_input.isEmpty() && _input.matches("[a-zA-Z0-9_ -]+")) {
-            File creationDir = new File(_input);
-            if (creationDir.exists()) {
-                Boolean overwrite = ConfirmBox.display("ERROR", _input + "exists. \nRename or overwrite?", "Overwrite", "Rename");
-                if (overwrite) {
-                    String command = "rm " + creationDir.getName() + "/*";
-                    Terminal.command(command);
-                    creationDir.mkdir();
-                    return "Success!";
-                }
-                return "Overwriting cancelled. Creation not made";
-            } else {
-                creationDir.mkdir();
-            }
-            return "Success!";
+    protected Boolean call() throws Exception {
+        System.out.println(_creationDir.getPath());
+        switch (_input) {
+            case "overwrite":
+                command = "rm " + _creationDir.getPath() + "/*";
+                break;
+            case "create":
+                command = "mkdir " + _creationDir.getPath();
+                break;
+        }
+        String success = Terminal.command(command);
+        if (success.equals("No output") || success.equals("Error")) {
+            return false;
         } else {
-            return "Invalid creation name. Please try again";
+            return true;
         }
     }
 }

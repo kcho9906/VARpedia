@@ -15,6 +15,7 @@ public class speechWorker extends Task<Void> {
         String command = "espeak \"" + _selectedText + "\""; //default as Espeak speech synthesiser
         if (_synthType.equals("Festival")) {
             command = "echo \"" + _selectedText + "\" | festival --tts"; //change to Festival speech synthesiser
+            System.out.println(command);
         }
         // run the selected text through specified speech synthesiser
         Terminal.command(command);

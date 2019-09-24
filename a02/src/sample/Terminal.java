@@ -41,7 +41,7 @@ public class Terminal {
             }
 
             if (output == null) {
-                return "Output is null";
+                return "No output";
             }
 
             return output;
@@ -49,7 +49,7 @@ public class Terminal {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "Nothing";
+        return "Error";
     }
 }
 

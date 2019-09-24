@@ -1,16 +1,22 @@
 package sample;
 
 import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.attribute.FileTime;
 
 public class ViewCreations {
@@ -26,6 +32,7 @@ public class ViewCreations {
         setUpList();
         setUpLayout();
         setActions();
+        creationsList.setItems(getCreations());
     }
 
     public void setUpList() {
@@ -68,9 +75,48 @@ public class ViewCreations {
             e.consume();
             Main.returnToMenu();
         });
+
+        //play the creation back to user
+        playCreationButton.setOnAction(playButtonClicked -> {
+            Object creationSelected = creationsList.getSelectionModel().getSelectedItem();
+            String creationName = ((Creation) creationSelected).toString();
+            Main.playVideo(creationName);
+        });
+
+        //set up an confirmation box to confirm with user the selected creation is to be deleted
+        deleteCreationButton.setOnAction(deleteButtonClicked -> {
+            ObservableList<Creation> allCreations = creationsList.getItems();
+            Object creationSelected = creationsList.getSelectionModel().getSelectedItem();
+            String creationName = ((Creation) creationSelected).toString();
+            System.out.println("deleting " + creationSelected);
+            Boolean answer = ConfirmBox.display("Deleting Creation", "Are you sure you want to delete \"" + creationName + "\"?", "Yes", "No");
+            if (answer) {
+                allCreations.remove(creationSelected);
+                String command = "rm -rf ./src/creations/" + creationName;
+                System.out.println(command);
+
+                Terminal.command(command);
+            }
+        });
     }
 
     public VBox getViewCreationsLayout() {
         return viewCreationsLayout;
     }
+
+    //------------------------------------VIEW CREATIONS METHODS-----------------------------//
+
+
+    private ObservableList<Creation> getCreations() {
+        ObservableList<Creation> creations = FXCollections.observableArrayList();
+        String path = System.getProperty("user.dir") + "/src/creations";
+        System.out.println(path);
+        File[] directories = new File(path).listFiles(File::isDirectory);
+        for (File directory: directories) {
+            System.out.println(directory);
+            creations.add(new Creation(directory));
+        }
+        return creations;
+    }
+
 }

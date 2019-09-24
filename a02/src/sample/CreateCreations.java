@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.beans.binding.Bindings;
 import javafx.concurrent.Worker;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -8,8 +9,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
 import java.io.File;
 import java.util.Optional;
 
@@ -34,17 +33,26 @@ public class CreateCreations {
     private Label progressBarLabel = new Label("");
     private VBox createCreationsLayout;
     private String synthChoice = "";
-    private Stage window;
 
-    public CreateCreations(Stage primaryStage) {
-        window = primaryStage;
+    public CreateCreations() {
+        defaultSettings();
         setUpLayout();
         setActions();
     }
 
     public void setUpLayout() {
+
+        //----------------------------SET UP DISABLE BINDINGS------------------------------//
+
+        searchButton.disableProperty().bind(searchInput.textProperty().isEmpty());
+        chooseSynthesiser.disableProperty().bind(searchResult.textProperty().isEmpty());
+        highlightedTextButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
+        saveHighlightedTextButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
+        creationNameInput.disableProperty().bind(Bindings.isEmpty(audioFileList.getSelectionModel().getSelectedItems()));
+
         //-----------------------------SEARCH INPUT LAYOUT---------------------------------//
         progressBar.prefWidthProperty().bind(searchResult.widthProperty());
+
         searchLayout.setPadding(new Insets(10, 50, 10, 50));
         searchLayout.getChildren().addAll(searchInput, searchButton, returnToMenuButton2);
         searchLayout.setAlignment(Pos.CENTER);
@@ -75,10 +83,6 @@ public class CreateCreations {
         highlightedAudioTextLayout.getChildren().addAll(audioFileList, createAudioButtonsLayout);
         highlightedAudioTextLayout.setAlignment(Pos.CENTER);
         highlightedAudioTextLayout.setSpacing(10);
-        //default buttons to be disabled
-        chooseSynthesiser.disableProperty().bind(searchResult.textProperty().isEmpty());
-        highlightedTextButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
-        saveHighlightedTextButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
 
         //--------------------------CREATING CREATION INPUT LAYOUT--------------------------//
         creationNameInput.prefWidthProperty().bind(audioFileList.widthProperty());
@@ -99,12 +103,17 @@ public class CreateCreations {
         // button to return to main menu
         returnToMenuButton2.setPrefWidth(150);
         returnToMenuButton2.setOnAction(e -> {
+
             e.consume();
-            Main.returnToMenu();
+            boolean confirm = Main.returnToMenu();
+            if (confirm) {
+                defaultSettings();
+            }
         });
 
         // search for the term on Wikipedia
         searchButton.setOnAction(event -> {
+
             // use the terminal to wikit the term with a worker / task
             WikitWorker wikitWorker = new WikitWorker(searchInput.getText());
 
@@ -117,6 +126,7 @@ public class CreateCreations {
                     // Display the sentences in the display area
                     searchResult.setText(wikitWorker.getValue().trim());
                     finishProgressBar("Search term found!");
+                    searchResult.setDisable(false);
                 }
 
             });
@@ -131,10 +141,13 @@ public class CreateCreations {
             boolean speak = countMaxWords(selectedText);
             speechWorker previewSpeechWorker = new speechWorker(selectedText, "ESpeak"); //default preview speech to ESpeak
 
+            boolean exists = checkAudioExist(); //check if audio exists.
             if (speak) {
                 synthChoice = chooseSynthesiser.getValue();
                 if (synthChoice.equals("Festival")) {
                     previewSpeechWorker = new speechWorker(selectedText, "Festival");
+                } else {
+                    previewSpeechWorker = new speechWorker(selectedText, "ESpeak");
                 }
                 Thread th = new Thread(previewSpeechWorker);
                 th.start();
@@ -164,11 +177,10 @@ public class CreateCreations {
                 result.ifPresent(name -> {
                     String command = "";
                     try {
-
                         if (synthChoice.equals("Festival")) { //if user selected festival - need to put in background GUI
                             command = "echo \"" + selectedText + "\" | text2wave -o ./src/audioFiles/" + name + "-" + synthChoice;
                         } else if (synthChoice.equals("ESpeak")){
-                            command = "espeak \"" + selectedText + "\" -w ./src/audioFiles/" + name + " -s 130";
+                            command = "espeak \"" + selectedText + "\" -w ./src/audioFiles/" + name + "-" + synthChoice + " -s 130";
                         } else {
                             System.out.println("nothing selected");
                         }
@@ -179,44 +191,77 @@ public class CreateCreations {
 
                     // save the audio file based on choice of user's speech synthesis
                     Terminal.command(command);
-                    audioFileList.getItems().add(name);
+                    audioFileList.getItems().add(name + "-" + synthChoice);
                     System.out.println("finished making audio file " + name);
                 });
             }
         });
 
-        createButton.setOnAction(event -> {
+        createButton.setOnAction(event -> { //NEED TO FIX CREATE CREATION
 
             String input = creationNameInput.getText().trim();
+            String action = "";
+            String message = "";
 
-            //create creation worker to create creation
-            CreationWorker creationWorker = new CreationWorker(input);
-
-            //start the progress bar
-            startProgressBar("Creating Creation...", creationWorker);
-
-            creationWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-                @Override
-                public void handle(WorkerStateEvent event) {
-
-                    // Display the sentences in the display area
-                    String result = creationWorker.getValue().trim();
-                    if (result.equals("Success")) {
-                        boolean play = Main.addConfirmationAlert("Creation made successfully!",  "Play creation?", "Yes", "No");
-                        if (play) {
-
-                            //window.setscene();
-                        }
+            if (!input.isEmpty() && input.matches("[a-zA-Z0-9_ -]+")) {
+                File creationDir = new File("./src/creations/" + input);
+                if (creationDir.exists()) {
+                    Boolean overwrite = Main.addConfirmationAlert("ERROR", "\"" + input + "\" exists. \nRename or overwrite?", "Overwrite", "Rename");
+                    if (overwrite){
+                        action = "overwrite";
+                    } else {
+                        creationNameInput.clear(); //clears creation name input
+                        return;
                     }
-
-                   finishProgressBar(result);
-
+                } else {
+                    action = "create";
                 }
-            });
+                //create creation worker to create creation
+                CreationWorker creationWorker = new CreationWorker(action, creationDir);
+                //start the progress bar
+                startProgressBar("Creating Creation...", creationWorker);
+                creationWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 
-            Thread th = new Thread(creationWorker);
-            th.start();
+                    @Override
+                    public void handle(WorkerStateEvent event) {
+
+                        // Display the sentences in the display area
+                        String message = "Creation \"" + creationDir.getName() + "\" was made ";
+                        Boolean result = creationWorker.getValue();
+                        if (result) {
+                            message += "successfully!";
+                            finishProgressBar(message);
+                            boolean play = Main.addConfirmationAlert(message,  "Play creation?", "Yes", "No");
+                            if (play) {
+                                Main.playVideo(creationDir.getName());
+                            }
+                        } else {
+                            message += "unsuccessfully...";
+                            finishProgressBar(message);
+                            Main.createAlertBox("Error creating creation");
+                        }
+
+
+                    }
+                });
+
+                Thread th = new Thread(creationWorker);
+                th.start();
+
+            } else{
+                Main.createAlertBox("Invalid creation name input");
+            }
+
+            System.out.println(action);
+
+
+
         });
+    }
+
+    private boolean checkAudioExist() {
+       //
+        return true;
     }
 
     public VBox getCreateCreationsLayout() {
@@ -255,5 +300,14 @@ public class CreateCreations {
         progressBar.setProgress(1.0d);
     }
 
+    public void defaultSettings() {
+        searchInput.clear();
+        searchResult.clear();
+        creationNameInput.clear();
+        searchResult.setDisable(true);
+        progressBarLabel.setText("");
+        progressBar.setProgress(0);
+        audioFileList.getItems().clear();
+    }
 
 }
