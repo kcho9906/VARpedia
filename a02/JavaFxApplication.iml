@@ -7,6 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="flickr4java-3.0.1" level="project" />
+    <orderEntry type="library" name="scribejava-apis-6.6.3" level="project" />
   </component>
 </module>
-
