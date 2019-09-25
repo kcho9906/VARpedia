@@ -49,8 +49,14 @@ public class Main extends Application {
         });
 
         window.setTitle("VARpedia");
+        window.setResizable(true);
         window.setScene(menuScene);
         window.show();
+
+        // delete audioFies if closed
+        String command = "rm -fr ./src/textFiles";
+        Terminal.command(command);
+
     }
 
 

@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Worker;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -9,7 +11,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
+
 import java.io.File;
+import java.util.Observable;
 import java.util.Optional;
 
 public class CreateCreations {
@@ -20,6 +25,7 @@ public class CreateCreations {
     private VBox createAudioButtonsLayout = new VBox();
     private HBox highlightedAudioTextLayout = new HBox();
     private Label chooseInfo = new Label("Synthesiser ");
+    private HBox flickrImagesLayout = new HBox();
     private TextField searchInput = new TextField();
     private TextField creationNameInput = new TextField();
     private TextArea searchResult = new TextArea();
@@ -28,9 +34,13 @@ public class CreateCreations {
     private Button highlightedTextButton = new Button("Preview Selected Text");
     private Button saveHighlightedTextButton = new Button("Save Selected Text");
     private ComboBox<String> chooseSynthesiser = new ComboBox<>();
+    private Slider flickrImageSlider = new Slider(1,10,5);
     private ListView<String> audioFileList = new ListView<String>();
     private ProgressBar progressBar = new ProgressBar(0);
     private Label progressBarLabel = new Label("");
+    private Label selectTextFilesLabel = new Label("Please select the text files above that you want to merge");
+    private Label nameCreationLabel = new Label("What would you like to name your creation?");
+    private Label flickrInfoLabel = new Label("Select number of images included in creation");
     private VBox createCreationsLayout;
     private String synthChoice = "";
 
@@ -53,13 +63,12 @@ public class CreateCreations {
         //-----------------------------SEARCH INPUT LAYOUT---------------------------------//
         progressBar.prefWidthProperty().bind(searchResult.widthProperty());
 
-        searchLayout.setPadding(new Insets(10, 50, 10, 50));
-        searchLayout.getChildren().addAll(searchInput, searchButton, returnToMenuButton2);
+        searchLayout.getChildren().addAll(progressBarLabel, searchInput, searchButton);
         searchLayout.setAlignment(Pos.CENTER);
-        searchLayout.setSpacing(10);
+        searchLayout.setSpacing(20);
 
         searchResult.setWrapText(true);
-        searchResult.setMinHeight(300);
+        searchResult.setMinHeight(250);
 
         //-----------------------------LIST VIEW AUDIO CLIPS-------------------------------//
         audioFileList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -70,6 +79,7 @@ public class CreateCreations {
         chooseSynthLayout = new HBox();
         chooseSynthesiser.getItems().setAll("Festival", "ESpeak");
         chooseSynthLayout.getChildren().setAll(chooseInfo, chooseSynthesiser);
+        chooseSynthLayout.setAlignment(Pos.CENTER);
 
 
         //--------------------------HIGHLIGHTED AUDIO TEXT LAYOUT--------------------------//
@@ -86,16 +96,23 @@ public class CreateCreations {
 
         //--------------------------CREATING CREATION INPUT LAYOUT--------------------------//
         creationNameInput.prefWidthProperty().bind(audioFileList.widthProperty());
-        configureCreationsLayout.setPadding(new Insets(10, 10, 10, 10));
-        configureCreationsLayout.getChildren().addAll(creationNameInput, createButton);
-        configureCreationsLayout.setAlignment(Pos.CENTER);
+        configureCreationsLayout.getChildren().addAll(creationNameInput, createButton, returnToMenuButton2);
         configureCreationsLayout.setSpacing(10);
+        configureCreationsLayout.setAlignment(Pos.CENTER);
+
+        //--------------------------GATHERING FLICKR IMAGES LAYOUT---------------------------//
+        flickrImageSlider.prefWidthProperty().bind(progressBar.widthProperty());
+        flickrImageSlider.setMajorTickUnit(1.0);
+        flickrImageSlider.setMinorTickCount(0);
+        flickrImageSlider.setShowTickLabels(true);
+        flickrImageSlider.setShowTickMarks(true);
+        flickrImageSlider.setSnapToTicks(true);
 
         //------------------------------CREATE CREATIONS LAYOUT------------------------------//
-        createCreationsLayout = new VBox(20);
-        createCreationsLayout.getChildren().addAll(searchLayout, progressBarLabel, progressBar, searchResult, highlightedAudioTextLayout, configureCreationsLayout);
+        createCreationsLayout = new VBox(10);
+        createCreationsLayout.getChildren().addAll(searchLayout, progressBar, searchResult, highlightedAudioTextLayout, flickrInfoLabel, flickrImageSlider, configureCreationsLayout);
         createCreationsLayout.setAlignment(Pos.CENTER);
-        createCreationsLayout.setSpacing(10);
+        createCreationsLayout.setPadding(new Insets(10, 50, 10, 50));
     }
 
     public void setActions() {
@@ -123,10 +140,17 @@ public class CreateCreations {
             wikitWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
                 @Override
                 public void handle(WorkerStateEvent event) {
-                    // Display the sentences in the display area
-                    searchResult.setText(wikitWorker.getValue().trim());
-                    finishProgressBar("Search term found!");
-                    searchResult.setDisable(false);
+                    String result = wikitWorker.getValue().trim();
+                    if (result.contains("not found :^(")) {
+                        finishProgressBar("Term not found");
+                        Main.createAlertBox("Did not find term \"" + searchInput.getText() + "\". Please try again");
+                        defaultSettings();
+                    } else {
+                        // Display the sentences in the display area
+                        searchResult.setText(wikitWorker.getValue().trim());
+                        finishProgressBar("Search term found!");
+                        searchResult.setDisable(false);
+                    }
                 }
 
             });
@@ -158,7 +182,7 @@ public class CreateCreations {
         saveHighlightedTextButton.setOnAction(event -> {
             // if there is no temporary directory for audio files
             // create one
-            createAudioFileDirectory("audioFiles");
+            createAudioFileDirectory("textFiles");
 
             // get the selected text and save it to an audio file
             String selectedText = searchResult.getSelectedText();
@@ -193,6 +217,9 @@ public class CreateCreations {
                     Terminal.command(command);
                     audioFileList.getItems().add(name + "-" + synthChoice);
                     System.out.println("finished making audio file " + name);
+                    // add a text file with the temporary text
+                    String textCommand = "echo " + selectedText + " > ./src/textFiles/" + name + ".txt";
+                    Terminal.command(textCommand);
                 });
             }
         });
@@ -201,8 +228,6 @@ public class CreateCreations {
 
             String input = creationNameInput.getText().trim();
             String action = "";
-            String message = "";
-
             if (!input.isEmpty() && input.matches("[a-zA-Z0-9_ -]+")) {
                 File creationDir = new File("./src/creations/" + input);
                 if (creationDir.exists()) {
@@ -260,7 +285,7 @@ public class CreateCreations {
     }
 
     private boolean checkAudioExist() {
-       //
+        //
         return true;
     }
 
@@ -305,9 +330,25 @@ public class CreateCreations {
         searchResult.clear();
         creationNameInput.clear();
         searchResult.setDisable(true);
-        progressBarLabel.setText("");
+        progressBarLabel.setText("Please search something");
         progressBar.setProgress(0);
-        audioFileList.getItems().clear();
+        getAudioList();
     }
 
+    private void getAudioList() {
+        String path = System.getProperty("user.dir") + "/src/audioFiles";
+        System.out.println(path);
+
+        File folder = new File(path);
+        File[] listOfFiles = folder.listFiles();
+
+        for (File file : listOfFiles) {
+            if (file.isFile()) {
+                System.out.println(file.getName());
+                audioFileList.getItems().add(file.getName());
+            }
+        }
+
+
+    }
 }
