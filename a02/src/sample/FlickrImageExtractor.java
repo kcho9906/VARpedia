@@ -30,14 +30,14 @@ public class FlickrImageExtractor {
         throw new RuntimeException("Couldn't find " + key +" in config file "+file.getName());
     }
 
-    public static void downloadImages(String query) {
+    public static void downloadImages(String query, int numberOfImages) {
         try {
             String apiKey = getAPIKey("apiKey");
             String sharedSecret = getAPIKey("sharedSecret");
 
             Flickr flickr = new Flickr(apiKey, sharedSecret, new REST());
 
-            int resultsPerPage = 5;
+            int resultsPerPage = numberOfImages;
             int page = 0;
 
             PhotosInterface photos = flickr.getPhotosInterface();
@@ -55,7 +55,7 @@ public class FlickrImageExtractor {
                     String filename = query.trim().replace(' ', '-')+"-"+System.currentTimeMillis()+"-"+photo.getId()+".jpg";
                     File outputfile = new File("./downloadedImages/",filename);
                     ImageIO.write(image, "jpg", outputfile);
-                    System.out.println("Downloaded "+filename);
+//                    System.out.println("Downloaded "+filename);
                 } catch (FlickrException fe) {
                     System.err.println("Ignoring image " +photo.getId() +": "+ fe.getMessage());
                 }
@@ -64,6 +64,6 @@ public class FlickrImageExtractor {
             e.printStackTrace();
         }
 
-        System.out.println("\nDone");
+        System.out.println("\nDone"); // change this for an alert or something later.
     }
 }

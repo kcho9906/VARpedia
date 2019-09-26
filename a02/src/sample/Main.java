@@ -13,10 +13,16 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
+        // create a downloadedImages folder
+        String command = "mkdir ./downloadedImages";
+        Terminal.command(command);
+
         window = primaryStage;
         Menu menu = new Menu(window);
         VBox menuLayout = menu.getMenuLayout();
         menuScene = new Scene(menuLayout, 600, 1000);
+
+        FlickrImageExtractor.downloadImages("apple", 10);
 
         window.setTitle("VARpedia");
         window.setResizable(true);
@@ -24,7 +30,11 @@ public class Main extends Application {
         window.show();
 
         // delete audioFies if closed
-        String command = "rm -fr ./src/textFiles";
+        command = "rm -fr ./src/textFiles";
+        Terminal.command(command);
+
+        // remove downloadedImages folder if closed
+        command = "rm -fr ./downloadedImages";
         Terminal.command(command);
 
     }

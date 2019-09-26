@@ -170,14 +170,6 @@ public class CreateCreations {
                 });
             }
         });
-
-        createButton.setOnAction(event -> {
-            // we want to take the audio files, concatenate them, make the wave file
-            // then combine with the flickr images and the text
-
-            // merge selected audio files
-
-        });
     }
 
     public VBox getCreateCreationsLayout() {
