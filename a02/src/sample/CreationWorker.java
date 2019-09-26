@@ -10,14 +10,16 @@ public class CreationWorker extends Task<String> {
     private String command, result;
     private File _creationDir;
     private String _name, _path;
+    private Audio _audio;
 
-    public CreationWorker(String input, File creationDir, int numImages) {
+    public CreationWorker(String input, File creationDir, int numImages, Audio audio) {
 
         _input = input;
         _creationDir = creationDir;
         _numImages = numImages;
         _name = _creationDir.getName();
         _path = _creationDir.getPath();
+        _audio = audio;
     }
 
     @Override
@@ -46,7 +48,7 @@ public class CreationWorker extends Task<String> {
             } else if (imagesFound == 0) {
                 message = "No images found";
             } else {
-                Audio.
+                double duration = _audio.mergeAudio(_creationDir);
                 message = "Success";
             }
             return message;

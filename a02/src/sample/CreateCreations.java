@@ -155,7 +155,7 @@ public class CreateCreations {
                 // merge selected audio files
 
                 //create creation worker to create creation
-                CreationWorker creationWorker = new CreationWorker(action, creationDir, numImages);
+                CreationWorker creationWorker = new CreationWorker(action, creationDir, numImages, audio);
                 //start the progress bar
                 startProgressBar("Creating Creation...", creationWorker);
                 creationWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {

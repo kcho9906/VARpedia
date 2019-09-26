@@ -72,7 +72,6 @@ public class Audio {
     private void setupButtons() {
 // preview audio button
         highlightedTextButton.setOnAction(event -> {
-            mergeAudio("apple");
             String selectedText = _searchResult.getSelectedText();
             boolean speak = countMaxWords(selectedText);
             speechWorker previewSpeechWorker = new speechWorker(selectedText, "ESpeak"); //default preview speech to ESpeak
@@ -175,7 +174,7 @@ public class Audio {
         return highlightedAudioTextLayout;
     }
 
-    public void mergeAudio(String creationName) {
+    public double mergeAudio(File creationName) {
 
         List<String> selectedAudio = audioFileList.getSelectionModel().getSelectedItems();
         String command = "ffmpeg ";
@@ -185,17 +184,18 @@ public class Audio {
             count++;
         }
 
-        System.out.println(count);
         command += "-filter_complex '";
         for (int i = 0; i < count; i++) {
             command += "[" + i + ":0]";
         }
 
-        command += "concat=n=" + count + ":v=0:a=1[out]' -map '[out]' ./src/creations/" + creationName + "/output.wav";
-        System.out.println(command);
+        String outputPath = creationName.getPath() + "/output.wav";
+        command += "concat=n=" + count + ":v=0:a=1[out]' -map '[out]' " + outputPath;
         Terminal.command(command);
 
-
+        String getLengthCommand = "soxi -D " + outputPath;
+        double duration = Double.parseDouble(Terminal.command(getLengthCommand));
+        return duration;
     }
 }
 
