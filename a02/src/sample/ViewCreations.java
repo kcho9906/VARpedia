@@ -32,7 +32,6 @@ public class ViewCreations {
         setUpList();
         setUpLayout();
         setActions();
-        creationsList.setItems(getCreations());
     }
 
     public void setUpList() {
@@ -43,9 +42,9 @@ public class ViewCreations {
         TableColumn<Creation, FileTime> timeColumn = new TableColumn<>("Time Created");
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("_timeCreated"));
         timeColumn.setMinWidth(300);
-
         creationsList = new TableView<>();
         creationsList.getColumns().addAll(nameColumn, timeColumn);
+        updateTable();
     }
 
     public void setUpLayout() {
@@ -110,13 +109,15 @@ public class ViewCreations {
     private ObservableList<Creation> getCreations() {
         ObservableList<Creation> creations = FXCollections.observableArrayList();
         String path = System.getProperty("user.dir") + "/src/creations";
-        System.out.println(path);
         File[] directories = new File(path).listFiles(File::isDirectory);
         for (File directory: directories) {
-            System.out.println(directory);
             creations.add(new Creation(directory));
         }
         return creations;
+    }
+
+    public void updateTable() {
+        creationsList.setItems(getCreations());
     }
 
 }

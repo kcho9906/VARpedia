@@ -18,7 +18,7 @@ public class speechWorker extends Task<Void> {
         }
         // run the selected text through specified speech synthesiser
         Terminal.command(command);
-
+        System.out.println(command);
         return null;
     }
 }

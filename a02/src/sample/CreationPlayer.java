@@ -78,7 +78,6 @@ public class CreationPlayer {
                     btnMute.setText("Unmute");
                 } else {
                     btnMute.setText("Mute");
-                    System.out.println(volumeBeforeMute[0]);
                     volumeBar.setValue(volumeBeforeMute[0]);
                 }
             }

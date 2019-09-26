@@ -22,6 +22,7 @@ public class Menu {
     private Label briefLabel = new Label("");
     private HBox buttonsLayout = new HBox(20);
     private Scene viewCreationsScene, createCreationsScene;
+    private ViewCreations viewCreations;
 
 
     public Menu(Stage stage) {
@@ -44,7 +45,7 @@ public class Menu {
         viewCreationsButton.prefWidthProperty().bind(window.widthProperty());
         titleLabel.setFont(Font.font("Calibri", FontWeight.BOLD, 20));
 
-        ViewCreations viewCreations = new ViewCreations(window);
+        viewCreations = new ViewCreations(window);
         VBox viewCreationsLayout = viewCreations.getViewCreationsLayout();
 
         CreateCreations createCreations = new CreateCreations();
@@ -56,7 +57,9 @@ public class Menu {
 
     public void setActions() {
         viewCreationsButton.setOnAction(e -> {
+            viewCreations.updateTable();
             window.setScene(viewCreationsScene);
+
         });
 
         createCreationsButton.setOnAction(e -> {

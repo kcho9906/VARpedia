@@ -30,8 +30,9 @@ public class FlickrImageExtractor {
         throw new RuntimeException("Couldn't find " + key +" in config file "+file.getName());
     }
 
-    public static void downloadImages(String query, int numImages) {
+    public static int downloadImages(File file, int numImages) {
         try {
+            String query = file.getName();
             String apiKey = getAPIKey("apiKey");
             String sharedSecret = getAPIKey("sharedSecret");
 
@@ -47,23 +48,29 @@ public class FlickrImageExtractor {
             params.setText(query);
 
             PhotoList<Photo> results = photos.search(params, resultsPerPage, page);
-            System.out.println("Retrieving " + results.size()+ " results");
+            if (results.getTotal() > 0) {
 
-            for (Photo photo: results) {
-                try {
-                    BufferedImage image = photos.getImage(photo,Size.LARGE);
-                    String filename = query.trim().replace(' ', '-')+"-"+System.currentTimeMillis()+"-"+photo.getId()+".jpg";
-                    File outputfile = new File("./downloadedImages/",filename);
-                    ImageIO.write(image, "jpg", outputfile);
-                    System.out.println("Downloaded "+filename);
-                } catch (FlickrException fe) {
-                    System.err.println("Ignoring image " +photo.getId() +": "+ fe.getMessage());
+                System.out.println("Retrieving " + results.size() + " results");
+
+                for (Photo photo : results) {
+                    try {
+                        BufferedImage image = photos.getImage(photo, Size.LARGE);
+                        String filename = query.trim().replace(' ', '-') + "-" + System.currentTimeMillis() + "-" + photo.getId() + ".jpg";
+                        File outputfile = new File(file.getPath() + "/", filename);
+                        ImageIO.write(image, "jpg", outputfile);
+                        System.out.println("Downloaded " + filename);
+                    } catch (FlickrException fe) {
+                        System.err.println("Ignoring image " + photo.getId() + ": " + fe.getMessage());
+                    }
                 }
             }
+            System.out.println("\nDone");
+            return results.getTotal();
+
+
         } catch (Exception e) {
             e.printStackTrace();
+            return -1;
         }
-
-        System.out.println("\nDone");
     }
 }
