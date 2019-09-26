@@ -241,8 +241,15 @@ public class CreateCreations {
                 } else {
                     action = "create";
                 }
+
+
+                // we want to take the audio files, concatenate them, make the wave file
+                // then combine with the flickr images and the text
+                int numImages = (int) flickrImageSlider.getValue();
+                // merge selected audio files
+
                 //create creation worker to create creation
-                CreationWorker creationWorker = new CreationWorker(action, creationDir);
+                CreationWorker creationWorker = new CreationWorker(action, creationDir, numImages);
                 //start the progress bar
                 startProgressBar("Creating Creation...", creationWorker);
                 creationWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
@@ -282,6 +289,8 @@ public class CreateCreations {
 
 
         });
+
+
     }
 
     private boolean checkAudioExist() {
