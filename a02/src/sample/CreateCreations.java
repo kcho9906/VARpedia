@@ -66,7 +66,7 @@ public class CreateCreations {
 
 
         //--------------------------CREATING CREATION INPUT LAYOUT--------------------------//
-        creationNameInput.prefWidthProperty().bind(audioFileList.widthProperty());
+        creationNameInput.prefWidthProperty().bind(searchInput.widthProperty());
         configureCreationsLayout.getChildren().addAll(creationNameInput, createButton, returnToMenuButton2);
         configureCreationsLayout.setSpacing(10);
         configureCreationsLayout.setAlignment(Pos.CENTER);

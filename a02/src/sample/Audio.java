@@ -12,9 +12,9 @@ import java.util.Optional;
 
 public class Audio {
     private ListView<String> audioFileList = new ListView<String>();
-    private VBox createAudioButtonsLayout = new VBox();
+    private VBox createAudioButtonsLayout = new VBox(10);
     private HBox chooseSynthLayout = new HBox();
-    private HBox highlightedAudioTextLayout = new HBox();
+    private HBox highlightedAudioTextLayout = new HBox(10);
     private Button highlightedTextButton = new Button("Preview Selected Text");
     private Button saveHighlightedTextButton = new Button("Save Selected Text");
     private Label chooseInfo = new Label("Synthesiser ");
@@ -23,6 +23,10 @@ public class Audio {
     private TextArea _searchResult;
     private TextField _searchInput;
     private ProgressBar _progressBar;
+    private Button delete = new Button("Delete");
+    private Button deleteAll = new Button("Delete All");
+    private HBox audioFileLayout = new HBox(10);
+
 
     public Audio(TextArea searchResult, ProgressBar progressBar, TextField searchInput) {
         _searchResult = searchResult;
@@ -34,37 +38,38 @@ public class Audio {
 
     public void setupLayout() {
 
-        audioFileList.prefWidthProperty().bind(_searchInput.widthProperty());
 
         //----------------------------SET UP DISABLE BINDINGS------------------------------//
-
-
         chooseSynthesiser.disableProperty().bind(_searchResult.textProperty().isEmpty());
         highlightedTextButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
         saveHighlightedTextButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
 
-
+        //----------------------------SET UP DISABLE BUTTON SIZES--------------------------//
+        highlightedTextButton.setMaxWidth(180);
+        saveHighlightedTextButton.setMaxWidth(180);
         //-----------------------------LIST VIEW AUDIO CLIPS-------------------------------//
         audioFileList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         //audioFileList.setPrefHeight(80); // temporary height, can change later
         audioFileList.setPlaceholder(new Label("No audio files created"));
+        audioFileList.prefWidthProperty().bind(highlightedAudioTextLayout.widthProperty());
 
         //--------------------------HIGHLIGHTED AUDIO TEXT LAYOUT--------------------------//
-        createAudioButtonsLayout.getChildren().setAll(chooseSynthLayout, highlightedTextButton, saveHighlightedTextButton);
+        createAudioButtonsLayout.getChildren().setAll(chooseSynthLayout, highlightedTextButton, saveHighlightedTextButton, audioFileLayout);
+        createAudioButtonsLayout.prefWidthProperty().bind(highlightedAudioTextLayout.widthProperty());
+        createAudioButtonsLayout.setAlignment(Pos.TOP_RIGHT);
         highlightedTextButton.prefWidthProperty().bind(chooseSynthLayout.widthProperty());
         saveHighlightedTextButton.prefWidthProperty().bind(chooseSynthLayout.widthProperty());
-        createAudioButtonsLayout.setSpacing(10);
-        audioFileList.prefWidthProperty().bind(_searchInput.widthProperty());
 
-        highlightedAudioTextLayout.prefWidthProperty().bind(_progressBar.widthProperty());
+        highlightedAudioTextLayout.prefWidthProperty().bind(_searchResult.widthProperty());
         highlightedAudioTextLayout.getChildren().addAll(audioFileList, createAudioButtonsLayout);
         highlightedAudioTextLayout.setAlignment(Pos.CENTER);
-        highlightedAudioTextLayout.setSpacing(10);
+
+        audioFileLayout.getChildren().setAll(delete, deleteAll);
 
         //---------------------------------COMBO BOX SETUP---------------------------------//
         chooseSynthesiser.getItems().setAll("Festival", "ESpeak");
         chooseSynthLayout.getChildren().setAll(chooseInfo, chooseSynthesiser);
-        chooseSynthLayout.setAlignment(Pos.CENTER);
+        chooseSynthLayout.setAlignment(Pos.CENTER_RIGHT);
 
 
     }
