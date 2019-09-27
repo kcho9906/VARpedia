@@ -74,8 +74,9 @@ public class CreationWorker extends Task<String> {
 //                Terminal.command(command);
 
                 // merge the video and images
-//                command = "ffmpeg -i ./src/creations/" + creationName + ".mp4 -i ./src/creations/output.wav -c:v copy -c:a aac -strict experimental ./src/creations/" + creationName + ".mp4 &> /dev/null";
-//                Terminal.command(command);
+                command = "ffmpeg -i ./src/creations/" + creationName + "/" + creationName + "Temp.mp4 -i ./src/creations/" + creationName + "/output.wav -c:v copy -c:a aac -strict experimental ./src/creations/" + creationName + "/" + creationName + ".mp4";
+                System.out.println(command);
+                Terminal.command(command);
             }
             return message;
         }
