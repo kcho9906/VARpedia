@@ -2,10 +2,10 @@ package sample;
 
 import javafx.concurrent.Task;
 
-public class WikitWorker extends Task<String> {
+public class TerminalWorker extends Task<String> {
     private String _command;
 
-    public WikitWorker(String command) {
+    public TerminalWorker(String command) {
 
         this._command = command;
     }
@@ -13,7 +13,6 @@ public class WikitWorker extends Task<String> {
     @Override
     protected String call() throws Exception {
 
-        _command = "wikit " + _command;
         String output = Terminal.command(_command);
         output = " " + output;
 

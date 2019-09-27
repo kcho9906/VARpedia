@@ -51,8 +51,8 @@ public class Menu {
         CreateCreations createCreations = new CreateCreations();
         VBox createCreationsLayout = createCreations.getCreateCreationsLayout();
 
-        viewCreationsScene = new Scene(viewCreationsLayout, 600, 600);
-        createCreationsScene = new Scene(createCreationsLayout, 600,600);
+        viewCreationsScene = new Scene(viewCreationsLayout, window.getWidth(), window.getHeight());
+        createCreationsScene = new Scene(createCreationsLayout, window.getWidth(), window.getHeight());
     }
 
     public void setActions() {

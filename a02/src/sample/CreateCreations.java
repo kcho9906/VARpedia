@@ -58,7 +58,7 @@ public class CreateCreations {
         progressBar.prefWidthProperty().bind(searchResult.widthProperty());
 
         searchLayout.getChildren().addAll(progressBarLabel, searchInput, searchButton);
-        searchLayout.setAlignment(Pos.CENTER);
+        searchLayout.setAlignment(Pos.CENTER_RIGHT);
         searchLayout.setSpacing(20);
 
         searchResult.setWrapText(true);
@@ -103,7 +103,7 @@ public class CreateCreations {
         searchButton.setOnAction(event -> {
 
             // use the terminal to wikit the term with a worker / task
-            WikitWorker wikitWorker = new WikitWorker(searchInput.getText());
+            TerminalWorker wikitWorker = new TerminalWorker("wikit " + searchInput.getText());
 
             // start the progress bar
             startProgressBar("Searching for search term...", wikitWorker);
