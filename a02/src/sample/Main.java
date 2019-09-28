@@ -35,13 +35,6 @@ public class Main extends Application {
             }
         });
 
-        /*menuScene.heightProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newHeight) {
-                window.setHeight((double)newHeight);
-            }
-        });*/
-
         window.setOnCloseRequest( event -> {
             event.consume();
             Boolean answer = addConfirmationAlert("Exiting Program", "Are you sure you want to quit?", "Quit", "Cancel");

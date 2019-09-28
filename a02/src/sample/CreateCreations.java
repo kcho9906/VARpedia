@@ -34,7 +34,7 @@ public class CreateCreations {
     private Label flickrInfoLabel = new Label("Select number of images included in creation");
     private VBox createCreationsLayout;
     private Audio audio;
-
+    private Button reset;
 
     public CreateCreations() {
 
@@ -48,7 +48,7 @@ public class CreateCreations {
         //----------------------------AUDIO LIST SETUP-------------------------------------//
         audio = new Audio(searchResult, progressBar, searchInput);
         audioFileList = audio.getAudioList();
-
+        reset = audio.getResetButton();
 
         //----------------------------SET UP DISABLE BINDINGS------------------------------//
         searchButton.disableProperty().bind(searchInput.textProperty().isEmpty());
@@ -190,6 +190,13 @@ public class CreateCreations {
             }
         });
 
+        reset.setOnAction(event -> {
+            boolean clear = Main.addConfirmationAlert("Clearing application page", "Are you sure you want to do this?\n All search info will be cleared", "Yes", "No");
+            if (clear) {
+                defaultSettings();
+            }
+        });
+
 
     }
 
@@ -217,7 +224,7 @@ public class CreateCreations {
         searchResult.setDisable(true);
         progressBarLabel.setText("Please search something");
         progressBar.setProgress(0);
-        audio.getAudioList();
+        audio.refreshAudioLists();
     }
 
 

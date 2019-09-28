@@ -3,44 +3,20 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/ape_ESpeak" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/ape_Festival" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/apple_ESpeak" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/apple_Festival" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/apple/apple-1569633651507-15165630350.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/apple/apple-1569633651831-21982802134.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/apple/apple-1569633652140-6042016463.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/apple/apple.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/apple/appleTemp.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/apple/appleText.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/apple/output.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/francis/francis-1569635582277-5334400628.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/francis/francis-1569635583040-15525586519.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/francis/francis-1569635583997-8504005951.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/francis/francis-1569635584660-5982682435.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/francis/francis-1569635585284-3678626189.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/francis/francis.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/francis/francisTemp.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/francis/francisText.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/francis/output.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/help/help-1569639525258-33859518002.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/help/help-1569639525963-4622175038.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/help/help-1569639527002-8164996487.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/help/help.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/help/helpTemp.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/help/helpText.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/help/output.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/hitler/hitler-1569639101271-3116023653.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/hitler/hitler-1569639101415-2330274890.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569639185464-7669499616.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569639185955-6127002144.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569639186073-7574139810.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569639186344-7153154355.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569639186611-5724709161.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Audio.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Audio.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$4.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/ViewCreations.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/ViewCreations.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/Audio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Audio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/CreateCreations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/CreateCreations.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/CreationPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/CreationPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/ViewCreations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/ViewCreations.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -173,7 +149,11 @@
       <workItem from="1569537712612" duration="1812000" />
       <workItem from="1569545607994" duration="1902000" />
       <workItem from="1569580111215" duration="6689000" />
-      <workItem from="1569633568698" duration="6970000" />
+      <workItem from="1569633568698" duration="7859000" />
+      <workItem from="1569642320522" duration="4010000" />
+      <workItem from="1569646741806" duration="1165000" />
+      <workItem from="1569648265817" duration="404000" />
+      <workItem from="1569653556523" duration="10313000" />
     </task>
     <servers />
   </component>

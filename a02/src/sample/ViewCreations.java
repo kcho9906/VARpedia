@@ -35,14 +35,16 @@ public class ViewCreations {
     }
 
     public void setUpList() {
+        creationsList = new TableView<>();
         TableColumn<Creation, String> nameColumn = new TableColumn<>("Creation Names");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("_creationName"));
-        nameColumn.setMinWidth(300);
+        nameColumn.prefWidthProperty().bind(creationsList.widthProperty().divide(2));
 
         TableColumn<Creation, FileTime> timeColumn = new TableColumn<>("Time Created");
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("_timeCreated"));
-        timeColumn.setMinWidth(300);
-        creationsList = new TableView<>();
+        timeColumn.prefWidthProperty().bind(creationsList.widthProperty().divide(2));
+
+
         creationsList.getColumns().addAll(nameColumn, timeColumn);
         updateTable();
     }

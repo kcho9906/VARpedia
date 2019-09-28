@@ -1,20 +1,18 @@
 package sample;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import sun.plugin.services.MPlatformService;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -42,8 +40,8 @@ public class Audio {
     private Button addAudio = new Button (">>");
     private Button removeAudio = new Button ("<<");
     private VBox editCreationAudioLayout = new VBox(20);
+    private Button reset = new Button("Clear All");
     private ObservableList<String> listForCreation = FXCollections.observableArrayList();
-
 
     public Audio(TextArea searchResult, ProgressBar progressBar, TextField searchInput) {
         _searchResult = searchResult;
@@ -51,7 +49,6 @@ public class Audio {
         _progressBar = progressBar;
         setupLayout();
         setupButtons();
-        getAudioList();
     }
 
     public void setupLayout() {
@@ -77,14 +74,14 @@ public class Audio {
         audioFileList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         //audioFileList.setPrefHeight(80); // temporary height, can change later
         audioFileList.setPlaceholder(new Label("No audio files created"));
-        audioCreationList.setPlaceholder(new Label("No audio files selected"));
+        audioCreationList.setPlaceholder(new Label("Audio for creation"));
         audioFileList.prefWidthProperty().bind(highlightedAudioTextLayout.widthProperty());
         audioFileList.setMinWidth(audioButtonLayout.getWidth());
 
         audioFileList.setAccessibleText("Audio Files");
 
         //--------------------------HIGHLIGHTED AUDIO TEXT LAYOUT--------------------------//
-        createAudioButtonsLayout.getChildren().setAll(chooseSynthLayout, highlightedTextButton, saveHighlightedTextButton);
+        createAudioButtonsLayout.getChildren().setAll(chooseSynthLayout, highlightedTextButton, saveHighlightedTextButton, reset);
         createAudioButtonsLayout.prefWidthProperty().bind(highlightedAudioTextLayout.widthProperty());
         createAudioButtonsLayout.setAlignment(Pos.TOP_RIGHT);
         highlightedTextButton.prefWidthProperty().bind(chooseSynthLayout.widthProperty());
@@ -111,7 +108,7 @@ public class Audio {
     }
 
     private void setupButtons() {
-// preview audio button
+        // preview audio button
         highlightedTextButton.setOnAction(event -> {
             String selectedText = _searchResult.getSelectedText();
             boolean speak = countMaxWords(selectedText);
@@ -145,7 +142,7 @@ public class Audio {
         saveHighlightedTextButton.setOnAction(event -> {
             // if there is no temporary directory for audio files
             // create one
-            createAudioFileDirectory("textFiles");
+            createAudioFileDirectory("audioFiles");
 
             // get the selected text and save it to an audio file
             String selectedText = _searchResult.getSelectedText();
@@ -202,6 +199,7 @@ public class Audio {
         });
 
         delete.setOnAction(event -> {
+            selectedAudio = audioFileList.getSelectionModel().getSelectedItems();
             for (String audioName: selectedAudio) {
                 String command = "rm ./src/audioFiles/" + audioName;
                 Terminal.command(command);
@@ -210,6 +208,8 @@ public class Audio {
         });
 
         playSelected.setOnAction(event -> {
+
+            selectedAudio = audioFileList.getSelectionModel().getSelectedItems();
             if (selectedAudio.size() > 1) {
                 Main.createAlertBox("Please only select one audio to play");
             } else {
@@ -221,16 +221,19 @@ public class Audio {
                 playSelected.disableProperty().unbind();
                 playSelected.setDisable(true);
 
+
                 playSelectedWorker.setOnSucceeded(event1 -> {
+
                     playSelected.setDisable(false);
                     playSelected.disableProperty().bind(audioFileList.getSelectionModel().selectedItemProperty().isNull());
+                    playSelected.setText("Play");
                 });
             }
         });
 
         addAudio.setOnAction(event -> {
             try {
-                handleSendToCreationButton(event);
+                addToCreationButton(event);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -238,11 +241,12 @@ public class Audio {
 
         removeAudio.setOnAction(event -> {
             try {
-                handleRemoveAudioButton(event);
+                RemoveAudioFromCreationButton(event);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+
     }
 
     private boolean audioExists(String name, String synthChoice) {
@@ -265,12 +269,9 @@ public class Audio {
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
         Arrays.sort(listOfFiles, (f1, f2)->f1.compareTo(f2));
-        if(listOfFiles.length > 1) {
-            for (File file : listOfFiles) {
-
-                if (file.isFile()) {
-                    audioFileList.getItems().add(file.getName());
-                }
+        for (File file : listOfFiles) {
+            if (file.isFile()) {
+                audioFileList.getItems().add(file.getName());
             }
         }
 
@@ -304,7 +305,6 @@ public class Audio {
     public double mergeAudio(File creationName) {
 
         selectedAudio = audioCreationList.getItems();
-        System.out.println(selectedAudio);
         String command = "ffmpeg ";
         int count = 0;
         for (String fileName: selectedAudio) {
@@ -326,23 +326,31 @@ public class Audio {
         return duration;
     }
 
-    public void handleSendToCreationButton(ActionEvent actionEvent) throws IOException {
+    public void addToCreationButton(ActionEvent actionEvent) throws IOException {
         for (String word : audioFileList.getSelectionModel().getSelectedItems()){
             listForCreation.add(word);
         }
-        System.out.println(listForCreation);
         audioCreationList.setItems(listForCreation);
     }
 
-    public void handleRemoveAudioButton(ActionEvent actionEvent) throws IOException {
+    public void RemoveAudioFromCreationButton(ActionEvent actionEvent) throws IOException {
+        List<String> deleteAudioList = new ArrayList<String>();
         for (String word : audioCreationList.getSelectionModel().getSelectedItems()){
-            listForCreation.remove(word);
-            if (audioCreationList.getSelectionModel().getSelectedItems().isEmpty()) {
-                break;
-            }
+            deleteAudioList.add(word);
         }
-        System.out.println(listForCreation);
+        for (String word: deleteAudioList) {
+            listForCreation.remove(word);
+        }
+
         audioCreationList.setItems(listForCreation);
     }
+
+    public void refreshAudioLists() {
+        getAudioList();
+        listForCreation.removeAll();
+        audioCreationList.getItems().clear();
+    }
+
+    public Button getResetButton(){ return reset; }
 }
 

@@ -1,6 +1,8 @@
 package sample;
 
 import com.sun.xml.internal.ws.api.policy.subject.BindingSubject;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -11,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -24,33 +27,49 @@ import java.io.File;
 public class CreationPlayer {
 
     private VBox mediaLayout = new VBox(10);
+
+    private Button returnToMenuButton3 = new Button("Return to menu");
+    private HBox videoButtonLayout = new HBox();
+    private HBox timeLayout = new HBox(10);
+    private Button btnMute = new Button("Mute");
+    private Button btnPlayPause = new Button("Pause");
+    private Label timeLabel = new Label();
+    private Slider volumeBar = new Slider(0, 100, 50);
+    private Slider timeBar;
+    final double[] volumeBeforeMute = {0};
+    Duration duration;
+
+    Media video;
+    MediaPlayer player;
+    MediaView mediaView;
+
     public CreationPlayer(String creationName) {
-        //setupButtons();
-        playVideo(creationName);
+        createMediaPlayer(creationName); //create new components for new video player
+        setUpProperties();
+        setupButtons();
+        setupLayout();
     }
 
-    //public void setupButtons(){};
+    private void setupLayout() {
+        videoButtonLayout.setStyle("-fx-background-color: ECD8D9;");
+        videoButtonLayout.getChildren().addAll(btnPlayPause, returnToMenuButton3, btnMute, volumeBar);
+        videoButtonLayout.setPadding(new Insets(10, 10, 10, 10));
+        videoButtonLayout.setSpacing(10);
+        videoButtonLayout.setAlignment(Pos.BASELINE_CENTER);
 
+        timeLayout.getChildren().addAll(timeLabel, timeBar);
+        timeLayout.setPadding(new Insets(0, 10, 0, 10));
+        timeBar.prefWidthProperty().bind(mediaLayout.widthProperty());
+        timeLabel.setMinWidth(50);
+        mediaView.autosize();
+        mediaView.fitWidthProperty().bind(mediaLayout.widthProperty());
+        mediaView.fitHeightProperty().bind(mediaLayout.heightProperty());
+        mediaLayout.getChildren().addAll(mediaView, timeLayout, videoButtonLayout);
+        mediaLayout.setAlignment(Pos.BOTTOM_CENTER);
 
-    public void playVideo(String creationName) {
-        //create new components for new video player
-        File fileUrl = new File("src/creations/" + creationName + "/" + creationName + ".mp4");
-        Media video = new Media(fileUrl.toURI().toString());
-        MediaPlayer player = new MediaPlayer(video);
-        player.setAutoPlay(true);
-        MediaView mediaView = new MediaView(player);
-        Button returnToMenuButton3 = new Button("Return to menu");
-        HBox videoButtonLayout = new HBox();
-        Button btnMute = new Button("Mute");
-        Button btnPlayPause = new Button("Pause");
-        double durationMins = video.getDuration().toMinutes();
-        Label timeLabel = new Label();
-        Slider volumeBar = new Slider(0, 100, 50);
-        Slider timeBar = new Slider ();
-        
-        final double[] volumeBeforeMute = {0};
+    }
 
-
+    private void setUpProperties() {
         volumeBar.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -60,16 +79,53 @@ public class CreationPlayer {
             }
         });
 
-        videoButtonLayout.setStyle("-fx-background-color: ECD8D9;");
-        videoButtonLayout.getChildren().addAll(timeLabel, btnPlayPause, returnToMenuButton3, btnMute, volumeBar);
-        videoButtonLayout.setPadding(new Insets(10, 10, 10, 10));
-        videoButtonLayout.setSpacing(10);
+        player.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            @Override
+            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue,
+                                Duration newValue) {
+                String time = "";
+                time += String.format("%02d", (int) newValue.toMinutes());
+                time += ":";
+                time += String.format("%02d", (int) newValue.toSeconds());
+                timeLabel.setText(time);
+                timeBar.setValue(newValue.toMinutes());
+            }
+        });
 
-        videoButtonLayout.setAlignment(Pos.BASELINE_CENTER);
-        mediaView.fitWidthProperty().bind(mediaLayout.widthProperty());
-        mediaView.fitHeightProperty().bind(mediaLayout.heightProperty());
-        mediaLayout.getChildren().addAll(mediaView, timeBar, videoButtonLayout);
-        mediaLayout.setAlignment(Pos.CENTER);
+
+        timeBar.valueProperty().addListener(new ChangeListener<Number>() {
+        @Override
+        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+        }
+    });
+}
+
+    private void createMediaPlayer(String creationName) {
+        File fileUrl = new File("./src/creations/" + creationName + "/" + creationName + ".mp4");
+        video = new Media(fileUrl.toURI().toString());
+        player = new MediaPlayer(video);
+        mediaView = new MediaView(player);
+        player.setAutoPlay(true);
+        String command = "ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " + fileUrl;
+        String getDuration = Terminal.command(command);
+        double milliseconds = Double.parseDouble(getDuration) * 1000;
+//        String[] tokens = duration.split(":");
+//        int hours = (int) Double.parseDouble(tokens[0]);
+//        int mins = (int) Double.parseDouble(tokens[1]);
+//        int secs = (int) Double.parseDouble((tokens[2].substring(0, 2)));
+//        int millisecs = (int) Double.parseDouble(tokens[2].substring(3));
+
+        duration = new Duration(milliseconds);
+
+        timeBar = new Slider(0, duration.toMinutes(), 0);
+        System.out.println(duration.toMinutes());
+//        System.out.println(hours);
+//        System.out.println(mins);
+//        System.out.println(secs);
+//        System.out.println(millisecs);
+    }
+
+    private void setupButtons() {
         btnMute.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -97,25 +153,12 @@ public class CreationPlayer {
             }
         });
 
+
         returnToMenuButton3.setOnAction(e -> {
             if (Main.returnToMenu()) {
                 player.stop();
             }
         });
-
-        player.currentTimeProperty().addListener(new ChangeListener<Duration>() {
-            @Override
-            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue,
-                                Duration newValue) {
-                String time = "";
-                time += String.format("%02d", (int) newValue.toMinutes());
-                time += ":";
-                time += String.format("%02d", (int) newValue.toSeconds());
-                timeLabel.setText(time);
-                timeBar.setValue(newValue.toMinutes());
-            }
-        });
-
     }
 
     public VBox getCreationPlayerLayout() {
