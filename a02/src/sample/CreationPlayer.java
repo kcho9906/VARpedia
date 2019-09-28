@@ -46,7 +46,7 @@ public class CreationPlayer {
         double durationMins = video.getDuration().toMinutes();
         Label timeLabel = new Label();
         Slider volumeBar = new Slider(0, 100, 50);
-        Slider timeBar = new Slider (0, durationMins, 0);
+        Slider timeBar = new Slider ();
         
         final double[] volumeBeforeMute = {0};
 

@@ -51,6 +51,7 @@ public class Audio {
         _progressBar = progressBar;
         setupLayout();
         setupButtons();
+        getAudioList();
     }
 
     public void setupLayout() {
@@ -264,9 +265,12 @@ public class Audio {
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
         Arrays.sort(listOfFiles, (f1, f2)->f1.compareTo(f2));
-        for (File file : listOfFiles) {
-            if (file.isFile()) {
-                audioFileList.getItems().add(file.getName());
+        if(listOfFiles.length > 1) {
+            for (File file : listOfFiles) {
+
+                if (file.isFile()) {
+                    audioFileList.getItems().add(file.getName());
+                }
             }
         }
 
