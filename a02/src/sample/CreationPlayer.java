@@ -1,9 +1,5 @@
 package sample;
 
-import com.sun.xml.internal.ws.api.policy.subject.BindingSubject;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -13,8 +9,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -60,12 +54,12 @@ public class CreationPlayer {
         timeLayout.getChildren().addAll(timeLabel, timeBar);
         timeLayout.setPadding(new Insets(0, 10, 0, 10));
         timeBar.prefWidthProperty().bind(mediaLayout.widthProperty());
-        timeLabel.setMinWidth(50);
-        mediaView.autosize();
+        timeLabel.setMinWidth(100);
+
         mediaView.fitWidthProperty().bind(mediaLayout.widthProperty());
         mediaView.fitHeightProperty().bind(mediaLayout.heightProperty());
         mediaLayout.getChildren().addAll(mediaView, timeLayout, videoButtonLayout);
-        mediaLayout.setAlignment(Pos.BOTTOM_CENTER);
+        mediaLayout.setAlignment(Pos.CENTER);
 
     }
 
@@ -87,21 +81,14 @@ public class CreationPlayer {
                 time += String.format("%02d", (int) newValue.toMinutes());
                 time += ":";
                 time += String.format("%02d", (int) newValue.toSeconds());
-                timeLabel.setText(time);
+                timeLabel.setText(time + "/" + String.format("%02d", (int) duration.toMinutes()) + ":" + String.format("%02d", (int) duration.toSeconds()));
                 timeBar.setValue(newValue.toMinutes());
             }
         });
-
-
-        timeBar.valueProperty().addListener(new ChangeListener<Number>() {
-        @Override
-        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-        }
-    });
 }
 
     private void createMediaPlayer(String creationName) {
-        File fileUrl = new File("./src/creations/" + creationName + "/" + creationName + ".mp4");
+        File fileUrl = new File("src/creations/" + creationName + "/" + creationName + ".mp4");
         video = new Media(fileUrl.toURI().toString());
         player = new MediaPlayer(video);
         mediaView = new MediaView(player);
@@ -118,7 +105,6 @@ public class CreationPlayer {
         duration = new Duration(milliseconds);
 
         timeBar = new Slider(0, duration.toMinutes(), 0);
-        System.out.println(duration.toMinutes());
 //        System.out.println(hours);
 //        System.out.println(mins);
 //        System.out.println(secs);

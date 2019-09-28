@@ -1,22 +1,14 @@
 package sample;
 
-import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Worker;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
-
 import java.io.File;
-import java.util.Observable;
-import java.util.Optional;
 
 public class CreateCreations {
     private Button returnToMenuButton2 = new Button("Return to menu");
@@ -28,7 +20,6 @@ public class CreateCreations {
     private Button createButton = new Button("Create new creation");
     private Button searchButton = new Button("Search");
     private Slider flickrImageSlider = new Slider(1,10,5);
-    private ListView<String> audioFileList;
     private ProgressBar progressBar = new ProgressBar(0);
     private Label progressBarLabel = new Label("");
     private Label flickrInfoLabel = new Label("Select number of images included in creation");
@@ -47,12 +38,10 @@ public class CreateCreations {
 
         //----------------------------AUDIO LIST SETUP-------------------------------------//
         audio = new Audio(searchResult, progressBar, searchInput);
-        audioFileList = audio.getAudioList();
         reset = audio.getResetButton();
 
         //----------------------------SET UP DISABLE BINDINGS------------------------------//
         searchButton.disableProperty().bind(searchInput.textProperty().isEmpty());
-        creationNameInput.disableProperty().bind(Bindings.isEmpty(audioFileList.getSelectionModel().getSelectedItems()));
 
         //-----------------------------SEARCH INPUT LAYOUT---------------------------------//
         progressBar.prefWidthProperty().bind(searchResult.widthProperty());
@@ -137,7 +126,7 @@ public class CreateCreations {
             String input = creationNameInput.getText().trim();
             String action = "";
             if (!input.isEmpty() && input.matches("[a-zA-Z0-9_ -]+")) {
-                File creationDir = new File("./src/creations/" + input);
+                File creationDir = new File("src/creations/" + input);
                 if (creationDir.exists()) {
                     Boolean overwrite = Main.addConfirmationAlert("ERROR", "\"" + input + "\" exists. \nRename or overwrite?", "Overwrite", "Rename");
                     if (overwrite){
@@ -175,7 +164,7 @@ public class CreateCreations {
                             }
                         } else {
                             finishProgressBar(result);
-                            Main.createAlertBox("Error creating creation \"" + creationDir.getName() + "\"");
+                            Main.createAlertBox("Error creating creation \"" + creationDir.getName() + "\"\n" + result);
                         }
 
 
