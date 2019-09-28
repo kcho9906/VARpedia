@@ -345,8 +345,9 @@ public class Audio {
     }
 
     public double mergeAudio(File creationName) {
-
+        System.out.println(audioCreationList.getItems().size());
         if (audioCreationList.getItems().size() > 0) {
+            System.out.println("merging");
             selectedAudio = audioCreationList.getItems();
             String command = "ffmpeg ";
             int count = 0;

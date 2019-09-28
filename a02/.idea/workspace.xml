@@ -3,36 +3,20 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/appe1_ESpeak" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/apple_ESpeak" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/apple_ESpeak" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/hitler/hitler-1569665788113-3116023653.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/hitler/hitler-1569665788352-2330274890.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/hitler/hitler.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/hitler/hitlerTemp.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/hitler/hitlerText.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/hitler/output.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/man/man-1569664467647-14737250841.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/man/man-1569664467987-4926664427.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/man/man-1569664468314-4418998163.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/man/man-1569664468531-11563426094.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/man/man-1569664468891-4729806838.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Audio.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Audio.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$3.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$5.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationWorker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationWorker.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/FlickrImageExtractor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/FlickrImageExtractor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Terminal.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Terminal.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/Audio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Audio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/CreateCreations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/CreateCreations.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/CreationPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/CreationPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/CreationWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/CreationWorker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/FlickrImageExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/FlickrImageExtractor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Terminal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Terminal.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -85,7 +69,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
@@ -170,7 +154,9 @@
       <workItem from="1569646741806" duration="1165000" />
       <workItem from="1569648265817" duration="404000" />
       <workItem from="1569653556523" duration="21525000" />
-      <workItem from="1569676101057" duration="5928000" />
+      <workItem from="1569676101057" duration="6122000" />
+      <workItem from="1569682539901" duration="232000" />
+      <workItem from="1569699096309" duration="596000" />
     </task>
     <servers />
   </component>

@@ -59,7 +59,7 @@ public class CreationPlayer {
         mediaView.fitWidthProperty().bind(mediaLayout.widthProperty());
         mediaView.fitHeightProperty().bind(mediaLayout.heightProperty());
         mediaLayout.getChildren().addAll(mediaView, timeLayout, videoButtonLayout);
-        mediaLayout.setAlignment(Pos.CENTER);
+        mediaLayout.setAlignment(Pos.BOTTOM_CENTER);
 
     }
 

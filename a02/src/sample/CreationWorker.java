@@ -24,7 +24,7 @@ public class CreationWorker extends Task<String> {
 
     @Override
     protected String call() throws Exception {
-        double duration = _audio.mergeAudio(_creationDir); // merges audio
+
 
         boolean create = false;
         switch (_input) {
@@ -40,7 +40,7 @@ public class CreationWorker extends Task<String> {
                 command = "";
                 create = false;
         }
-        if (create && duration != -1) {
+        if (create) {
             Terminal.command(command);
             int imagesFound = FlickrImageExtractor.downloadImages(_creationDir, _numImages);
             String message;
@@ -49,8 +49,9 @@ public class CreationWorker extends Task<String> {
             } else if (imagesFound == 0) {
                 message = "No images found";
             } else { // create here?
-                    message = "Success!";
-
+                message = "Success!";
+                double duration = _audio.mergeAudio(_creationDir); // merges audio
+                if (duration != -1) {
                     // set the creation name with creationName_duration
                     String creationName = _creationDir.getName();
                     String path = _creationDir.getPath();
@@ -73,13 +74,13 @@ public class CreationWorker extends Task<String> {
                     //remove unnecessary files
                     command = "rm " + path + "/*.jpg; rm " + path + "/*.wav; rm " + path + "/" + creationName + "Temp.mp4; rm " + path + "/" + creationName + "Text.mp4";
                     Terminal.command(command);
+                } else {
+                    return "No audio files selected for creation";
                 }
-
+            }
             return message;
-        } else if (!create) {
-            return "Could not make directory for creation";
         } else {
-            return "No audio files selected for creation";
+            return "Could not make directory for creation";
         }
     }
 }
