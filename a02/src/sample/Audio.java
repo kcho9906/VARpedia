@@ -305,6 +305,7 @@ public class Audio {
     public double mergeAudio(File creationName) {
 
         selectedAudio = audioCreationList.getItems();
+        System.out.println(selectedAudio);
         String command = "ffmpeg ";
         int count = 0;
         for (String fileName: selectedAudio) {

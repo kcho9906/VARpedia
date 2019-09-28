@@ -223,6 +223,7 @@ public class CreateCreations {
         creationNameInput.clear();
         searchResult.setDisable(true);
         progressBarLabel.setText("Please search something");
+        progressBar.progressProperty().unbind();
         progressBar.setProgress(0);
         audio.refreshAudioLists();
     }
