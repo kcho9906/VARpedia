@@ -210,16 +210,24 @@ public class Audio {
                 String command = "rm ./src/audioFiles/*";
                 Terminal.command(command);
                 getAudioFileList();
+                listForCreation.clear();
+                audioCreationList.setItems(listForCreation);
             }
         });
 
         delete.setOnAction(event -> {
+            List<String> deleteAudioList = new ArrayList<String>();
             selectedAudio = audioFileList.getSelectionModel().getSelectedItems();
             for (String audioName: selectedAudio) {
                 String command = "rm ./src/audioFiles/" + audioName;
                 Terminal.command(command);
+                deleteAudioList.add(audioName);
             }
             getAudioFileList();
+            for (String audioName: deleteAudioList) {
+                listForCreation.remove(audioName);
+            }
+            audioCreationList.setItems(listForCreation);
         });
 
         playSelected.setOnAction(event -> {

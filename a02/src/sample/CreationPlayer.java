@@ -45,7 +45,7 @@ public class CreationPlayer {
     }
 
     private void setupLayout() {
-        videoButtonLayout.setStyle("-fx-background-color: ECD8D9;");
+//        videoButtonLayout.setStyle("-fx-background-color: ECD8D9;");
         videoButtonLayout.getChildren().addAll(btnPlayPause, returnToMenuButton3, btnMute, volumeBar);
         videoButtonLayout.setPadding(new Insets(10, 10, 10, 10));
         videoButtonLayout.setSpacing(10);

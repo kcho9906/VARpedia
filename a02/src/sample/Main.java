@@ -2,16 +2,11 @@ package sample;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.List;
 import java.util.Optional;
 
 public class Main extends Application {
@@ -25,15 +20,10 @@ public class Main extends Application {
         window = primaryStage;
         window.setHeight(700);
         window.setWidth(800);
+
         Menu menu = new Menu(window);
         VBox menuLayout = menu.getMenuLayout();
         menuScene = new Scene(menuLayout, window.getWidth(), window.getHeight());
-        menuScene.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                window.setWidth((double)newValue);
-            }
-        });
 
         window.setOnCloseRequest( event -> {
             event.consume();
