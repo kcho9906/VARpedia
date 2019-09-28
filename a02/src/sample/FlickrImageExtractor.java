@@ -65,7 +65,7 @@ public class FlickrImageExtractor {
                 }
             }
             System.out.println("\nDone");
-            return results.getTotal();
+            return results.size();
 
 
         } catch (Exception e) {

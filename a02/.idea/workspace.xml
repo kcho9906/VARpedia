@@ -2,20 +2,81 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/banana-ESpeak" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/banana-next-ESpeak" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/bananas-ESpeak" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/charles-s-ESpeak" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619918148-2540038405.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619918274-14561503648.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619918632-8560056613.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619918755-3680093683.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619918862-2191989261.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619919191-5582219542.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619919683-278684919.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619920135-10144993846.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619920292-27178021181.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619920382-33084038518.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananasTemp.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananasText.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/output.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread-1569619799909-25780347758.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread-1569619801429-4637967212.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread-1569619802220-5325641451.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread-1569619802685-4388450503.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread-1569619803599-3126995216.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/breadTemp.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/breadText.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/output.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/output.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato-1569619014771-4523747767.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato-1569619015287-261643437.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato-1569619015522-3985869198.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato-1569619016206-16098513923.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato-1569619016482-7798659254.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potatoTemp.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/textFiles/banana-berry.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/textFiles/banana-next.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/textFiles/bananas.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/textFiles/bannas.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Audio.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Audio.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Audio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Audio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/CreateCreations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/CreateCreations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JavaFxApplication.iml" beforeDir="false" afterPath="$PROJECT_DIR$/JavaFxApplication.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/META-INF/JavaFxApplication.kotlin_module" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/META-INF/JavaFxApplication.kotlin_module" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/turtle/output.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/turtle/turtle-1569540251425-41816602080.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/turtle/turtle-1569540252226-7380287552.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/turtle/turtle-1569540253173-15784753847.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/turtle/turtle-1569540253756-7380287404.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/turtle/turtle-1569540254278-15970576496.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationWorker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationWorker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/FlickrImageExtractor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/FlickrImageExtractor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/audioFiles/apple-ESpeak" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/audioFiles/apple-Festival" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/creations/sun/output.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/creations/sun/sun-1569547689058-6127002144.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/creations/sun/sun-1569547689446-7153154355.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/creations/sun/sun-1569547689762-5724709161.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/creations/sun/sun-1569547690510-7751064120.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/creations/sun/sun-1569547691153-7669499616.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/creations/sun/sun-1569547691302-7574139810.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/creations/sun/sun-1569547691735-8019458574.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/creations/sun/sun-1569547691831-7689299906.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/creations/turtle/output.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/creations/turtle/turtle-1569540251425-41816602080.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/creations/turtle/turtle-1569540252226-7380287552.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/creations/turtle/turtle-1569540253173-15784753847.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/creations/turtle/turtle-1569540253756-7380287404.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/creations/turtle/turtle-1569540254278-15970576496.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/CreationWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/CreationWorker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/FlickrImageExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/FlickrImageExtractor.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FavoritesManager">
-    <favorites_list name="JavaFxApplication" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -36,7 +97,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1569405774489" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1569620115178" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../libs" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -160,5 +221,83 @@
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>JavaFXApp</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>JavaFxApplication</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>flickr4java-3.0.1</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>
