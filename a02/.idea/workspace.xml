@@ -2,81 +2,119 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/banana-ESpeak" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/banana-next-ESpeak" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/bananas-ESpeak" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/charles-s-ESpeak" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619918148-2540038405.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619918274-14561503648.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619918632-8560056613.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619918755-3680093683.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619918862-2191989261.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619919191-5582219542.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619919683-278684919.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619920135-10144993846.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619920292-27178021181.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619920382-33084038518.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas.mp4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananasTemp.mp4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananasText.mp4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/output.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread-1569619799909-25780347758.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread-1569619801429-4637967212.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread-1569619802220-5325641451.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread-1569619802685-4388450503.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread-1569619803599-3126995216.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread.mp4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/breadTemp.mp4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/breadText.mp4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/output.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/output.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato-1569619014771-4523747767.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato-1569619015287-261643437.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato-1569619015522-3985869198.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato-1569619016206-16098513923.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato-1569619016482-7798659254.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato.mp4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potatoTemp.mp4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/textFiles/banana-berry.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/textFiles/banana-next.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/textFiles/bananas.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/textFiles/bannas.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/francisGay_ESpeak" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/hi_ESpeak" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/-/--1569586663572-48770938631.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/-/--1569586664225-48084507568.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/-/output.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/TerminalWorker.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JavaFxApplication.iml" beforeDir="false" afterPath="$PROJECT_DIR$/JavaFxApplication.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/META-INF/JavaFxApplication.kotlin_module" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/META-INF/JavaFxApplication.kotlin_module" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/turtle/output.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/turtle/turtle-1569540251425-41816602080.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/turtle/turtle-1569540252226-7380287552.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/turtle/turtle-1569540253173-15784753847.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/turtle/turtle-1569540253756-7380287404.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/turtle/turtle-1569540254278-15970576496.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/apple-ESpeak" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/apple-Festival" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/banana-ESpeak" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/banana-next-ESpeak" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/bananas-ESpeak" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/audioFiles/charles-s-ESpeak" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/ape/ape-1569632596405-7392367926.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/ape/ape-1569632597010-2412148320.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/ape/ape-1569632597612-5835471852.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/ape/ape-1569632599134-5583317239.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/ape/ape-1569632599768-16353506237.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/ape/ape.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/ape/apeTemp.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/ape/apeText.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/ape/output.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619918148-2540038405.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619918274-14561503648.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619918632-8560056613.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619918755-3680093683.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619918862-2191989261.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619919191-5582219542.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619919683-278684919.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619920135-10144993846.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619920292-27178021181.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas-1569619920382-33084038518.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananas.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananasTemp.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/bananasText.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bananas/output.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread-1569619799909-25780347758.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread-1569619801429-4637967212.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread-1569619802220-5325641451.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread-1569619802685-4388450503.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread-1569619803599-3126995216.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/bread.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/breadTemp.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/breadText.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/bread/output.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/output.wav" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/output.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato-1569619014771-4523747767.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato-1569619015287-261643437.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato-1569619015522-3985869198.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato-1569619016206-16098513923.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato-1569619016482-7798659254.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potato.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/potato/potatoTemp.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/output.wav" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/output.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569547689058-6127002144.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569547689058-6127002144.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569547689446-7153154355.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569547689446-7153154355.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569547689762-5724709161.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569547689762-5724709161.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569547690510-7751064120.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569547690510-7751064120.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569547691153-7669499616.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569547691153-7669499616.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569547691302-7574139810.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569547691302-7574139810.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569547691735-8019458574.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569547691735-8019458574.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569547691831-7689299906.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/sun/sun-1569547691831-7689299906.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Audio.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Audio.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreateCreations.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationPlayer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationWorker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/CreationWorker.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/FlickrImageExtractor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/FlickrImageExtractor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audioFiles/apple-ESpeak" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audioFiles/apple-Festival" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/creations/sun/output.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/creations/sun/sun-1569547689058-6127002144.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/creations/sun/sun-1569547689446-7153154355.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/creations/sun/sun-1569547689762-5724709161.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/creations/sun/sun-1569547690510-7751064120.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/creations/sun/sun-1569547691153-7669499616.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/creations/sun/sun-1569547691302-7574139810.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/creations/sun/sun-1569547691735-8019458574.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/creations/sun/sun-1569547691831-7689299906.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/creations/turtle/output.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/creations/turtle/turtle-1569540251425-41816602080.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/creations/turtle/turtle-1569540252226-7380287552.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/creations/turtle/turtle-1569540253173-15784753847.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/creations/turtle/turtle-1569540253756-7380287404.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/creations/turtle/turtle-1569540254278-15970576496.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Main$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Main$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Menu.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/Menu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/ViewCreations.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/ViewCreations.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/WikitWorker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/sample/speechWorker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Audio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Audio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/CreateCreations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/CreateCreations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/CreationPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/CreationPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/CreationWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/CreationWorker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/FlickrImageExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/FlickrImageExtractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/ViewCreations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/ViewCreations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/WikitWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/TerminalWorker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/speechWorker.java" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="JavaFxApplication" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -185,6 +223,8 @@
       <workItem from="1569473418224" duration="1073000" />
       <workItem from="1569537712612" duration="1812000" />
       <workItem from="1569545607994" duration="1902000" />
+      <workItem from="1569580111215" duration="6689000" />
+      <workItem from="1569633568698" duration="6264000" />
     </task>
     <servers />
   </component>

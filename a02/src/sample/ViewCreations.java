@@ -87,12 +87,10 @@ public class ViewCreations {
             ObservableList<Creation> allCreations = creationsList.getItems();
             Object creationSelected = creationsList.getSelectionModel().getSelectedItem();
             String creationName = ((Creation) creationSelected).toString();
-            System.out.println("deleting " + creationSelected);
             Boolean answer = Main.addConfirmationAlert("Deleting Creation", "Are you sure you want to delete \"" + creationName + "\"?", "Yes", "No");
             if (answer) {
                 allCreations.remove(creationSelected);
                 String command = "rm -rf ./src/creations/" + creationName;
-                System.out.println(command);
 
                 Terminal.command(command);
             }

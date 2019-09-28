@@ -1,17 +1,27 @@
 package sample;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 public class Audio {
     private ListView<String> audioFileList = new ListView<String>();
+    private ListView<String> audioCreationList = new ListView<String>();
     private VBox createAudioButtonsLayout = new VBox(10);
     private HBox chooseSynthLayout = new HBox();
     private HBox highlightedAudioTextLayout = new HBox(10);
@@ -25,7 +35,14 @@ public class Audio {
     private ProgressBar _progressBar;
     private Button delete = new Button("Delete");
     private Button deleteAll = new Button("Delete All");
-    private HBox audioFileLayout = new HBox(10);
+    private HBox audioButtonLayout = new HBox(10);
+    private Button playSelected = new Button("Play");
+    private VBox audioListLayout = new VBox(10);
+    private ObservableList<String> selectedAudio = FXCollections.observableArrayList();
+    private Button addAudio = new Button (">>");
+    private Button removeAudio = new Button ("<<");
+    private VBox editCreationAudioLayout = new VBox(20);
+    private ObservableList<String> listForCreation = FXCollections.observableArrayList();
 
 
     public Audio(TextArea searchResult, ProgressBar progressBar, TextField searchInput) {
@@ -43,29 +60,47 @@ public class Audio {
         chooseSynthesiser.disableProperty().bind(_searchResult.textProperty().isEmpty());
         highlightedTextButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
         saveHighlightedTextButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
+        playSelected.disableProperty().bind(audioFileList.getSelectionModel().selectedItemProperty().isNull());
+        delete.disableProperty().bind(audioFileList.getSelectionModel().selectedItemProperty().isNull());
+        deleteAll.disableProperty().bind(Bindings.size(audioFileList.getItems()).isEqualTo(0));
 
-        //----------------------------SET UP DISABLE BUTTON SIZES--------------------------//
+        //-------------------------------SET UP BUTTON SIZES-------------------------------//
         highlightedTextButton.setMaxWidth(180);
         saveHighlightedTextButton.setMaxWidth(180);
+
+        //-------------------------------SET UP BUTTON SIZES-------------------------------//
+        editCreationAudioLayout.getChildren().addAll(addAudio, removeAudio);
+
         //-----------------------------LIST VIEW AUDIO CLIPS-------------------------------//
+        audioCreationList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         audioFileList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         //audioFileList.setPrefHeight(80); // temporary height, can change later
         audioFileList.setPlaceholder(new Label("No audio files created"));
+        audioCreationList.setPlaceholder(new Label("No audio files selected"));
         audioFileList.prefWidthProperty().bind(highlightedAudioTextLayout.widthProperty());
+        audioFileList.setMinWidth(audioButtonLayout.getWidth());
+
+        audioFileList.setAccessibleText("Audio Files");
 
         //--------------------------HIGHLIGHTED AUDIO TEXT LAYOUT--------------------------//
-        createAudioButtonsLayout.getChildren().setAll(chooseSynthLayout, highlightedTextButton, saveHighlightedTextButton, audioFileLayout);
+        createAudioButtonsLayout.getChildren().setAll(chooseSynthLayout, highlightedTextButton, saveHighlightedTextButton);
         createAudioButtonsLayout.prefWidthProperty().bind(highlightedAudioTextLayout.widthProperty());
         createAudioButtonsLayout.setAlignment(Pos.TOP_RIGHT);
         highlightedTextButton.prefWidthProperty().bind(chooseSynthLayout.widthProperty());
         saveHighlightedTextButton.prefWidthProperty().bind(chooseSynthLayout.widthProperty());
 
         highlightedAudioTextLayout.prefWidthProperty().bind(_searchResult.widthProperty());
-        highlightedAudioTextLayout.getChildren().addAll(audioFileList, createAudioButtonsLayout);
+        highlightedAudioTextLayout.getChildren().addAll(audioFileList, editCreationAudioLayout, audioCreationList, createAudioButtonsLayout);
         highlightedAudioTextLayout.setAlignment(Pos.CENTER);
 
-        audioFileLayout.getChildren().setAll(delete, deleteAll);
+        editCreationAudioLayout.setMinWidth(50);
+        editCreationAudioLayout.setAlignment(Pos.CENTER);
+        audioCreationList.prefWidthProperty().bind(highlightedAudioTextLayout.widthProperty());
+        audioCreationList.prefHeightProperty().bind(audioFileList.heightProperty());
 
+        audioButtonLayout.getChildren().setAll(playSelected, delete, deleteAll);
+        audioButtonLayout.prefWidthProperty().bind(audioFileList.widthProperty());
+        audioListLayout.getChildren().setAll(highlightedAudioTextLayout, audioButtonLayout);
         //---------------------------------COMBO BOX SETUP---------------------------------//
         chooseSynthesiser.getItems().setAll("Festival", "ESpeak");
         chooseSynthLayout.getChildren().setAll(chooseInfo, chooseSynthesiser);
@@ -79,18 +114,30 @@ public class Audio {
         highlightedTextButton.setOnAction(event -> {
             String selectedText = _searchResult.getSelectedText();
             boolean speak = countMaxWords(selectedText);
-            speechWorker previewSpeechWorker = new speechWorker(selectedText, "ESpeak"); //default preview speech to ESpeak
+
+            TerminalWorker previewSpeechWorker;
 
             if (speak) {
+                highlightedTextButton.disableProperty().unbind();
+                highlightedTextButton.setDisable(true);
+                highlightedTextButton.setText("Playing...");
                 synthChoice = chooseSynthesiser.getValue();
                 if (synthChoice.equals("Festival")) {
-                    previewSpeechWorker = new speechWorker(selectedText, "Festival");
+                    String command = "echo \"" + selectedText + "\" | festival --tts";
+                    previewSpeechWorker = new TerminalWorker(command);
                 } else {
-                    previewSpeechWorker = new speechWorker(selectedText, "ESpeak");
+                    String command =  "espeak \"" + selectedText + "\"";
+                    previewSpeechWorker = new TerminalWorker(command);
                 }
                 Thread th = new Thread(previewSpeechWorker);
                 th.start();
+                previewSpeechWorker.setOnSucceeded(event1 -> {
+                    highlightedTextButton.setDisable(false);
+                    highlightedTextButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
+                    highlightedTextButton.setText("Preview Selected Text");
+                });
             }
+
         });
 
         // button which saves the highlighted text
@@ -102,9 +149,9 @@ public class Audio {
             // get the selected text and save it to an audio file
             String selectedText = _searchResult.getSelectedText();
 
-            boolean create = countMaxWords(selectedText);
+            boolean validRange = countMaxWords(selectedText);
 
-            if (create) {
+            if (validRange) {
 
                 // have a pop up ask for a name for the audio file?
                 TextInputDialog tempAudioFileName = new TextInputDialog();
@@ -114,45 +161,116 @@ public class Audio {
                 synthChoice = chooseSynthesiser.getValue();
 
                 result.ifPresent(name -> {
-                    String command = "";
-                    try {
-                        if (synthChoice.equals("Festival")) { //if user selected festival - need to put in background GUI
-                            command = "echo \"" + selectedText + "\" | text2wave -o ./src/audioFiles/" + name + "-" + synthChoice;
-                        } else if (synthChoice.equals("ESpeak")) {
-                            command = "espeak \"" + selectedText + "\" -w ./src/audioFiles/" + name + "-" + synthChoice + " -s 130";
-                        } else {
-                            System.out.println("nothing selected");
+                    if (name.isEmpty() || name == null) {
+                        Main.createAlertBox("Please enter a name for audio file");
+                    } else if (audioExists(name, synthChoice)){
+                        Main.createAlertBox("Audio file already exists. Please rename.");
+                    } else {
+                        String command = "";
+                        try {
+                            if (synthChoice.equals("Festival")) { //if user selected festival - need to put in background GUI
+                                command = "echo \"" + selectedText + "\" | text2wave -o ./src/audioFiles/" + name + "_" + synthChoice;
+                            } else if (synthChoice.equals("ESpeak")) {
+                                command = "espeak \"" + selectedText + "\" -w ./src/audioFiles/" + name + "_" + synthChoice + " -s 130";
+                            } else {
+                                System.out.println("nothing selected");
+                            }
+                        } catch (NullPointerException e) {
+                            System.out.println("error");
                         }
-                    } catch (NullPointerException e) {
-                        System.out.println("error");
+
+
+                        // save the audio file based on choice of user's speech synthesis
+                        Terminal.command(command);
+                        getAudioList();
+                        // add a text file with the temporary text
+                        String textCommand = "echo " + selectedText + " > ./src/textFiles/" + name + ".txt";
+                        Terminal.command(textCommand);
                     }
-
-
-                    // save the audio file based on choice of user's speech synthesis
-                    System.out.println(command);
-                    Terminal.command(command);
-                    getAudioList();
-                    // add a text file with the temporary text
-                    String textCommand = "echo " + selectedText + " > ./src/textFiles/" + name + ".txt";
-                    Terminal.command(textCommand);
                 });
+            }
+        });
+
+        deleteAll.setOnAction(event -> {
+            boolean clearAudio = Main.addConfirmationAlert("Delete all audio files", "Are you sure you want to delete all existing audio files?", "Yes", "No");
+            if (clearAudio) {
+                String command = "rm ./src/audioFiles/*";
+                Terminal.command(command);
+                getAudioList();
+            }
+        });
+
+        delete.setOnAction(event -> {
+            for (String audioName: selectedAudio) {
+                String command = "rm ./src/audioFiles/" + audioName;
+                Terminal.command(command);
+            }
+            getAudioList();
+        });
+
+        playSelected.setOnAction(event -> {
+            if (selectedAudio.size() > 1) {
+                Main.createAlertBox("Please only select one audio to play");
+            } else {
+                String command = "play ./src/audioFiles/" + selectedAudio.get(0);
+                TerminalWorker playSelectedWorker = new TerminalWorker(command);
+
+                Thread th = new Thread(playSelectedWorker);
+                th.start();
+                playSelected.disableProperty().unbind();
+                playSelected.setDisable(true);
+
+                playSelectedWorker.setOnSucceeded(event1 -> {
+                    playSelected.setDisable(false);
+                    playSelected.disableProperty().bind(audioFileList.getSelectionModel().selectedItemProperty().isNull());
+                });
+            }
+        });
+
+        addAudio.setOnAction(event -> {
+            try {
+                handleSendToCreationButton(event);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        removeAudio.setOnAction(event -> {
+            try {
+                handleRemoveAudioButton(event);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
     }
 
+    private boolean audioExists(String name, String synthChoice) {
+        List<String> existingAudio = audioFileList.getItems();
+        for (String audioName: existingAudio) {
+            if (audioName.equals(name + "_" + synthChoice)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public ListView<String> getAudioList() {
         audioFileList.getItems().clear();
-
         String path = System.getProperty("user.dir") + "/src/audioFiles";
+
+
+
 
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
-
+        Arrays.sort(listOfFiles, (f1, f2)->f1.compareTo(f2));
         for (File file : listOfFiles) {
             if (file.isFile()) {
                 audioFileList.getItems().add(file.getName());
             }
         }
+
+
         return audioFileList;
     }
 
@@ -175,13 +293,14 @@ public class Audio {
         return true;
     }
 
-    public HBox getLayout() {
-        return highlightedAudioTextLayout;
+    public VBox getLayout() {
+        return audioListLayout;
     }
 
     public double mergeAudio(File creationName) {
 
-        List<String> selectedAudio = audioFileList.getSelectionModel().getSelectedItems();
+        selectedAudio = audioCreationList.getItems();
+        System.out.println(selectedAudio);
         String command = "ffmpeg ";
         int count = 0;
         for (String fileName: selectedAudio) {
@@ -201,6 +320,25 @@ public class Audio {
         String getLengthCommand = "soxi -D " + outputPath;
         double duration = Double.parseDouble(Terminal.command(getLengthCommand));
         return duration;
+    }
+
+    public void handleSendToCreationButton(ActionEvent actionEvent) throws IOException {
+        for (String word : audioFileList.getSelectionModel().getSelectedItems()){
+            listForCreation.add(word);
+        }
+        System.out.println(listForCreation);
+        audioCreationList.setItems(listForCreation);
+    }
+
+    public void handleRemoveAudioButton(ActionEvent actionEvent) throws IOException {
+        for (String word : audioCreationList.getSelectionModel().getSelectedItems()){
+            listForCreation.remove(word);
+            if (audioCreationList.getSelectionModel().getSelectedItems().isEmpty()) {
+                break;
+            }
+        }
+        System.out.println(listForCreation);
+        audioCreationList.setItems(listForCreation);
     }
 }
 

@@ -6,10 +6,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.List;
 import java.util.Optional;
 
 public class Main extends Application {
@@ -21,9 +23,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         window = primaryStage;
+        window.setHeight(700);
+        window.setWidth(800);
         Menu menu = new Menu(window);
         VBox menuLayout = menu.getMenuLayout();
-        menuScene = new Scene(menuLayout, 600, 600);
+        menuScene = new Scene(menuLayout, window.getWidth(), window.getHeight());
         menuScene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -74,18 +78,13 @@ public class Main extends Application {
      * @param confirmationMessage
      */
     public static boolean addConfirmationAlert(String title, String confirmationMessage, String yes, String no) {
-        ButtonType confirm = new ButtonType(yes);
-        ButtonType cancel = new ButtonType(no);
 
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-        a.getButtonTypes().clear();
-        a.getButtonTypes().addAll(confirm, cancel);
-
         a.setTitle(title);
         a.setContentText(confirmationMessage);
 
         Optional<ButtonType> result = a.showAndWait();
-        if (result.get() == confirm) {
+        if (result.get() == ButtonType.OK) {
             return true;
         } else {
             return false;
@@ -100,7 +99,7 @@ public class Main extends Application {
 
     public static void playVideo(String creationName) {
         CreationPlayer creationPlayer = new CreationPlayer(creationName);
-        Scene videoScene = new Scene(creationPlayer.getCreationPlayerLayout(), 600, 600);
+        Scene videoScene = new Scene(creationPlayer.getCreationPlayerLayout(), window.getWidth(), window.getHeight());
         window.setScene(videoScene);
 
     }

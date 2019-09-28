@@ -61,8 +61,10 @@ public class CreateCreations {
         searchLayout.setAlignment(Pos.CENTER);
         searchLayout.setSpacing(20);
 
+        progressBarLabel.setAlignment(Pos.CENTER);
         searchResult.setWrapText(true);
         searchResult.setMinHeight(250);
+        searchButton.setMinWidth(80);
 
 
         //--------------------------CREATING CREATION INPUT LAYOUT--------------------------//
@@ -103,10 +105,10 @@ public class CreateCreations {
         searchButton.setOnAction(event -> {
 
             // use the terminal to wikit the term with a worker / task
-            WikitWorker wikitWorker = new WikitWorker(searchInput.getText());
+            TerminalWorker wikitWorker = new TerminalWorker("wikit " + searchInput.getText());
 
             // start the progress bar
-            startProgressBar("Searching for search term...", wikitWorker);
+            startProgressBar("Searching for ...", wikitWorker);
 
             wikitWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
                 @Override
@@ -119,7 +121,7 @@ public class CreateCreations {
                     } else {
                         // Display the sentences in the display area
                         searchResult.setText(wikitWorker.getValue().trim());
-                        finishProgressBar("Search term found!");
+                        finishProgressBar("Edit text below for ");
                         searchResult.setDisable(false);
                     }
                 }
@@ -164,19 +166,16 @@ public class CreateCreations {
                     public void handle(WorkerStateEvent event) {
 
                         // Display the sentences in the display area
-                        String message = "Creation \"" + creationDir.getName() + "\" was made ";
                         String result = creationWorker.getValue();
                         if (result.contains("Success")) {
-                            message += "successfully!";
-                            finishProgressBar(message);
-                            boolean play = Main.addConfirmationAlert(message,  "Play creation?", "Yes", "No");
+                            finishProgressBar(result);
+                            boolean play = Main.addConfirmationAlert("\"" + creationDir.getName() + "\" was created successfully!",  "Play creation?", "Yes", "No");
                             if (play) {
                                 Main.playVideo(creationDir.getName());
                             }
                         } else {
-                            message += "unsuccessfully...";
-                            finishProgressBar(message);
-                            Main.createAlertBox("Error creating creation");
+                            finishProgressBar(result);
+                            Main.createAlertBox("Error creating creation \"" + creationDir.getName() + "\"");
                         }
 
 
@@ -189,11 +188,6 @@ public class CreateCreations {
             } else{
                 Main.createAlertBox("Invalid creation name input");
             }
-
-            System.out.println(action);
-
-
-
         });
 
 

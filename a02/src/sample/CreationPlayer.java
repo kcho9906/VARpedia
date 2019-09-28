@@ -1,5 +1,6 @@
 package sample;
 
+import com.sun.xml.internal.ws.api.policy.subject.BindingSubject;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -45,7 +46,7 @@ public class CreationPlayer {
         double durationMins = video.getDuration().toMinutes();
         Label timeLabel = new Label();
         Slider volumeBar = new Slider(0, 100, 50);
-        Slider timeBar = new Slider ();
+        Slider timeBar = new Slider (0, durationMins, 0);
         
         final double[] volumeBeforeMute = {0};
 
@@ -120,4 +121,6 @@ public class CreationPlayer {
     public VBox getCreationPlayerLayout() {
         return mediaLayout;
     }
+
+
 }

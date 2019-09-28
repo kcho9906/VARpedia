@@ -49,7 +49,7 @@ public class CreationWorker extends Task<String> {
                 message = "No images found";
             } else { // create here?
                 double duration = _audio.mergeAudio(_creationDir); // merges audio
-                message = "Success";
+                message = "Success!";
 
                 // set the creation name with creationName_duration
                 String creationName = _creationDir.getName();
@@ -69,6 +69,9 @@ public class CreationWorker extends Task<String> {
                 // merge the video and images
                 command = "ffmpeg -i ./src/creations/" + creationName + "/" + creationName + "Text.mp4 -i ./src/creations/" + creationName + "/output.wav -c:v copy -c:a aac -strict experimental ./src/creations/" + creationName + "/" + creationName + ".mp4";
                 Terminal.command(command);
+
+                //remove unnecessary files
+
             }
             return message;
         }

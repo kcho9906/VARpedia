@@ -50,21 +50,17 @@ public class FlickrImageExtractor {
             PhotoList<Photo> results = photos.search(params, resultsPerPage, page);
             if (results.getTotal() > 0) {
 
-                System.out.println("Retrieving " + results.size() + " results");
-
                 for (Photo photo : results) {
                     try {
                         BufferedImage image = photos.getImage(photo, Size.LARGE);
                         String filename = query.trim().replace(' ', '-') + "-" + System.currentTimeMillis() + "-" + photo.getId() + ".jpg";
                         File outputfile = new File(file.getPath() + "/", filename);
                         ImageIO.write(image, "jpg", outputfile);
-                        System.out.println("Downloaded " + filename);
                     } catch (FlickrException fe) {
                         System.err.println("Ignoring image " + photo.getId() + ": " + fe.getMessage());
                     }
                 }
             }
-            System.out.println("\nDone");
             return results.size();
 
 
