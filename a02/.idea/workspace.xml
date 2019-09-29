@@ -1,34 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="JavaFxApplication:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/JavaFXApp.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/application/Audio.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/application/Audio.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreateCreations$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreateCreations$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreateCreations$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreateCreations$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreateCreations.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreateCreations.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/application/Creation.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreationPlayer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreationPlayer$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreationPlayer$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreationPlayer$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreationPlayer$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreationPlayer$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreationPlayer$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreationPlayer$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreationPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreationPlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreationWorker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/application/CreationWorker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/application/FlickrImageExtractor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/application/FlickrImageExtractor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/application/Menu.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/application/Menu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/application/ViewCreations.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/JavaFxApplication/application/ViewCreations.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/JavaFxApplication/creations/test/test.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/application/Audio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/Audio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/application/CreateCreations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/CreateCreations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/application/Creation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/application/CreationPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/CreationPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/application/CreationWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/CreationWorker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/application/FlickrImageExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/FlickrImageExtractor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/application/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/application/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/Menu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/application/ViewCreations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/ViewCreations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/creations/test/test.mp4" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -75,14 +60,14 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1569620115178" />
     <property name="dynamic.classpath" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../libs" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
@@ -173,6 +158,7 @@
       <workItem from="1569699096309" duration="596000" />
       <workItem from="1569712073593" duration="8740000" />
       <workItem from="1569766544741" duration="1874000" />
+      <workItem from="1569791235462" duration="1678000" />
     </task>
     <servers />
   </component>

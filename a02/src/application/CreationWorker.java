@@ -65,7 +65,6 @@ public class CreationWorker extends Task<String> {
                 } else {
                     String command = "rm -r -f " + _creationDir.getPath();
                     Terminal.command(command);
-                    System.out.println(command);
                     return "No audio files selected for creation";
                 }
             }

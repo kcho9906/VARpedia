@@ -54,6 +54,7 @@ public class FlickrImageExtractor {
                         String filename = "." + query.trim().replace(' ', '-') + "-" + System.currentTimeMillis() + "-" + photo.getId() + ".jpg";
                         File outputfile = new File(file.getPath(),  filename);
                         ImageIO.write(image, "jpg", outputfile);
+                        System.out.println();
                     } catch (FlickrException fe) {
                         System.err.println("Ignoring image " + photo.getId() + ": " + fe.getMessage());
                     }

@@ -122,7 +122,7 @@ public class ViewCreations {
         });
 
         deleteAllButton.setOnAction(event -> {
-            boolean clearCreations = Main.addConfirmationAlert("Delete all audio files", "Are you sure you want to delete all existing audio files?", "Yes", "No");
+            boolean clearCreations = Main.addConfirmationAlert("Delete all audio files", "Are you sure you want to delete all creations?", "Yes", "No");
             if (clearCreations) {
                 String command = "rm -r -f src/creations/*";
                 Terminal.command(command);

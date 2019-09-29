@@ -21,7 +21,7 @@ public class Menu {
     private Label briefLabel = new Label("");
     private static Scene viewCreationsScene, createCreationsScene;
     private static Stage window;
-    private ViewCreations viewCreations;
+    private static ViewCreations viewCreations;
     private VBox menuLayout = new VBox(20);
 
     public Menu(Stage stage) {
@@ -72,6 +72,7 @@ public class Menu {
     }
 
     public static void returnToViewCreations(){
+        viewCreations.updateTable();
         window.setScene(viewCreationsScene);
     }
 
