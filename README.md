@@ -33,8 +33,10 @@ On start-up, there will be the option between 'Viewing creations' and 'Creating 
       
 ## Creating Creations:
   1. Search for a term
+    
     1a. From the given text, highlight desired text.
   2. Choose a synthesiser (Festival or ESpeak)
+    
     2a. Option: preview the selected text (program will speak the selected text)
     2b. Option: save the selected text (text saved in a text file)
   3. Select desired files to transfer to final creation to be merged 
