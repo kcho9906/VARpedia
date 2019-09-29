@@ -14,9 +14,9 @@ back to the user.
 2. Open the command prompt or terminal (macOS)
 3. Type "java -jar VARpedia.jar"
 
-## Using the program
+# Using the program
 On start-up, there will be the option between 'Viewing creations' and 'Creating creations'
-# Viewing Creations:
+## Viewing Creations:
   You will have the options to:
     Play            - Select a creation to play
     Delete          - Select a creation to delete
@@ -30,7 +30,7 @@ On start-up, there will be the option between 'Viewing creations' and 'Creating 
       Return to list  - Returns to the creation list
       Return to menu  - Returns to the main menu
       
-# Creating Creations:
+## Creating Creations:
   1. Search for a term
   2. From the given text, highlight desired text.
   3. Choose a synthesiser (Festival or ESpeak)
