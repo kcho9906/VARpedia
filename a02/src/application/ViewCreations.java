@@ -34,6 +34,7 @@ import java.time.temporal.Temporal;
  *      Return to Menu - Returns to the main menu
  */
 public class ViewCreations {
+
     private Stage window;
     private Button playCreationButton = new Button("Play");
     private Button deleteCreationButton = new Button("Delete");

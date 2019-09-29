@@ -18,6 +18,8 @@
       <change beforePath="$PROJECT_DIR$/src/application/Terminal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/Terminal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/application/TerminalWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/TerminalWorker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/application/ViewCreations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/ViewCreations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/application/Audio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/Audio.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -170,6 +172,11 @@
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
+    <option name="height" value="823" />
+  </component>
   <component name="ProjectId" id="1Qcn32JERQhtNVQtBjFfkwLYJZl" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectReloadState">
@@ -328,7 +335,7 @@
       <workItem from="1569699096309" duration="596000" />
       <workItem from="1569712073593" duration="8740000" />
       <workItem from="1569766544741" duration="1874000" />
-      <workItem from="1569791235462" duration="3759000" />
+      <workItem from="1569791235462" duration="6531000" />
     </task>
     <servers />
   </component>
