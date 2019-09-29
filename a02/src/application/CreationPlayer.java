@@ -1,4 +1,4 @@
-package sample;
+package application;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,27 +15,25 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.util.Duration;
-
 import java.io.File;
 
 public class CreationPlayer {
 
-    private VBox mediaLayout = new VBox(10);
 
     private Button returnToMenuButton3 = new Button("Return to menu");
-    private HBox videoButtonLayout = new HBox();
-    private HBox timeLayout = new HBox(10);
     private Button btnMute = new Button("Mute");
     private Button btnPlayPause = new Button("Pause");
+    private double[] volumeBeforeMute = {0};
+    private Duration duration;
+    private HBox videoButtonLayout = new HBox();
+    private HBox timeLayout = new HBox(10);
     private Label timeLabel = new Label();
     private Slider volumeBar = new Slider(0, 100, 50);
     private Slider timeBar;
-    final double[] volumeBeforeMute = {0};
-    Duration duration;
-
-    Media video;
-    MediaPlayer player;
-    MediaView mediaView;
+    private Media video;
+    private MediaPlayer player;
+    private MediaView mediaView;
+    private VBox mediaLayout = new VBox(10);
 
     public CreationPlayer(String creationName) {
         createMediaPlayer(creationName); //create new components for new video player
@@ -45,7 +43,7 @@ public class CreationPlayer {
     }
 
     private void setupLayout() {
-//        videoButtonLayout.setStyle("-fx-background-color: ECD8D9;");
+        videoButtonLayout.setStyle("-fx-background-color: ECD8D9;");
         videoButtonLayout.getChildren().addAll(btnPlayPause, returnToMenuButton3, btnMute, volumeBar);
         videoButtonLayout.setPadding(new Insets(10, 10, 10, 10));
         videoButtonLayout.setSpacing(10);
@@ -81,7 +79,9 @@ public class CreationPlayer {
                 time += String.format("%02d", (int) newValue.toMinutes());
                 time += ":";
                 time += String.format("%02d", (int) newValue.toSeconds());
-                timeLabel.setText(time + "/" + String.format("%02d", (int) duration.toMinutes()) + ":" + String.format("%02d", (int) duration.toSeconds()));
+                String totalMins = String.format("%02d", (int) duration.toMinutes());
+                String totalSecs = String.format("%02d", (int) (duration.toSeconds() - Integer.parseInt(totalMins)*60));
+                timeLabel.setText(time + "/" + totalMins + ":" + totalSecs);
                 timeBar.setValue(newValue.toMinutes());
             }
         });
@@ -96,19 +96,8 @@ public class CreationPlayer {
         String command = "ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " + fileUrl;
         String getDuration = Terminal.command(command);
         double milliseconds = Double.parseDouble(getDuration) * 1000;
-//        String[] tokens = duration.split(":");
-//        int hours = (int) Double.parseDouble(tokens[0]);
-//        int mins = (int) Double.parseDouble(tokens[1]);
-//        int secs = (int) Double.parseDouble((tokens[2].substring(0, 2)));
-//        int millisecs = (int) Double.parseDouble(tokens[2].substring(3));
-
         duration = new Duration(milliseconds);
-
         timeBar = new Slider(0, duration.toMinutes(), 0);
-//        System.out.println(hours);
-//        System.out.println(mins);
-//        System.out.println(secs);
-//        System.out.println(millisecs);
     }
 
     private void setupButtons() {

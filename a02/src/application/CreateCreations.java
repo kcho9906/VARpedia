@@ -1,4 +1,4 @@
-package sample;
+package application;
 
 import javafx.concurrent.Worker;
 import javafx.concurrent.WorkerStateEvent;
@@ -11,21 +11,25 @@ import javafx.scene.layout.VBox;
 import java.io.File;
 
 public class CreateCreations {
-    private Button returnToMenuButton2 = new Button("Return to menu");
+
     private HBox searchLayout = new HBox();
     private HBox configureCreationsLayout = new HBox();
+    private Audio audio;
+    private Button returnToMenuButton2 = new Button("Return to menu");
+    private Button createButton = new Button("Create new creation");
+    private Button searchButton = new Button("Search");
+    private Button reset;
+    private Label createLabel = new Label("5) Name Creation");
+    private Label progressBarLabel = new Label("");
+    private Label flickrInfoLabel = new Label("4) Select number of images included in creation");
+    private ProgressBar progressBar = new ProgressBar(0);
+    private Slider flickrImageSlider = new Slider(1,10,5);
     private TextField searchInput = new TextField();
     private TextField creationNameInput = new TextField();
     private TextArea searchResult = new TextArea();
-    private Button createButton = new Button("Create new creation");
-    private Button searchButton = new Button("Search");
-    private Slider flickrImageSlider = new Slider(1,10,5);
-    private ProgressBar progressBar = new ProgressBar(0);
-    private Label progressBarLabel = new Label("");
-    private Label flickrInfoLabel = new Label("Select number of images included in creation");
     private VBox createCreationsLayout;
-    private Audio audio;
-    private Button reset;
+
+
 
     public CreateCreations() {
 
@@ -37,20 +41,21 @@ public class CreateCreations {
     public void setUpLayout() {
 
         //----------------------------AUDIO LIST SETUP-------------------------------------//
-        audio = new Audio(searchResult, progressBar, searchInput);
+        audio = new Audio(searchResult);
         reset = audio.getResetButton();
 
         //----------------------------SET UP DISABLE BINDINGS------------------------------//
         searchButton.disableProperty().bind(searchInput.textProperty().isEmpty());
 
         //-----------------------------SEARCH INPUT LAYOUT---------------------------------//
-        progressBar.prefWidthProperty().bind(searchResult.widthProperty());
+
 
         searchLayout.getChildren().addAll(progressBarLabel, searchInput, searchButton);
         searchLayout.setAlignment(Pos.CENTER);
         searchLayout.setSpacing(20);
 
-        progressBarLabel.setAlignment(Pos.CENTER);
+        progressBar.prefWidthProperty().bind(searchResult.widthProperty());
+        progressBarLabel.setAlignment(Pos.CENTER_RIGHT);
         searchResult.setWrapText(true);
         searchResult.setMinHeight(250);
         searchButton.setMinWidth(80);
@@ -58,9 +63,10 @@ public class CreateCreations {
 
         //--------------------------CREATING CREATION INPUT LAYOUT--------------------------//
         creationNameInput.prefWidthProperty().bind(searchInput.widthProperty());
-        configureCreationsLayout.getChildren().addAll(creationNameInput, createButton, returnToMenuButton2);
+        configureCreationsLayout.getChildren().addAll(createLabel, creationNameInput, createButton, returnToMenuButton2);
         configureCreationsLayout.setSpacing(10);
         configureCreationsLayout.setAlignment(Pos.CENTER);
+        returnToMenuButton2.setPrefWidth(150);
 
         //--------------------------GATHERING FLICKR IMAGES LAYOUT---------------------------//
         flickrImageSlider.prefWidthProperty().bind(progressBar.widthProperty());
@@ -80,7 +86,6 @@ public class CreateCreations {
     public void setActions() {
 
         // button to return to main menu
-        returnToMenuButton2.setPrefWidth(150);
         returnToMenuButton2.setOnAction(e -> {
 
             e.consume();
@@ -110,7 +115,7 @@ public class CreateCreations {
                     } else {
                         // Display the sentences in the display area
                         searchResult.setText(wikitWorker.getValue().trim());
-                        finishProgressBar("Edit text below for ");
+                        finishProgressBar("1b) Highlight (editable) text below for ");
                         searchResult.setDisable(false);
                     }
                 }
@@ -125,7 +130,7 @@ public class CreateCreations {
 
             String input = creationNameInput.getText().trim();
             String action = "";
-            if (!input.isEmpty() && input.matches("[a-zA-Z0-9_ -]+")) {
+            if (!input.isEmpty() && input.matches("[a-zA-Z0-9_-]+")) {
                 File creationDir = new File("src/creations/" + input);
                 if (creationDir.exists()) {
                     Boolean overwrite = Main.addConfirmationAlert("ERROR", "\"" + input + "\" exists. \nRename or overwrite?", "Overwrite", "Rename");
@@ -175,7 +180,8 @@ public class CreateCreations {
                 th.start();
 
             } else{
-                Main.createAlertBox("Invalid creation name input");
+                Main.createAlertBox("Available characters: a-z  A-Z  0-9  _- \n(spaces are NOT allowed)");
+                creationNameInput.clear();
             }
         });
 
@@ -211,7 +217,7 @@ public class CreateCreations {
         searchResult.clear();
         creationNameInput.clear();
         searchResult.setDisable(true);
-        progressBarLabel.setText("Please search something");
+        progressBarLabel.setText("1a) Please search something");
         progressBar.progressProperty().unbind();
         progressBar.setProgress(0);
         audio.refreshAudioLists();

@@ -1,4 +1,4 @@
-package sample;
+package application;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -19,7 +19,9 @@ public class Main extends Application {
 
         window = primaryStage;
         window.setHeight(700);
-        window.setWidth(800);
+        window.setWidth(850);
+        window.setMinHeight(700);
+        window.setMinWidth(850);
 
         Menu menu = new Menu(window);
         VBox menuLayout = menu.getMenuLayout();

@@ -1,4 +1,4 @@
-package sample;
+package application;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,18 +12,17 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class Menu {
-    private Stage window;
-    private VBox menuLayout = new VBox(20);
 
     private Button viewCreationsButton = new Button ("View all creations");
     private Button createCreationsButton = new Button ("Create new creations");
+    private HBox buttonsLayout = new HBox(20);
     private Label titleLabel = new Label("SOFTENG 206 Assignment 3");
     private Label introductionLabel = new Label("Welcome to VARpedia");
     private Label briefLabel = new Label("");
-    private HBox buttonsLayout = new HBox(20);
     private Scene viewCreationsScene, createCreationsScene;
+    private Stage window;
     private ViewCreations viewCreations;
-
+    private VBox menuLayout = new VBox(20);
 
     public Menu(Stage stage) {
         window = stage;

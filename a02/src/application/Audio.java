@@ -1,4 +1,4 @@
-package sample;
+package application;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -13,41 +13,41 @@ import java.io.IOException;
 import java.util.*;
 
 public class Audio {
-    private ListView<String> audioFileList = new ListView<String>();
-    private ListView<String> audioCreationList = new ListView<String>();
-    private VBox createAudioButtonsLayout = new VBox(10);
-    private HBox chooseSynthLayout = new HBox();
-    private HBox audioLayout = new HBox(10);
-    private Button highlightedTextButton = new Button("Preview Selected Text");
-    private Button saveHighlightedTextButton = new Button("Save Selected Text");
-    private Label chooseInfo = new Label("Synthesiser ");
-    private ComboBox<String> chooseSynthesiser = new ComboBox<>();
-    private String synthChoice = "";
-    private TextArea _searchResult;
-    private TextField _searchInput;
-    private ProgressBar _progressBar;
-    private Button delete = new Button("Delete");
-    private Button deleteAll = new Button("Delete All");
-    private HBox audioButtonLayout = new HBox(10);
-    private Button playSelected = new Button("Play");
-    private ObservableList<String> selectedAudio = FXCollections.observableArrayList();
-    private Button addAudio = new Button (">>");
-    private Button removeAudio = new Button ("<<");
-    private VBox editCreationAudioLayout = new VBox(20);
-    private Button reset = new Button("Clear All");
-    private ObservableList<String> listForCreation = FXCollections.observableArrayList();
-    private Label audioFileListLabel = new Label("Existing audio files:");
-    private Label audioCreationListLabel = new Label("Selected audio for creation:");
-    private VBox audioFileListLayout = new VBox(10);
-    private VBox audioCreationListLayout = new VBox(10);
-    private HBox changeOrderLayout = new HBox(10);
+
+
+
     private Button moveUp = new Button("Move Up");
     private Button moveDown = new Button("Move Down");
+    private Button highlightedTextButton = new Button("Preview Selected Text");
+    private Button saveHighlightedTextButton = new Button("Save Selected Text");
+    private Button addAudio = new Button (">>");
+    private Button removeAudio = new Button ("<<");
+    private Button reset = new Button("Clear All");
+    private Button delete = new Button("Delete");
+    private Button deleteAll = new Button("Delete All");
+    private Button playSelected = new Button("Play");
+    private ComboBox<String> chooseSynthesiser = new ComboBox<>();
+    private HBox changeOrderLayout = new HBox(10);
+    private HBox chooseSynthLayout = new HBox();
+    private HBox audioLayout = new HBox(10);
+    private HBox audioButtonLayout = new HBox(10);
+    private Label chooseInfo = new Label("Synthesiser ");
+    private Label audioFileListLabel = new Label("Existing audio files:");
+    private Label audioCreationListLabel = new Label("3) Select audio for creation:");
+    private Label audioOptionsLabel = new Label("2) Select audio options");
+    private ListView<String> audioFileList = new ListView<String>();
+    private ListView<String> audioCreationList = new ListView<String>();
+    private String synthChoice = "";
+    private TextArea _searchResult;
+    private ObservableList<String> selectedAudio = FXCollections.observableArrayList();
+    private ObservableList<String> listForCreation = FXCollections.observableArrayList();
+    private VBox editCreationAudioLayout = new VBox(20);
+    private VBox audioFileListLayout = new VBox(10);
+    private VBox audioCreationListLayout = new VBox(10);
+    private VBox createAudioButtonsLayout = new VBox(10);
 
-    public Audio(TextArea searchResult, ProgressBar progressBar, TextField searchInput) {
+    public Audio(TextArea searchResult) {
         _searchResult = searchResult;
-        _searchInput = searchInput;
-        _progressBar = progressBar;
         setupLayout();
         setupButtons();
     }
@@ -74,50 +74,52 @@ public class Audio {
         //-------------------------------SET UP BUTTON SIZES-------------------------------//
         editCreationAudioLayout.getChildren().addAll(addAudio, removeAudio);
 
-        //-----------------------------LIST VIEW AUDIO CLIPS-------------------------------//
-        audioCreationList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        //-----------------------------AUDIO FILE LIST LAYOUT------------------------------//
+
         audioFileList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        //audioFileList.setPrefHeight(80); // temporary height, can change later
         audioFileList.setPlaceholder(new Label("No audio files created"));
-        audioCreationList.setPlaceholder(new Label("No audio files for creation"));
         audioFileList.prefWidthProperty().bind(audioLayout.widthProperty());
         audioFileList.setMinWidth(audioButtonLayout.getWidth());
-
-        audioFileList.setAccessibleText("Audio Files");
-
-        //--------------------------HIGHLIGHTED AUDIO TEXT LAYOUT--------------------------//
-        createAudioButtonsLayout.getChildren().setAll(chooseSynthLayout, highlightedTextButton, saveHighlightedTextButton, reset);
-        createAudioButtonsLayout.prefWidthProperty().bind(audioLayout.widthProperty());
-        createAudioButtonsLayout.setAlignment(Pos.TOP_RIGHT);
-        highlightedTextButton.prefWidthProperty().bind(chooseSynthLayout.widthProperty());
-        saveHighlightedTextButton.prefWidthProperty().bind(chooseSynthLayout.widthProperty());
-
-        audioLayout.prefWidthProperty().bind(_searchResult.widthProperty());
-        audioLayout.getChildren().addAll(audioFileListLayout, editCreationAudioLayout, audioCreationListLayout, createAudioButtonsLayout);
-        audioLayout.setAlignment(Pos.CENTER);
-
-        editCreationAudioLayout.setMinWidth(50);
-        editCreationAudioLayout.setAlignment(Pos.CENTER);
-        audioCreationList.prefWidthProperty().bind(audioLayout.widthProperty());
-        audioCreationList.prefHeightProperty().bind(audioFileList.heightProperty());
-
         audioButtonLayout.getChildren().setAll(playSelected, delete, deleteAll);
         audioButtonLayout.prefWidthProperty().bind(audioFileList.widthProperty());
         audioButtonLayout.setAlignment(Pos.CENTER);
 
         audioFileListLayout.getChildren().addAll(audioFileListLabel, audioFileList, audioButtonLayout);
         audioFileListLayout.setAlignment(Pos.CENTER);
+
+        //---------------------------AUDIO CREATION LIST LAYOUT----------------------------//
+        audioCreationList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        audioCreationList.setPlaceholder(new Label("No audio files for creation"));
+        audioCreationList.prefWidthProperty().bind(audioLayout.widthProperty());
+        audioCreationList.prefHeightProperty().bind(audioFileList.heightProperty());
+
         audioCreationListLayout.setAlignment(Pos.CENTER);
         audioCreationListLayout.getChildren().addAll(audioCreationListLabel, audioCreationList, changeOrderLayout);
 
+
+        //--------------------------------MOVE AUDIO LAYOUT--------------------------------//
         changeOrderLayout.getChildren().addAll(moveUp, moveDown);
         changeOrderLayout.setAlignment(Pos.CENTER);
+        editCreationAudioLayout.setMinWidth(50);
+        editCreationAudioLayout.setAlignment(Pos.CENTER);
 
+        //-------------------------------AUDIO LAYOUT SETUP--------------------------------//
+
+        audioLayout.prefWidthProperty().bind(_searchResult.widthProperty());
+        audioLayout.getChildren().addAll(createAudioButtonsLayout, audioFileListLayout, editCreationAudioLayout, audioCreationListLayout);
+        audioLayout.setAlignment(Pos.CENTER);
+
+        //------------------------------AUDIO BUTTONS SETUP--------------------------------//
+        createAudioButtonsLayout.getChildren().setAll(audioOptionsLabel, chooseSynthLayout, highlightedTextButton, saveHighlightedTextButton, reset);
+        createAudioButtonsLayout.prefWidthProperty().bind(audioLayout.widthProperty());
+        createAudioButtonsLayout.setAlignment(Pos.TOP_LEFT);
+        highlightedTextButton.prefWidthProperty().bind(chooseSynthLayout.widthProperty());
+        saveHighlightedTextButton.prefWidthProperty().bind(chooseSynthLayout.widthProperty());
 
         //---------------------------------COMBO BOX SETUP---------------------------------//
         chooseSynthesiser.getItems().setAll("Festival", "ESpeak");
         chooseSynthLayout.getChildren().setAll(chooseInfo, chooseSynthesiser);
-        chooseSynthLayout.setAlignment(Pos.CENTER_RIGHT);
+        chooseSynthLayout.setAlignment(Pos.CENTER_LEFT);
 
 
     }
