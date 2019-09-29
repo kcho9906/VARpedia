@@ -18,6 +18,7 @@ back to the user.
 On start-up, there will be the option between 'Viewing creations' and 'Creating creations'
 ## Viewing Creations:
   You will have the options to:
+  
     Play            - Select a creation to play
     Delete          - Select a creation to delete
     Delete All      - Deletes all creations
@@ -32,13 +33,13 @@ On start-up, there will be the option between 'Viewing creations' and 'Creating 
       
 ## Creating Creations:
   1. Search for a term
-  2. From the given text, highlight desired text.
-  3. Choose a synthesiser (Festival or ESpeak)
-    3a. Option: preview the selected text (program will speak the selected text)
-    3b. Option: save the selected text (text saved in a text file)
-  4. Select desired files to transfer to final creation to be merged 
-  5. Select number of images to be included in the creation. Will be images of the search term.
-  6. Name the creation, then 'Create new creation'
+    1a. From the given text, highlight desired text.
+  2. Choose a synthesiser (Festival or ESpeak)
+    2a. Option: preview the selected text (program will speak the selected text)
+    2b. Option: save the selected text (text saved in a text file)
+  3. Select desired files to transfer to final creation to be merged 
+  4. Select number of images to be included in the creation. Will be images of the search term.
+  5. Name the creation, then 'Create new creation'
   
 # Authors
 Charles Paterson
