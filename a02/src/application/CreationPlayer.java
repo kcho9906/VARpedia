@@ -21,8 +21,16 @@ import javafx.util.Duration;
 import javax.swing.text.View;
 import java.io.File;
 
+/**
+ * This class is responsible for the layout and buttons actions
+ * of the media player. The player has the following options
+ *   Mute            - Removes all volume from the creation
+ *   Change Volume   - Slider to alter the volume
+ *   Play/Pause      - Allows us to play and pause the video
+ *   Return to list  - Returns to the creation list
+ *   Return to menu  - Returns to the main menu
+ */
 public class CreationPlayer {
-
 
     private Button returnToMenuButton3 = new Button("Return to menu");
     private Button btnMute = new Button("Mute");
@@ -48,6 +56,7 @@ public class CreationPlayer {
     }
 
     private void setupLayout() {
+
         videoButtonLayout.setStyle("-fx-background-color: ECD8D9;");
         videoButtonLayout.getChildren().addAll(btnMute, volumeBar, btnPlayPause, returnToViewCreations, returnToMenuButton3);
         videoButtonLayout.setPadding(new Insets(10, 10, 10, 10));
@@ -69,33 +78,43 @@ public class CreationPlayer {
         btnMute.setMinWidth(btnPlayPause.getMinWidth());
 
         returnToViewCreations.setMinWidth(100);
-
-
     }
 
+    /**
+     * Sets up the properties of the javafx components in the media player
+     */
     private void setUpProperties() {
+
         volumeBar.valueProperty().addListener(new ChangeListener<Number>() {
+
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+
                 if (oldValue != newValue) {
+
                     player.setVolume(volumeBar.getValue()/100);
                 }
             }
         });
 
         timeBar.valueProperty().addListener(new InvalidationListener() {
+
             @Override
             public void invalidated(Observable observable) {
+
                 if (timeBar.isPressed()) {
+
                     player.seek(player.getMedia().getDuration().multiply(timeBar.getValue() / 100.00));
                 }
             }
         });
 
         player.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue,
                                 Duration newValue) {
+
                 String time = "";
                 time += String.format("%02d", (int) newValue.toMinutes());
                 time += ":";
@@ -108,45 +127,62 @@ public class CreationPlayer {
         });
 
         player.setOnEndOfMedia(new Runnable() {
+
             @Override
             public void run() {
-                System.out.println(volumeBeforeMute[0]);
-                if (Main.addConfirmationAlert("Video finished", "Replay?", "Yes", "No")){
+
+                if (Main.addConfirmationAlert("Video finished", "Replay?", "Yes", "No")) {
+
                     if (volumeBeforeMute[0]!=0.0) {
+
                         volumeBar.setValue(volumeBeforeMute[0]);
                         btnMute.setText("Mute");
                     }
                     player.seek(new Duration(0));
                 } else {
+
                     player.stop();
                     Menu.returnToViewCreations();
                 }
             }
         });
-}
+    }
 
+    /**
+     * This creates the media player with name of the creation being played
+     * @param creationName
+     */
     private void createMediaPlayer(String creationName) {
+
         File fileUrl = new File("src/creations/" + creationName + "/" + creationName + ".mp4");
+
         video = new Media(fileUrl.toURI().toString());
         player = new MediaPlayer(video);
         mediaView = new MediaView(player);
         player.setAutoPlay(true);
+
         String command = "ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " + fileUrl;
         String getDuration = Terminal.command(command);
+
         double milliseconds = Double.parseDouble(getDuration) * 1000;
         duration = new Duration(milliseconds);
         timeBar.setValue(0);
     }
 
     private void setupButtons() {
+
         btnMute.setOnAction(new EventHandler<ActionEvent>() {
+
             @Override
             public void handle(ActionEvent event) {
+
                 if (volumeBar.getValue()!=0) {
+
                     volumeBeforeMute[0] = volumeBar.getValue();
                     volumeBar.setValue(0);
                     btnMute.setText("Unmute");
                 } else {
+
                     btnMute.setText("Mute");
                     volumeBar.setValue(volumeBeforeMute[0]);
                 }
@@ -154,37 +190,42 @@ public class CreationPlayer {
         });
 
         btnPlayPause.setOnAction(new EventHandler<ActionEvent>() {
+
             @Override
             public void handle(ActionEvent event) {
+
                 if (player.getStatus() == MediaPlayer.Status.PLAYING) {
+
                     player.pause();
                     btnPlayPause.setText("Play");
                 } else {
+
                     player.play();
                     btnPlayPause.setText("Pause");
                 }
             }
         });
 
-
         returnToMenuButton3.setOnAction(e -> {
+
             if (Main.returnToMenu()) {
+
                 player.stop();
             }
         });
 
         returnToViewCreations.setOnAction(event -> {
+
             if (Main.addConfirmationAlert("Return to Creations List", "Are you sure?", "Yes", "No")){
+
                 Menu.returnToViewCreations();
                 player.stop();
             }
-
         });
     }
 
     public VBox getCreationPlayerLayout() {
+
         return mediaLayout;
     }
-
-
 }

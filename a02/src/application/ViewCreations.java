@@ -25,6 +25,14 @@ import java.nio.file.attribute.FileTime;
 import java.text.SimpleDateFormat;
 import java.time.temporal.Temporal;
 
+/**
+ * This class is responsible for the view creations scene and button actions.
+ * You will have the options to:
+ *      Play - Select a creation to play
+ *      Delete - Select a creation to delete
+ *      Delete All - Deletes all creations
+ *      Return to Menu - Returns to the main menu
+ */
 public class ViewCreations {
     private Stage window;
     private Button playCreationButton = new Button("Play");
@@ -41,7 +49,15 @@ public class ViewCreations {
         setActions();
     }
 
+    /**
+     * Sets up the list for the creations with the titles:
+     *      Creations Names
+     *      Keyword
+     *      Time Created
+     *      Length of Video
+     */
     public void setUpList() {
+
         creationsList = new TableView<>();
         TableColumn<Creation, String> nameColumn = new TableColumn<>("Creation Names");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("_creationName"));
@@ -65,6 +81,7 @@ public class ViewCreations {
     }
 
     public void setUpLayout() {
+
         HBox viewCreationsOptions = new HBox();
         viewCreationsOptions.setPadding(new Insets(10, 10, 10, 10));
         viewCreationsOptions.setSpacing(10);
@@ -102,6 +119,7 @@ public class ViewCreations {
 
         //play the creation back to user
         playCreationButton.setOnAction(playButtonClicked -> {
+
             Object creationSelected = creationsList.getSelectionModel().getSelectedItem();
             String creationName = ((Creation) creationSelected).toString();
             Main.playVideo(creationName);
@@ -109,58 +127,71 @@ public class ViewCreations {
 
         //set up an confirmation box to confirm with user the selected creation is to be deleted
         deleteCreationButton.setOnAction(deleteButtonClicked -> {
+
             ObservableList<Creation> allCreations = creationsList.getItems();
             Object creationSelected = creationsList.getSelectionModel().getSelectedItem();
             String creationName = ((Creation) creationSelected).toString();
             Boolean answer = Main.addConfirmationAlert("Deleting Creation", "Are you sure you want to delete \"" + creationName + "\"?", "Yes", "No");
             if (answer) {
-                allCreations.remove(creationSelected);
-                String command = "rm -rf ./src/creations/" + creationName;
 
+                allCreations.remove(creationSelected);
+
+                String command = "rm -rf ./src/creations/" + creationName;
                 Terminal.command(command);
             }
         });
 
         deleteAllButton.setOnAction(event -> {
+
             boolean clearCreations = Main.addConfirmationAlert("Delete all audio files", "Are you sure you want to delete all creations?", "Yes", "No");
             if (clearCreations) {
+
                 String command = "rm -r -f src/creations/*";
                 Terminal.command(command);
+
                 updateTable();
             }
         });
     }
 
     public VBox getViewCreationsLayout() {
+
         return viewCreationsLayout;
     }
 
-    //------------------------------------VIEW CREATIONS METHODS-----------------------------//
-
-
+    /**
+     * This method is for getting the creations from the list.
+     * @return
+     */
     private ObservableList<Creation> getCreations() {
+
         ObservableList<Creation> creations = FXCollections.observableArrayList();
         String path = System.getProperty("user.dir") + "/src/creations";
         File[] directories = new File(path).listFiles(File::isDirectory);
         for (File directory: directories) {
+
             creations.add(new Creation(directory));
         }
         return creations;
     }
 
+    /**
+     * updates the table
+     */
     public void updateTable() {
+
         creationsList.setItems(getCreations());
     }
 
-
-
-    //-----------------------------------------CREATION CLASS--------------------------------//
+    /**
+     * This is a class for all the creation properties
+     */
     public class Creation {
+
         private String _creationName;
         private String _searchTerm;
         private String _timeCreated;
         private String _duration;
-
 
         public Creation(File directory) {
             _creationName = directory.getName();
@@ -170,72 +201,85 @@ public class ViewCreations {
         }
 
         public String get_creationName() {
+
             return _creationName;
         }
 
         public void set_creationName(String _creationName) {
+
             this._creationName = _creationName;
         }
 
         public String get_timeCreated() {
+
             return _timeCreated;
         }
 
         public void set_timeCreated(String _timeCreated) {
+
             this._timeCreated = _timeCreated;
         }
 
         public void set_duration(String duration) {
+
             this._duration = duration;
         }
 
         public String get_duration() {
+
             return _duration;
         }
 
         public void set_searchTerm(String searchTerm) {
+
             this._searchTerm = searchTerm;
         }
 
         public String get_searchTerm() {
+
             return _searchTerm;
         }
 
         private String getCreationDate(File directory) {
+
             Path p = Paths.get(directory.getAbsolutePath());
             BasicFileAttributes view = null;
             String dateCreated = null;
             try {
+
                 view = Files.getFileAttributeView(p, BasicFileAttributeView.class).readAttributes();
                 SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy-hh:mm a");
                 FileTime date = view.creationTime();
                 dateCreated = df.format(date.toMillis());
             } catch (IOException e) {
+
                 e.printStackTrace();
             }
             return dateCreated.trim();
-
         }
 
         @Override
         public String toString() {
+
             return _creationName;
         }
 
-        public String calculateDuration(File directory){
+        public String calculateDuration(File directory) {
+
             //get file name for video
             String command = "ls " + directory.getPath() + " | grep .mp4$";
             String fileName = Terminal.command(command).trim();
             String lengthCommand = "ffmpeg -i " + directory.getPath() + "/" + fileName + " 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//";
+
             return Terminal.command(lengthCommand).trim();
         }
 
-        public String findSearchTerm(File directory){
+        public String findSearchTerm(File directory) {
+
             //get file name for video
             String command = "ls -a " + directory.getPath() + " | grep .wav$ | sed 's/^.\\(.*\\)....$/\\1/'";
             String name = Terminal.command(command).trim();
             return name;
         }
     }
-
 }

@@ -12,8 +12,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import java.io.File;
 
+/**
+ * This class is responsible for creating all the creations. It also
+ * contains all the components for the layout. All button events involved
+ * in creating creations is in this class
+ */
 public class CreateCreations {
-
 
     private Audio audio;
     private Button returnToMenuButton2 = new Button("Return to menu");
@@ -35,8 +39,6 @@ public class CreateCreations {
     private TextArea searchResult = new TextArea();
     private VBox createCreationsLayout;
 
-
-
     public CreateCreations() {
         setUpLayout();
         setActions();
@@ -55,8 +57,6 @@ public class CreateCreations {
         searchButton.disableProperty().bind(searchInput.textProperty().isEmpty());
 
         //-----------------------------SEARCH INPUT LAYOUT---------------------------------//
-
-
         searchLayout.getChildren().addAll(progressBarLabel, searchInput, searchButton);
         searchLayout.setAlignment(Pos.CENTER);
         searchLayout.setSpacing(20);
@@ -66,7 +66,6 @@ public class CreateCreations {
         searchResult.setWrapText(true);
         searchResult.setMinHeight(250);
         searchButton.setMinWidth(80);
-
 
         //--------------------------CREATING CREATION INPUT LAYOUT--------------------------//
         creationNameInput.prefWidthProperty().bind(searchInput.widthProperty());
@@ -94,7 +93,6 @@ public class CreateCreations {
 
         // button to return to main menu
         returnToMenuButton2.setOnAction(e -> {
-            System.out.println(searchTerm.getValue());
             e.consume();
             boolean confirm = Main.returnToMenu();
             if (confirm) {
@@ -104,6 +102,7 @@ public class CreateCreations {
 
         // search for the term on Wikipedia
         searchButton.setOnAction(event -> {
+
             keyword = (searchInput.getText().trim());
             // use the terminal to wikit the term with a worker / task
             currentKeyWord.setText("Current Keyword: " + keyword);
@@ -128,42 +127,49 @@ public class CreateCreations {
                         audio.refreshAudioInfo();
                     }
                 }
-
             });
 
             Thread th = new Thread(wikitWorker);
             th.start();
         });
 
-        createButton.setOnAction(event -> { //NEED TO FIX CREATE CREATION
+        // code executed once the user is happy with the creation settings
+        createButton.setOnAction(event -> {
 
+            // checks if keyword is enmpty
             if (keyword.equals("")) {
+
                 Main.createAlertBox("No keyword entered.\nPlease search something at step 1a)");
-            } else {
+            } else { // gets all settings and creates the creation
+
                 String input = creationNameInput.getText().trim();
                 String action = "";
                 if (!input.isEmpty() && input.matches("[a-zA-Z0-9_ -]+")) {
+
                     File creationDir = new File("src/creations/" + input);
-                    if (creationDir.exists()) {
+                    if (creationDir.exists()) { // checks if the file exists
+
                         Boolean overwrite = Main.addConfirmationAlert("ERROR", "\"" + input + "\" exists. \nRename or overwrite?", "Overwrite", "Rename");
                         if (overwrite) {
+
                             action = "overwrite";
                         } else {
+
                             creationNameInput.clear(); //clears creation name input
                             return;
                         }
                     } else {
+
                         action = "create";
                     }
-
 
                     // we want to take the audio files, concatenate them, make the wave file
                     // then combine with the flickr images and the text
                     int numImages = (int) flickrImageSlider.getValue();
-                    // merge selected audio files
 
                     //create creation worker to create creation
                     CreationWorker creationWorker = new CreationWorker(action, creationDir, numImages, audio, keyword);
+
                     //start the progress bar
                     startProgressBar("Creating Creation...", creationWorker);
                     creationWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
@@ -174,24 +180,26 @@ public class CreateCreations {
                             // Display the sentences in the display area
                             String result = creationWorker.getValue();
                             if (result.contains("Success")) {
+
                                 finishProgressBar(result);
                                 boolean play = Main.addConfirmationAlert("\"" + creationDir.getName() + "\" was created successfully!", "Play creation?", "Yes", "No");
+
                                 if (play) {
+
                                     Main.playVideo(creationDir.getName());
                                 }
                             } else {
+
                                 finishProgressBar(result);
                                 Main.createAlertBox("Error creating creation \"" + creationDir.getName() + "\"\n" + result);
                             }
-
-
                         }
                     });
 
                     Thread th = new Thread(creationWorker);
                     th.start();
-
                 } else {
+
                     Main.createAlertBox("Available characters: a-z  A-Z  0-9  _- \n(spaces are NOT allowed)");
                     creationNameInput.clear();
                 }
@@ -199,20 +207,22 @@ public class CreateCreations {
         });
 
         reset.setOnAction(event -> {
+
             boolean clear = Main.addConfirmationAlert("Clearing application page", "Are you sure you want to do this?\n All search info will be cleared", "Yes", "No");
             if (clear) {
+
                 defaultSettings();
             }
         });
-
-
     }
 
     public VBox getCreateCreationsLayout() {
+
         return createCreationsLayout;
     }
 
     public void startProgressBar(String text, Worker worker) {
+
         progressBarLabel.setText(text);
         progressBar.progressProperty().unbind();
         progressBar.setProgress(0);
@@ -220,12 +230,15 @@ public class CreateCreations {
     }
 
     public void finishProgressBar(String text) {
+
         progressBarLabel.setText(text);
         progressBar.progressProperty().unbind();
         progressBar.setProgress(1.0d);
     }
 
+    // resets the application/scene to the default settings
     public void defaultSettings() {
+
         searchInput.clear();
         searchResult.clear();
         creationNameInput.clear();
@@ -237,9 +250,11 @@ public class CreateCreations {
         audio.refreshAudioInfo();
         searchTerm.setValue(keyword);
         currentKeyWord.setText("Current keyword: N/A\nEnter one at step 1a)");
-
     }
 
-    public static String getKeyword(){return keyword;}
+    // gets the searched term
+    public static String getKeyword(){
 
+        return keyword;
+    }
 }
