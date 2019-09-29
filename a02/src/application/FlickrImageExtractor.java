@@ -28,9 +28,9 @@ public class FlickrImageExtractor {
         throw new RuntimeException("Couldn't find " + key +" in config file "+file.getName());
     }
 
-    public static int downloadImages(File file, int numImages) {
+    public static int downloadImages(File file, int numImages, String _searchTerm) {
         try {
-            String query = file.getName();
+            String query = _searchTerm;
             String apiKey = getAPIKey("apiKey");
             String sharedSecret = getAPIKey("sharedSecret");
 
@@ -51,7 +51,7 @@ public class FlickrImageExtractor {
                 for (Photo photo : results) {
                     try {
                         BufferedImage image = photos.getImage(photo, Size.LARGE);
-                        String filename = query.trim().replace(' ', '-') + "-" + System.currentTimeMillis() + "-" + photo.getId() + ".jpg";
+                        String filename = "." + query.trim().replace(' ', '-') + "-" + System.currentTimeMillis() + "-" + photo.getId() + ".jpg";
                         File outputfile = new File(file.getPath(),  filename);
                         ImageIO.write(image, "jpg", outputfile);
                     } catch (FlickrException fe) {

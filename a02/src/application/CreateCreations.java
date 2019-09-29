@@ -1,5 +1,7 @@
 package application;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.concurrent.Worker;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -12,18 +14,22 @@ import java.io.File;
 
 public class CreateCreations {
 
-    private HBox searchLayout = new HBox();
-    private HBox configureCreationsLayout = new HBox();
+
     private Audio audio;
     private Button returnToMenuButton2 = new Button("Return to menu");
     private Button createButton = new Button("Create new creation");
     private Button searchButton = new Button("Search");
     private Button reset;
+    private HBox searchLayout = new HBox();
+    private HBox configureCreationsLayout = new HBox();
     private Label createLabel = new Label("5) Name Creation");
     private Label progressBarLabel = new Label("");
     private Label flickrInfoLabel = new Label("4) Select number of images included in creation");
+    private Label currentKeyWord;
     private ProgressBar progressBar = new ProgressBar(0);
     private Slider flickrImageSlider = new Slider(1,10,5);
+    private static String keyword = "";
+    private StringProperty searchTerm = new SimpleStringProperty(keyword);
     private TextField searchInput = new TextField();
     private TextField creationNameInput = new TextField();
     private TextArea searchResult = new TextArea();
@@ -32,7 +38,6 @@ public class CreateCreations {
 
 
     public CreateCreations() {
-
         setUpLayout();
         setActions();
         defaultSettings();
@@ -43,6 +48,8 @@ public class CreateCreations {
         //----------------------------AUDIO LIST SETUP-------------------------------------//
         audio = new Audio(searchResult);
         reset = audio.getResetButton();
+        currentKeyWord = audio.getCurrentKeywordLabel();
+
 
         //----------------------------SET UP DISABLE BINDINGS------------------------------//
         searchButton.disableProperty().bind(searchInput.textProperty().isEmpty());
@@ -87,7 +94,7 @@ public class CreateCreations {
 
         // button to return to main menu
         returnToMenuButton2.setOnAction(e -> {
-
+            System.out.println(searchTerm.getValue());
             e.consume();
             boolean confirm = Main.returnToMenu();
             if (confirm) {
@@ -97,9 +104,10 @@ public class CreateCreations {
 
         // search for the term on Wikipedia
         searchButton.setOnAction(event -> {
-
+            keyword = (searchInput.getText().trim());
             // use the terminal to wikit the term with a worker / task
-            TerminalWorker wikitWorker = new TerminalWorker("wikit " + searchInput.getText());
+            currentKeyWord.setText("Current Keyword: " + keyword);
+            TerminalWorker wikitWorker = new TerminalWorker("wikit " + keyword);
 
             // start the progress bar
             startProgressBar("Searching for ...", wikitWorker);
@@ -107,7 +115,7 @@ public class CreateCreations {
             wikitWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
                 @Override
                 public void handle(WorkerStateEvent event) {
-                    String result = wikitWorker.getValue().trim();
+                    String result = "\"" + wikitWorker.getValue().trim() + "\"";
                     if (result.contains("not found :^(")) {
                         finishProgressBar("Term not found");
                         Main.createAlertBox("Did not find term \"" + searchInput.getText() + "\". Please try again");
@@ -117,6 +125,7 @@ public class CreateCreations {
                         searchResult.setText(wikitWorker.getValue().trim());
                         finishProgressBar("1b) Highlight (editable) text below for ");
                         searchResult.setDisable(false);
+                        audio.refreshAudioInfo();
                     }
                 }
 
@@ -128,60 +137,64 @@ public class CreateCreations {
 
         createButton.setOnAction(event -> { //NEED TO FIX CREATE CREATION
 
-            String input = creationNameInput.getText().trim();
-            String action = "";
-            if (!input.isEmpty() && input.matches("[a-zA-Z0-9_-]+")) {
-                File creationDir = new File("src/creations/" + input);
-                if (creationDir.exists()) {
-                    Boolean overwrite = Main.addConfirmationAlert("ERROR", "\"" + input + "\" exists. \nRename or overwrite?", "Overwrite", "Rename");
-                    if (overwrite){
-                        action = "overwrite";
-                    } else {
-                        creationNameInput.clear(); //clears creation name input
-                        return;
-                    }
-                } else {
-                    action = "create";
-                }
-
-
-                // we want to take the audio files, concatenate them, make the wave file
-                // then combine with the flickr images and the text
-                int numImages = (int) flickrImageSlider.getValue();
-                // merge selected audio files
-
-                //create creation worker to create creation
-                CreationWorker creationWorker = new CreationWorker(action, creationDir, numImages, audio);
-                //start the progress bar
-                startProgressBar("Creating Creation...", creationWorker);
-                creationWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-
-                    @Override
-                    public void handle(WorkerStateEvent event) {
-
-                        // Display the sentences in the display area
-                        String result = creationWorker.getValue();
-                        if (result.contains("Success")) {
-                            finishProgressBar(result);
-                            boolean play = Main.addConfirmationAlert("\"" + creationDir.getName() + "\" was created successfully!",  "Play creation?", "Yes", "No");
-                            if (play) {
-                                Main.playVideo(creationDir.getName());
-                            }
+            if (keyword.equals("")) {
+                Main.createAlertBox("No keyword entered.\nPlease search something at step 1a)");
+            } else {
+                String input = creationNameInput.getText().trim();
+                String action = "";
+                if (!input.isEmpty() && input.matches("[a-zA-Z0-9_ -]+")) {
+                    File creationDir = new File("src/creations/" + input);
+                    if (creationDir.exists()) {
+                        Boolean overwrite = Main.addConfirmationAlert("ERROR", "\"" + input + "\" exists. \nRename or overwrite?", "Overwrite", "Rename");
+                        if (overwrite) {
+                            action = "overwrite";
                         } else {
-                            finishProgressBar(result);
-                            Main.createAlertBox("Error creating creation \"" + creationDir.getName() + "\"\n" + result);
+                            creationNameInput.clear(); //clears creation name input
+                            return;
                         }
-
-
+                    } else {
+                        action = "create";
                     }
-                });
 
-                Thread th = new Thread(creationWorker);
-                th.start();
 
-            } else{
-                Main.createAlertBox("Available characters: a-z  A-Z  0-9  _- \n(spaces are NOT allowed)");
-                creationNameInput.clear();
+                    // we want to take the audio files, concatenate them, make the wave file
+                    // then combine with the flickr images and the text
+                    int numImages = (int) flickrImageSlider.getValue();
+                    // merge selected audio files
+
+                    //create creation worker to create creation
+                    CreationWorker creationWorker = new CreationWorker(action, creationDir, numImages, audio, keyword);
+                    //start the progress bar
+                    startProgressBar("Creating Creation...", creationWorker);
+                    creationWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+
+                        @Override
+                        public void handle(WorkerStateEvent event) {
+
+                            // Display the sentences in the display area
+                            String result = creationWorker.getValue();
+                            if (result.contains("Success")) {
+                                finishProgressBar(result);
+                                boolean play = Main.addConfirmationAlert("\"" + creationDir.getName() + "\" was created successfully!", "Play creation?", "Yes", "No");
+                                if (play) {
+                                    Main.playVideo(creationDir.getName());
+                                }
+                            } else {
+                                finishProgressBar(result);
+                                Main.createAlertBox("Error creating creation \"" + creationDir.getName() + "\"\n" + result);
+                            }
+
+
+                        }
+                    });
+
+                    Thread th = new Thread(creationWorker);
+                    th.start();
+
+                } else {
+                    Main.createAlertBox("Available characters: a-z  A-Z  0-9  _- \n(spaces are NOT allowed)");
+                    creationNameInput.clear();
+                }
             }
         });
 
@@ -220,8 +233,13 @@ public class CreateCreations {
         progressBarLabel.setText("1a) Please search something");
         progressBar.progressProperty().unbind();
         progressBar.setProgress(0);
-        audio.refreshAudioLists();
+        keyword = "";
+        audio.refreshAudioInfo();
+        searchTerm.setValue(keyword);
+        currentKeyWord.setText("Current keyword: N/A\nEnter one at step 1a)");
+
     }
 
+    public static String getKeyword(){return keyword;}
 
 }

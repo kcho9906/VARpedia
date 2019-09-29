@@ -1,5 +1,7 @@
 package application;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -15,6 +17,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.util.Duration;
+
+import javax.swing.text.View;
 import java.io.File;
 
 public class CreationPlayer {
@@ -23,13 +27,14 @@ public class CreationPlayer {
     private Button returnToMenuButton3 = new Button("Return to menu");
     private Button btnMute = new Button("Mute");
     private Button btnPlayPause = new Button("Pause");
+    private Button returnToViewCreations = new Button("Return to list");
     private double[] volumeBeforeMute = {0};
     private Duration duration;
     private HBox videoButtonLayout = new HBox();
     private HBox timeLayout = new HBox(10);
     private Label timeLabel = new Label();
     private Slider volumeBar = new Slider(0, 100, 50);
-    private Slider timeBar;
+    private Slider timeBar = new Slider();
     private Media video;
     private MediaPlayer player;
     private MediaView mediaView;
@@ -44,7 +49,7 @@ public class CreationPlayer {
 
     private void setupLayout() {
         videoButtonLayout.setStyle("-fx-background-color: ECD8D9;");
-        videoButtonLayout.getChildren().addAll(btnPlayPause, returnToMenuButton3, btnMute, volumeBar);
+        videoButtonLayout.getChildren().addAll(btnMute, volumeBar, btnPlayPause, returnToViewCreations, returnToMenuButton3);
         videoButtonLayout.setPadding(new Insets(10, 10, 10, 10));
         videoButtonLayout.setSpacing(10);
         videoButtonLayout.setAlignment(Pos.BASELINE_CENTER);
@@ -58,6 +63,13 @@ public class CreationPlayer {
         mediaView.fitHeightProperty().bind(mediaLayout.heightProperty());
         mediaLayout.getChildren().addAll(mediaView, timeLayout, videoButtonLayout);
         mediaLayout.setAlignment(Pos.BOTTOM_CENTER);
+        mediaLayout.setPadding(new Insets(0, 0, 50, 0));
+
+        btnPlayPause.setMinWidth(70);
+        btnMute.setMinWidth(btnPlayPause.getMinWidth());
+
+        returnToViewCreations.setMinWidth(100);
+
 
     }
 
@@ -67,6 +79,15 @@ public class CreationPlayer {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 if (oldValue != newValue) {
                     player.setVolume(volumeBar.getValue()/100);
+                }
+            }
+        });
+
+        timeBar.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                if (timeBar.isPressed()) {
+                    player.seek(player.getMedia().getDuration().multiply(timeBar.getValue() / 100.00));
                 }
             }
         });
@@ -82,7 +103,24 @@ public class CreationPlayer {
                 String totalMins = String.format("%02d", (int) duration.toMinutes());
                 String totalSecs = String.format("%02d", (int) (duration.toSeconds() - Integer.parseInt(totalMins)*60));
                 timeLabel.setText(time + "/" + totalMins + ":" + totalSecs);
-                timeBar.setValue(newValue.toMinutes());
+                timeBar.setValue(player.getCurrentTime().toMinutes()/player.getTotalDuration().toMinutes()*100.00);
+            }
+        });
+
+        player.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(volumeBeforeMute[0]);
+                if (Main.addConfirmationAlert("Video finished", "Replay?", "Yes", "No")){
+                    if (volumeBeforeMute[0]!=0.0) {
+                        volumeBar.setValue(volumeBeforeMute[0]);
+                        btnMute.setText("Mute");
+                    }
+                    player.seek(new Duration(0));
+                } else {
+                    player.stop();
+                    Menu.returnToViewCreations();
+                }
             }
         });
 }
@@ -97,7 +135,7 @@ public class CreationPlayer {
         String getDuration = Terminal.command(command);
         double milliseconds = Double.parseDouble(getDuration) * 1000;
         duration = new Duration(milliseconds);
-        timeBar = new Slider(0, duration.toMinutes(), 0);
+        timeBar.setValue(0);
     }
 
     private void setupButtons() {
@@ -133,6 +171,14 @@ public class CreationPlayer {
             if (Main.returnToMenu()) {
                 player.stop();
             }
+        });
+
+        returnToViewCreations.setOnAction(event -> {
+            if (Main.addConfirmationAlert("Return to Creations List", "Are you sure?", "Yes", "No")){
+                Menu.returnToViewCreations();
+                player.stop();
+            }
+
         });
     }
 

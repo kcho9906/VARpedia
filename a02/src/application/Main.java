@@ -7,6 +7,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.util.Optional;
 
 public class Main extends Application {
@@ -23,6 +25,8 @@ public class Main extends Application {
         window.setMinHeight(700);
         window.setMinWidth(850);
 
+        createFileDirectory("audioFiles");
+        createFileDirectory("creations");
         Menu menu = new Menu(window);
         VBox menuLayout = menu.getMenuLayout();
         menuScene = new Scene(menuLayout, window.getWidth(), window.getHeight());
@@ -87,6 +91,15 @@ public class Main extends Application {
         Scene videoScene = new Scene(creationPlayer.getCreationPlayerLayout(), window.getWidth(), window.getHeight());
         window.setScene(videoScene);
 
+    }
+
+    public static void createFileDirectory(String directory) {
+        try {
+            new File("./src/" + directory).mkdir();
+
+        } catch (Exception e) {
+            System.out.println("Error " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {

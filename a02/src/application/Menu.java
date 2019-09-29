@@ -19,8 +19,8 @@ public class Menu {
     private Label titleLabel = new Label("SOFTENG 206 Assignment 3");
     private Label introductionLabel = new Label("Welcome to VARpedia");
     private Label briefLabel = new Label("");
-    private Scene viewCreationsScene, createCreationsScene;
-    private Stage window;
+    private static Scene viewCreationsScene, createCreationsScene;
+    private static Stage window;
     private ViewCreations viewCreations;
     private VBox menuLayout = new VBox(20);
 
@@ -69,6 +69,10 @@ public class Menu {
 
     public VBox getMenuLayout(){
         return menuLayout;
+    }
+
+    public static void returnToViewCreations(){
+        window.setScene(viewCreationsScene);
     }
 
 }
