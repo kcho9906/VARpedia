@@ -1,6 +1,6 @@
 # VARpedia | Java / Bash
 
-## This project was tested on the ECSE Lab Linux Image
+## This project was tested on the ECSE Lab Linux Image Using Java 1.8.0_144
 
 ## Project Description
 JavaFX GUI application which lets the user search for a term on Wikipedia. 
