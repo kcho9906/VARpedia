@@ -15,7 +15,7 @@ back to the user.
 
 ## Using the program
 On start-up, there will be the option between 'Viewing creations' and 'Creating creations'
-#Viewing Creations:
+# Viewing Creations:
   You will have the options to:
     Play            - Select a creation to play
     Delete          - Select a creation to delete
@@ -29,7 +29,7 @@ On start-up, there will be the option between 'Viewing creations' and 'Creating 
       Return to list  - Returns to the creation list
       Return to menu  - Returns to the main menu
       
-#Creating Creations:
+# Creating Creations:
   1. Search for a term
   2. From the given text, highlight desired text.
   3. Choose a synthesiser (Festival or ESpeak)
@@ -39,6 +39,6 @@ On start-up, there will be the option between 'Viewing creations' and 'Creating 
   5. Select number of images to be included in the creation. Will be images of the search term.
   6. Name the creation, then 'Create new creation'
   
-##Authors
+# Authors
 Charles Paterson
 Steven Ho
