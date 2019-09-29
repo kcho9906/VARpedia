@@ -10,9 +10,11 @@ to be made into a video with the superimposed word. The video can then be played
 back to the user.
 
 ## Setting up and running the program
-1. Ensure the jar file is in the same directory as the 'flickr-api-keys.txt'
-2. Open the command prompt or terminal (macOS)
-3. Type "java -jar VARpedia.jar"
+
+1. Unzip file
+2. Enter a02 directory
+3. Open directory in command prompt or terminal (macOS) 
+4. Type "java -jar VARpedia.jar"
 
 # Using the program
 On start-up, there will be the option between 'Viewing creations' and 'Creating creations'
