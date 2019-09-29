@@ -42,7 +42,10 @@ On start-up, there will be the option between 'Viewing creations' and 'Creating 
   3. Select desired files to transfer to final creation to be merged 
   4. Select number of images to be included in the creation. Will be images of the search term.
   5. Name the creation, then 'Create new creation'
-  
+
+# Proof of Collaboration
+Go to insights of VARpedia repository and check the 'contributors' and 'network'
+
 # Authors
 Charles Paterson
 Steven Ho
