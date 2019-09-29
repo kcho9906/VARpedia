@@ -12,6 +12,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+
+/**
+ * This class contains all the components for the audio layout in create creations scene.
+ * It also contains all the necessary methods regarding audio manipulation and merging.
+ */
 public class Audio {
 
 
@@ -57,7 +62,6 @@ public class Audio {
 
     public void setupLayout() {
 
-
         //----------------------------SET UP DISABLE BINDINGS------------------------------//
         chooseSynthesiser.disableProperty().bind(_searchResult.textProperty().isEmpty());
         previewTextButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
@@ -70,10 +74,6 @@ public class Audio {
         addAudio.disableProperty().bind(audioFileList.getSelectionModel().selectedItemProperty().isNull());
         removeAudio.disableProperty().bind(audioCreationList.getSelectionModel().selectedItemProperty().isNull());
 
-        //-------------------------------SET UP BUTTON SIZES-------------------------------//
-        previewTextButton.setMaxWidth(180);
-        saveAudioButton.setMaxWidth(180);
-
         //---------------------------AUDIO CREATION LIST LAYOUT----------------------------//
         audioCreationList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         audioCreationList.setPlaceholder(new Label("No audio files for creation"));
@@ -83,21 +83,22 @@ public class Audio {
         audioCreationListLayout.setAlignment(Pos.CENTER);
         audioCreationListLayout.getChildren().addAll(audioCreationListLabel, audioCreationList, changeOrderLayout);
 
-
         //--------------------------------MOVE AUDIO LAYOUT--------------------------------//
         changeOrderLayout.getChildren().addAll(moveUp, moveDown);
         changeOrderLayout.setAlignment(Pos.CENTER);
+
         editCreationAudioLayout.setMinWidth(50);
         editCreationAudioLayout.setAlignment(Pos.CENTER);
         editCreationAudioLayout.getChildren().addAll(addAudio, removeAudio);
 
         //-------------------------------AUDIO LAYOUT SETUP--------------------------------//
-
         audioLayout.prefWidthProperty().bind(_searchResult.widthProperty());
         audioLayout.getChildren().addAll(createAudioButtonsLayout, audioFileListLayout, editCreationAudioLayout, audioCreationListLayout);
         audioLayout.setAlignment(Pos.CENTER);
 
         //------------------------------AUDIO BUTTONS SETUP--------------------------------//
+        previewTextButton.setMaxWidth(180);
+        saveAudioButton.setMaxWidth(180);
         currentKeyword.setMinHeight(40);
         createAudioButtonsLayout.getChildren().setAll(audioOptionsLabel, currentKeyword, chooseSynthLayout, previewTextButton, saveAudioButton, resetButton);
         createAudioButtonsLayout.prefWidthProperty().bind(audioLayout.widthProperty());
@@ -112,7 +113,6 @@ public class Audio {
         chooseSynthLayout.setAlignment(Pos.CENTER_LEFT);
 
         //-----------------------------AUDIO FILE LIST LAYOUT------------------------------//
-
         audioFileList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         audioFileList.setPlaceholder(new Label("No audio files"));
         audioFileList.prefWidthProperty().bind(audioLayout.widthProperty());
@@ -126,51 +126,54 @@ public class Audio {
     }
 
     private void setupButtons() {
-        // preview audio button
+
+        //Plays audio of selected text based on speech synthesiser chosen.
         previewTextButton.setOnAction(event -> {
+
             String selectedText = _searchResult.getSelectedText();
             boolean speak = countMaxWords(selectedText);
-
-            TerminalWorker previewSpeechWorker;
+            TerminalWorker previewSpeechWorker; //send work to background thread
 
             if (speak) {
+
                 previewTextButton.disableProperty().unbind();
                 previewTextButton.setDisable(true);
                 previewTextButton.setText("Playing...");
                 synthChoice = chooseSynthesiser.getValue();
+
                 if (synthChoice.equals("Festival")) {
+
                     String command = "echo \"" + selectedText + "\" | festival --tts";
                     previewSpeechWorker = new TerminalWorker(command);
                 } else {
+
                     String command =  "espeak \"" + selectedText + "\"";
                     previewSpeechWorker = new TerminalWorker(command);
                 }
+
                 Thread th = new Thread(previewSpeechWorker);
                 th.start();
+
                 previewSpeechWorker.setOnSucceeded(event1 -> {
+
                     previewTextButton.setDisable(false);
                     previewTextButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
                     previewTextButton.setText("Preview Selected Text");
                 });
             }
-
         });
 
-        // button which saves the highlighted text
+        // Saves the audio file for selected text based on speech synthesiser chosen
         saveAudioButton.setOnAction(event -> {
-            // if there is no temporary directory for audio files
+
             searchTerm = CreateCreations.getKeyword();
-            Main.createFileDirectory("audioFiles/" + searchTerm);
-            System.out.println("created directory");
-
-            // get the selected text and save it to an audio file
+            Main.createFileDirectory("audioFiles/" + searchTerm); // create directories for audio files if it does not exist
             String selectedText = _searchResult.getSelectedText();
-
             boolean validRange = countMaxWords(selectedText);
 
             if (validRange) {
 
-                // have a pop up ask for a name for the audio file?
+                // pop up window asking for user to name the audio file
                 TextInputDialog tempAudioFileName = new TextInputDialog();
                 tempAudioFileName.setHeaderText("Enter a name for your audio file");
                 tempAudioFileName.setContentText("Name:");
@@ -178,40 +181,55 @@ public class Audio {
                 synthChoice = chooseSynthesiser.getValue();
 
                 result.ifPresent(name -> {
+
                     if (name.isEmpty() || name == null) {
+
                         Main.createAlertBox("Please enter a name for audio file");
                     } else if (audioExists(name, synthChoice)){
+
                         Main.createAlertBox("Audio file already exists. Please rename.");
                     } else {
+
                         String command = "";
                         try {
+
                             String path = "src/audioFiles/" + searchTerm + "/";
-                            if (synthChoice.equals("Festival")) { //if user selected festival - need to put in background GUI
+                            if (synthChoice.equals("Festival")) {
+
                                 command = "echo \"" + selectedText + "\" | text2wave -o " + path + name + "_" + synthChoice;
-                                System.out.println(command);
                             } else if (synthChoice.equals("ESpeak")) {
+
                                 command = "espeak \"" + selectedText + "\" -w " + path + name + "_" + synthChoice + " -s 130";
-                                System.out.println(command);
                             } else {
-                                System.out.println("nothing selected");
+
+                                Main.createAlertBox("Please enter a name for the audio");
                             }
                         } catch (NullPointerException e) {
-                            System.out.println("error");
+
+                            Main.createAlertBox(e.getMessage());
                         }
 
+                        TerminalWorker audioWorker = new TerminalWorker(command);
+                        Thread th = new Thread(audioWorker);
+                        th.start();
 
-                        // save the audio file based on choice of user's speech synthesis
-                        Terminal.command(command);
-                        getAudioFileList();
+                        audioWorker.setOnSucceeded(event1 -> {
+
+                            getAudioFileList();
+                        });
                     }
                 });
             }
         });
 
+        //delete all audio files for keyword on confirmation by user
         deleteAll.setOnAction(event -> {
+
             searchTerm = CreateCreations.getKeyword();
             boolean clearAudio = Main.addConfirmationAlert("Delete all audio files", "Are you sure you want to delete all existing audio files?", "Yes", "No");
+
             if (clearAudio) {
+
                 String command = "rm -r -f src/audioFiles/" + searchTerm;
                 Terminal.command(command);
                 getAudioFileList();
@@ -220,37 +238,48 @@ public class Audio {
             }
         });
 
+
+        //delete selected audio files for keyword
         delete.setOnAction(event -> {
+
             searchTerm = CreateCreations.getKeyword();
             List<String> deleteAudioList = new ArrayList<String>();
             selectedAudio = audioFileList.getSelectionModel().getSelectedItems();
-            for (String audioName: selectedAudio) {
+
+            for (String audioName: selectedAudio) { //get list of selected audios to be deleted
+
                 String command = "rm -f src/audioFiles/" + searchTerm + "/" + audioName;
                 Terminal.command(command);
                 deleteAudioList.add(audioName);
-
             }
-            getAudioFileList();
+
             for (String audioName: deleteAudioList) {
+
                 listForCreation.remove(audioName);
                 if (listForCreation.isEmpty()) {
+
                     String command = "rm -r -f src/audioFiles/" + searchTerm;
                     Terminal.command(command);
                 }
             }
+
+            //update lists
+            getAudioFileList();
             audioCreationList.setItems(listForCreation);
         });
 
+        //play selected audio file
         playSelected.setOnAction(event -> {
 
             selectedAudio = audioFileList.getSelectionModel().getSelectedItems();
             if (selectedAudio.size() > 1) {
+
                 Main.createAlertBox("Please only select one audio to play");
             } else {
+
                 searchTerm = CreateCreations.getKeyword();
                 String command = "play src/audioFiles/" + searchTerm + "/" + selectedAudio.get(0);
-                TerminalWorker playSelectedWorker = new TerminalWorker(command);
-
+                TerminalWorker playSelectedWorker = new TerminalWorker(command); //send to background thread
                 Thread th = new Thread(playSelectedWorker);
                 th.start();
                 playSelected.disableProperty().unbind();
@@ -266,53 +295,73 @@ public class Audio {
             }
         });
 
+        //add audio to include in creation
         addAudio.setOnAction(event -> {
+
             try {
+
                 addToCreationButton(event);
             } catch (IOException e) {
+
                 e.printStackTrace();
             }
         });
 
+        //remove audio from creation
         removeAudio.setOnAction(event -> {
+
             try {
+
                 RemoveAudioFromCreationButton(event);
             } catch (IOException e) {
+
                 e.printStackTrace();
             }
         });
 
+        //shift order of audio recording in creation
         moveUp.setOnAction(event -> {
+
             if (audioCreationList.getSelectionModel().getSelectedItems().size()>1) {
+
                 Main.createAlertBox("Please select only one to change order");
             } else {
+
                 String audioName = audioCreationList.getSelectionModel().getSelectedItem();
                 int originalPos = listForCreation.indexOf(audioName);
                 if (originalPos != 0) {
+
                     Collections.swap(listForCreation, originalPos, originalPos - 1);
                 }
             }
-
-            audioCreationList.setItems(listForCreation);
+            audioCreationList.setItems(listForCreation); //update list
         });
 
+        //shift order of audio recording in creation
         moveDown.setOnAction(event -> {
+
             if (audioCreationList.getSelectionModel().getSelectedItems().size()>1) {
+
                 Main.createAlertBox("Please select only one to change order");
             } else {
+
                 String audioName = audioCreationList.getSelectionModel().getSelectedItem();
                 int originalPos = listForCreation.indexOf(audioName);
                 if (originalPos != listForCreation.size()-1) {
+
                     Collections.swap(listForCreation, originalPos, originalPos + 1);
                 }
             }
-            audioCreationList.setItems(listForCreation);
+            audioCreationList.setItems(listForCreation); //update list
         });
     }
 
+    //checks if audio file exists
     private boolean audioExists(String name, String synthChoice) {
+
         List<String> existingAudio = audioFileList.getItems();
         for (String audioName: existingAudio) {
+
             if (audioName.equals(name + "_" + synthChoice)) {
                 return true;
             }
@@ -320,28 +369,34 @@ public class Audio {
         return false;
     }
 
+    //gets list of audio files related to the keyword
     public ListView<String> getAudioFileList() {
+
         audioFileList.getItems().clear();
         searchTerm = CreateCreations.getKeyword();
         String path = System.getProperty("user.dir") + "/src/audioFiles/" + searchTerm;
-
         File folder = new File(path);
         if (folder.exists()) {
+
             File[] listOfFiles = folder.listFiles();
             Arrays.sort(listOfFiles, (f1, f2) -> f1.compareTo(f2));
             for (File file : listOfFiles) {
+
                 if (file.isFile()) {
+
                     audioFileList.getItems().add(file.getName());
                 }
             }
-
         }
         return audioFileList;
     }
 
+    //checks that selected text in within 30 words
     public boolean countMaxWords(String selectedText) {
+
         String[] words = selectedText.split("\\s+");
         if (words.length > 30) {
+
             Main.createAlertBox("Chunk cannot be more than 30 words, try a smaller chunk");
             return false;
         }
@@ -352,30 +407,32 @@ public class Audio {
         return audioLayout;
     }
 
+    //merges all audio files chosen to be included in the creation
     public double mergeAudio(File creationName) {
-        System.out.println(audioCreationList.getItems().size());
+
         if (audioCreationList.getItems().size() > 0) {
+
             searchTerm = CreateCreations.getKeyword();
             String path = "src/audioFiles/" + searchTerm + "/";
-            System.out.println("merging");
             selectedAudio = audioCreationList.getItems();
+
+            //start building bash command line to merge files
             String command = "ffmpeg ";
             int count = 0;
             for (String fileName : selectedAudio) {
+
                 command += "-i " + path + fileName + " ";
                 count++;
             }
 
             command += "-filter_complex '";
             for (int i = 0; i < count; i++) {
+
                 command += "[" + i + ":0]";
             }
-
             String outputPath = creationName.getPath() + "/." + searchTerm + ".wav";
             command += "concat=n=" + count + ":v=0:a=1[out]' -map '[out]' " + outputPath;
-            System.out.println(command);
-            Terminal.command(command);
-
+            Terminal.command(command); //run bash command to merge audio files
             String getLengthCommand = "soxi -D " + outputPath;
             double duration = Double.parseDouble(Terminal.command(getLengthCommand));
             return duration;
@@ -384,33 +441,45 @@ public class Audio {
         }
     }
 
+    //implementation to add audio into creation
     public void addToCreationButton(ActionEvent actionEvent) throws IOException {
+
         for (String word : audioFileList.getSelectionModel().getSelectedItems()){
+
             listForCreation.add(word);
         }
         audioCreationList.setItems(listForCreation);
     }
 
+    //implementation to remove audio from creation
     public void RemoveAudioFromCreationButton(ActionEvent actionEvent) throws IOException {
+
         List<String> deleteAudioList = new ArrayList<String>();
         for (String word : audioCreationList.getSelectionModel().getSelectedItems()){
+
             deleteAudioList.add(word);
         }
         for (String word: deleteAudioList) {
+
             listForCreation.remove(word);
         }
-
         audioCreationList.setItems(listForCreation);
     }
 
+    //resets audio lists
     public void refreshAudioInfo() {
+
         getAudioFileList();
         listForCreation.clear();
         audioCreationList.setItems(listForCreation);
     }
 
-    public Button getResetButton(){ return resetButton; }
+    public Button getResetButton() {
+        return resetButton;
+    }
 
-    public Label getCurrentKeywordLabel() {return currentKeyword;}
+    public Label getCurrentKeywordLabel() {
+        return currentKeyword;
+    }
 }
 
