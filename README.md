@@ -12,7 +12,7 @@ back to the user.
 ## Setting up and running the program
 1. Ensure the jar file is in the same directory as the 'flickr-api-keys.txt'
 2. Open the command prompt or terminal (macOS)
-3. Type "java -jar javaApplicationName.jar"
+3. Type "java -jar VARpedia.jar"
 
 ## Using the program
 On start-up, there will be the option between 'Viewing creations' and 'Creating creations'
