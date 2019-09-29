@@ -1,6 +1,7 @@
 # VARpedia | Java / Bash
 
-// paragraph of project description
+## This project was tested on the ECSE Lab Linux Image
+
 ## Project Description
 JavaFX GUI application which lets the user search for a term on Wikipedia. 
 They will be given text from the search, the user can select chunks of text 
@@ -9,7 +10,7 @@ to be made into a video with the superimposed word. The video can then be played
 back to the user.
 
 ## Setting up and running the program
-1. Move the jar file to a desired directory
+1. Ensure the jar file is in the same directory as the 'flickr-api-keys.txt'
 2. Open the command prompt or terminal (macOS)
 3. Type "java -jar javaApplicationName.jar"
 
