@@ -12,8 +12,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,7 +21,6 @@ import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.text.SimpleDateFormat;
-import java.time.temporal.Temporal;
 
 /**
  * This class is responsible for the view creations scene and button actions.
@@ -76,7 +73,6 @@ public class ViewCreations {
         durationColumn.setCellValueFactory(new PropertyValueFactory<>("_duration"));
         durationColumn.prefWidthProperty().bind(creationsList.widthProperty().divide(4));
 
-
         creationsList.getColumns().addAll(nameColumn, searchTermColumn, timeColumn, durationColumn);
         updateTable();
     }
@@ -105,9 +101,6 @@ public class ViewCreations {
         //disable play and delete buttons until selection is made
         playCreationButton.disableProperty().bind(Bindings.isEmpty(creationsList.getSelectionModel().getSelectedItems()));
         deleteCreationButton.disableProperty().bind(Bindings.isEmpty(creationsList.getSelectionModel().getSelectedItems()));
-
-        deleteAllButton.disableProperty().bind(Bindings.size(creationsList.getItems()).isEqualTo(0));
-
     }
 
     public void setActions() {
@@ -134,10 +127,11 @@ public class ViewCreations {
             String creationName = ((Creation) creationSelected).toString();
             Boolean answer = Main.addConfirmationAlert("Deleting Creation", "Are you sure you want to delete \"" + creationName + "\"?", "Yes", "No");
             if (answer) {
-
+                File file = CreationPlayer.getPlayingFile();
+                file.delete();
                 allCreations.remove(creationSelected);
 
-                String command = "rm -rf ./src/creations/" + creationName;
+                String command = "rm -r -f src/creations/" + creationName;
                 Terminal.command(command);
             }
         });
@@ -147,7 +141,7 @@ public class ViewCreations {
             boolean clearCreations = Main.addConfirmationAlert("Delete all audio files", "Are you sure you want to delete all creations?", "Yes", "No");
             if (clearCreations) {
 
-                String command = "rm -r -f src/creations/*";
+                String command = "rm -Rf src/creations/*";
                 Terminal.command(command);
 
                 updateTable();
