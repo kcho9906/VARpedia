@@ -94,10 +94,7 @@ public class CreateCreations {
         // button to return to main menu
         returnToMenuButton2.setOnAction(e -> {
             e.consume();
-            boolean confirm = Main.returnToMenu();
-            if (confirm) {
-                defaultSettings();
-            }
+            Main.returnToMenu();
         });
 
         // search for the term on Wikipedia
@@ -144,7 +141,7 @@ public class CreateCreations {
 
                 String input = creationNameInput.getText().trim();
                 String action = "";
-                if (!input.isEmpty() && input.matches("[a-zA-Z0-9_ -]+")) {
+                if (!input.isEmpty() && input.matches("[a-zA-Z0-9_-]+")) {
 
                     File creationDir = new File("src/creations/" + input);
                     if (creationDir.exists()) { // checks if the file exists
@@ -186,7 +183,8 @@ public class CreateCreations {
 
                                 if (play) {
 
-                                    Main.playVideo(creationDir.getName());
+                                    File file = new File (creationDir.getPath() + "/" + creationDir.getName() + ".mp4");
+                                    Main.playVideo(file);
                                 }
                             } else {
 

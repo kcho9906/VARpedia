@@ -64,8 +64,8 @@ public class Audio {
 
         //----------------------------SET UP DISABLE BINDINGS------------------------------//
         chooseSynthesiser.disableProperty().bind(_searchResult.textProperty().isEmpty());
-        previewTextButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
-        saveAudioButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
+        previewTextButton.disableProperty().bind(_searchResult.selectedTextProperty().isEmpty());
+        saveAudioButton.disableProperty().bind(_searchResult.selectedTextProperty().isEmpty());
         playSelected.disableProperty().bind(audioFileList.getSelectionModel().selectedItemProperty().isNull());
         delete.disableProperty().bind(audioFileList.getSelectionModel().selectedItemProperty().isNull());
         deleteAll.disableProperty().bind(Bindings.size(audioFileList.getItems()).isEqualTo(0));
@@ -130,95 +130,105 @@ public class Audio {
         //Plays audio of selected text based on speech synthesiser chosen.
         previewTextButton.setOnAction(event -> {
 
-            String selectedText = _searchResult.getSelectedText();
-            boolean speak = countMaxWords(selectedText);
-            TerminalWorker previewSpeechWorker; //send work to background thread
+            if (chooseSynthesiser.getValue() == null) {
+                Main.createAlertBox("Please select a speech synthesiser");
+            } else {
 
-            if (speak) {
+                String selectedText = _searchResult.getSelectedText();
+                boolean speak = countMaxWords(selectedText);
+                TerminalWorker previewSpeechWorker; //send work to background thread
 
-                previewTextButton.disableProperty().unbind();
-                previewTextButton.setDisable(true);
-                previewTextButton.setText("Playing...");
-                synthChoice = chooseSynthesiser.getValue();
+                if (speak) {
 
-                if (synthChoice.equals("Festival")) {
+                    previewTextButton.disableProperty().unbind();
+                    previewTextButton.setDisable(true);
+                    previewTextButton.setText("Playing...");
+                    synthChoice = chooseSynthesiser.getValue();
 
-                    String command = "echo \"" + selectedText + "\" | festival --tts";
-                    previewSpeechWorker = new TerminalWorker(command);
-                } else {
+                    if (synthChoice.equals("Festival")) {
 
-                    String command =  "espeak \"" + selectedText + "\"";
-                    previewSpeechWorker = new TerminalWorker(command);
+                        String command = "echo \"" + selectedText + "\" | festival --tts";
+                        previewSpeechWorker = new TerminalWorker(command);
+                    } else {
+
+                        String command = "espeak \"" + selectedText + "\"";
+                        previewSpeechWorker = new TerminalWorker(command);
+                    }
+
+                    Thread th = new Thread(previewSpeechWorker);
+                    th.start();
+
+                    previewSpeechWorker.setOnSucceeded(event1 -> {
+
+                        previewTextButton.setDisable(false);
+                        previewTextButton.disableProperty().bind(_searchResult.selectedTextProperty().isEmpty());
+                        previewTextButton.setText("Preview Selected Text");
+                    });
                 }
-
-                Thread th = new Thread(previewSpeechWorker);
-                th.start();
-
-                previewSpeechWorker.setOnSucceeded(event1 -> {
-
-                    previewTextButton.setDisable(false);
-                    previewTextButton.disableProperty().bind(chooseSynthesiser.valueProperty().isNull());
-                    previewTextButton.setText("Preview Selected Text");
-                });
             }
         });
 
         // Saves the audio file for selected text based on speech synthesiser chosen
         saveAudioButton.setOnAction(event -> {
+            if (chooseSynthesiser.getValue() == null) {
+                Main.createAlertBox("Please select a speech synthesiser");
+            } else {
 
-            searchTerm = CreateCreations.getKeyword();
-            Main.createFileDirectory("audioFiles/" + searchTerm); // create directories for audio files if it does not exist
-            String selectedText = _searchResult.getSelectedText();
-            boolean validRange = countMaxWords(selectedText);
+                searchTerm = CreateCreations.getKeyword();
 
-            if (validRange) {
+                Main.createFileDirectory("audioFiles/" + searchTerm); // create directories for audio files if it does not exist
+                String selectedText = _searchResult.getSelectedText();
+                boolean validRange = countMaxWords(selectedText);
 
-                // pop up window asking for user to name the audio file
-                TextInputDialog tempAudioFileName = new TextInputDialog();
-                tempAudioFileName.setHeaderText("Enter a name for your audio file");
-                tempAudioFileName.setContentText("Name:");
-                Optional<String> result = tempAudioFileName.showAndWait();
-                synthChoice = chooseSynthesiser.getValue();
+                if (validRange) {
 
-                result.ifPresent(name -> {
+                    // pop up window asking for user to name the audio file
+                    TextInputDialog tempAudioFileName = new TextInputDialog();
+                    tempAudioFileName.setHeaderText("Enter a name for your audio file");
+                    tempAudioFileName.setContentText("Name:");
+                    Optional<String> result = tempAudioFileName.showAndWait();
+                    synthChoice = chooseSynthesiser.getValue();
 
-                    if (name.isEmpty() || name == null) {
+                    result.ifPresent(name -> {
 
-                        Main.createAlertBox("Please enter a name for audio file");
-                    } else if (audioExists(name, synthChoice)){
+                        if (!result.get().isEmpty() && result.get().matches("[a-zA-Z0-9_-]+")) {
 
-                        Main.createAlertBox("Audio file already exists. Please rename.");
-                    } else {
+                            String command = "";
+                            try {
 
-                        String command = "";
-                        try {
+                                String path = "src/audioFiles/" + searchTerm + "/";
+                                if (synthChoice.equals("Festival")) {
 
-                            String path = "src/audioFiles/" + searchTerm + "/";
-                            if (synthChoice.equals("Festival")) {
+                                    command = "echo \"" + selectedText + "\" | text2wave -o " + path + name + "_" + synthChoice;
+                                } else if (synthChoice.equals("ESpeak")) {
 
-                                command = "echo \"" + selectedText + "\" | text2wave -o " + path + name + "_" + synthChoice;
-                            } else if (synthChoice.equals("ESpeak")) {
+                                    command = "espeak \"" + selectedText + "\" -w " + path + name + "_" + synthChoice + " -s 130";
+                                } else {
 
-                                command = "espeak \"" + selectedText + "\" -w " + path + name + "_" + synthChoice + " -s 130";
-                            } else {
+                                    Main.createAlertBox("Please enter a name for the audio");
+                                }
+                            } catch (NullPointerException e) {
 
-                                Main.createAlertBox("Please enter a name for the audio");
+                                Main.createAlertBox(e.getMessage());
                             }
-                        } catch (NullPointerException e) {
 
-                            Main.createAlertBox(e.getMessage());
+                            TerminalWorker audioWorker = new TerminalWorker(command);
+                            Thread th = new Thread(audioWorker);
+                            th.start();
+
+                            audioWorker.setOnSucceeded(event1 -> {
+
+                                getAudioFileList();
+                            });
+                        } else if (audioExists(name, synthChoice)) {
+
+                            Main.createAlertBox("Audio file already exists. Please rename.");
+                        } else {
+
+                            Main.createAlertBox("Available characters: a-z  A-Z  0-9  _- \n(spaces are NOT allowed)");
                         }
-
-                        TerminalWorker audioWorker = new TerminalWorker(command);
-                        Thread th = new Thread(audioWorker);
-                        th.start();
-
-                        audioWorker.setOnSucceeded(event1 -> {
-
-                            getAudioFileList();
-                        });
-                    }
-                });
+                    });
+                }
             }
         });
 
@@ -252,13 +262,15 @@ public class Audio {
                 Terminal.command(command);
                 deleteAudioList.add(audioName);
             }
-
             for (String audioName: deleteAudioList) {
 
-                listForCreation.remove(audioName);
+                while (listForCreation.contains(audioName)) {
+
+                    listForCreation.remove(audioName);
+                }
                 if (listForCreation.isEmpty()) {
 
-                    String command = "rm -r -f src/audioFiles/" + searchTerm;
+                    String command = "rm -r -f src/audioFiles/" + searchTerm + "/" + audioName;
                     Terminal.command(command);
                 }
             }
@@ -469,6 +481,8 @@ public class Audio {
     //resets audio lists
     public void refreshAudioInfo() {
 
+
+        chooseSynthesiser.setValue(null);
         getAudioFileList();
         listForCreation.clear();
         audioCreationList.setItems(listForCreation);

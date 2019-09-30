@@ -17,8 +17,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.util.Duration;
-
-import javax.swing.text.View;
 import java.io.File;
 
 /**
@@ -38,21 +36,24 @@ public class CreationPlayer {
     private Button returnToViewCreations = new Button("Return to list");
     private double[] volumeBeforeMute = {0};
     private Duration duration;
+    private static File fileUrl;
     private HBox videoButtonLayout = new HBox();
     private HBox timeLayout = new HBox(10);
     private Label timeLabel = new Label();
     private Slider volumeBar = new Slider(0, 100, 50);
     private Slider timeBar = new Slider();
+    private String _creationName;
     private Media video;
-    private MediaPlayer player;
+    private static MediaPlayer player;
     private MediaView mediaView;
     private VBox mediaLayout = new VBox(10);
 
-    public CreationPlayer(String creationName) {
-        createMediaPlayer(creationName); //create new components for new video player
+    public CreationPlayer(File creation) {
+
+        fileUrl = creation;
+        createMediaPlayer(); //create new components for new video player
         setUpProperties();
         setupButtons();
-        setupLayout();
     }
 
     private void setupLayout() {
@@ -126,39 +127,32 @@ public class CreationPlayer {
             }
         });
 
+        player.setOnReady(new Runnable() {
+            @Override
+            public void run() {
+                mediaView = new MediaView(player);
+                setupLayout();
+            }
+        });
+
         player.setOnEndOfMedia(new Runnable() {
 
             @Override
             public void run() {
 
-                if (Main.addConfirmationAlert("Video finished", "Replay?", "Yes", "No")) {
-
-                    if (volumeBeforeMute[0]!=0.0) {
-
-                        volumeBar.setValue(volumeBeforeMute[0]);
-                        btnMute.setText("Mute");
-                    }
-                    player.seek(new Duration(0));
-                } else {
-
-                    player.stop();
-                    Menu.returnToViewCreations();
-                }
+                player.stop();
+                Menu.returnToViewCreations();
             }
         });
     }
 
     /**
      * This creates the media player with name of the creation being played
-     * @param creationName
      */
-    private void createMediaPlayer(String creationName) {
-
-        File fileUrl = new File("src/creations/" + creationName + "/" + creationName + ".mp4");
+    private void createMediaPlayer() {
 
         video = new Media(fileUrl.toURI().toString());
         player = new MediaPlayer(video);
-        mediaView = new MediaView(player);
         player.setAutoPlay(true);
 
         String command = "ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " + fileUrl;
@@ -200,27 +194,24 @@ public class CreationPlayer {
                     btnPlayPause.setText("Play");
                 } else {
 
-                    player.play();
                     btnPlayPause.setText("Pause");
+                    player.play();
                 }
             }
         });
 
         returnToMenuButton3.setOnAction(e -> {
 
-            if (Main.returnToMenu()) {
+            player.stop();
+            Main.returnToMenu();
 
-                player.stop();
-            }
         });
 
         returnToViewCreations.setOnAction(event -> {
 
-            if (Main.addConfirmationAlert("Return to Creations List", "Are you sure?", "Yes", "No")){
-
-                Menu.returnToViewCreations();
                 player.stop();
-            }
+                Menu.returnToViewCreations();
+
         });
     }
 
@@ -228,4 +219,11 @@ public class CreationPlayer {
 
         return mediaLayout;
     }
+
+    public static void stopPlayer() {
+
+        fileUrl.delete();
+        player.dispose();
+    }
+
 }

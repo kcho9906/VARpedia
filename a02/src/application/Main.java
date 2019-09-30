@@ -63,15 +63,9 @@ public class Main extends Application {
         window.show();
     }
 
-    public static boolean returnToMenu() {
+    public static void returnToMenu() {
 
-        Boolean answer = addConfirmationAlert("Returning to Menu", "Are you sure you want to return to menu?", "Yes", "No");
-        if (answer) {
-
-            window.setScene(menuScene);
-            return true;
-        }
-        return false;
+        window.setScene(menuScene);
     }
 
     /**
@@ -109,7 +103,7 @@ public class Main extends Application {
      * plays the video through the creation player
      * @param creationName
      */
-    public static void playVideo(String creationName) {
+    public static void playVideo(File creationName) {
 
         CreationPlayer creationPlayer = new CreationPlayer(creationName);
         Scene videoScene = new Scene(creationPlayer.getCreationPlayerLayout(), window.getWidth(), window.getHeight());
