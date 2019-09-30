@@ -135,16 +135,21 @@ public class ViewCreations {
             }
         });
 
-        deleteAllButton.setOnAction(event -> {
-
-            boolean clearCreations = Main.addConfirmationAlert("Delete all audio files", "Are you sure you want to delete all creations?", "Yes", "No");
-            if (clearCreations) {
-
-                String command = "rm -Rf src/creations/*";
-                Terminal.command(command);
-                updateTable();
-            }
-        });
+//        deleteAllButton.setOnAction(event -> {
+//
+//            boolean clearCreations = Main.addConfirmationAlert("Delete all audio files", "Are you sure you want to delete all creations?", "Yes", "No");
+//            if (clearCreations) {
+//
+//                for (Object object: creationsList.getItems()) {
+//                    Creation creation = (Creation) object;
+//
+//                }
+//                String command = "rm -Rf src/creations/*";
+//                Terminal.command(command);
+//
+//                updateTable();
+//            }
+//        });
     }
 
     public VBox getViewCreationsLayout() {

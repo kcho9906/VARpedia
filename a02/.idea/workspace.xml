@@ -8,8 +8,7 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JavaFxApplication.iml" beforeDir="false" afterPath="$PROJECT_DIR$/JavaFxApplication.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VARpedia.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VARpedia.jar" beforeDir="false" afterPath="$PROJECT_DIR$/VARpedia.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/application/Audio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/Audio.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/application/CreateCreations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/CreateCreations.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/application/CreationPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/CreationPlayer.java" afterDir="false" />
@@ -174,7 +173,6 @@
       <workItem from="1569826389028" duration="411000" />
       <workItem from="1569831507640" duration="2065000" />
       <workItem from="1569833656208" duration="1265000" />
-      <workItem from="1569835044563" duration="41000" />
     </task>
     <servers />
   </component>
